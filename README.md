@@ -44,6 +44,3 @@ To test, simply run the package:
 ```bash
 sampctl package run
 ```
-
-## Dependancies:
-> None.
