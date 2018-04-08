@@ -52,8 +52,6 @@ sampctl package run
 
 >AntiFC //Anti fake clients - Rogue
 
->rAgc //Anti gun cheats -Rogue
-
 >rAsc //Anti speed cheats- Rogue
 
 >rVM //Anti illegal car mods -Emmet_
@@ -73,6 +71,8 @@ sampctl package run
 >AntiJC //Anti jetpack cheats- Rogue
 
 >Opba //Anti airbreak\teleport - Rogue
+
+>rAgc //Anti gun cheats -Rogue
 
 >rAct //Anti car trolls - Rogue
 
