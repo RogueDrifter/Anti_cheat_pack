@@ -46,7 +46,7 @@ sampctl package run
 ```
 
 ## Credits:
-> Me for the anticheat pack.
+> Me for the anti cheat pack.
 
 ## Dependancies:
 > None.
