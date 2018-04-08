@@ -22,7 +22,7 @@
 #include "Flaggers.inc"
 
 main() {
-	AddStaticVehicle(400, 302.0, 1802.0, 18.0, 0.0, 14, 15);
+	AddStaticVehicle(560, 0.0, 0.0, 0.0, 0.0, 0, 0);
 	print("Testing Anti cheat packet script loaded");
 }
 
