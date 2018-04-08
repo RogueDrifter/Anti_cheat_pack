@@ -22,7 +22,8 @@
 #include "Flaggers.inc"
 
 main() {
-	// write tests for libraries here and run "sampctl package run"
+	AddStaticVehicle(400, 302.0, 1802.0, 18.0, 0.0, 14, 15);
+	print("Testing Anti cheat packet script loaded");
 }
 
 new Test_String[80];
