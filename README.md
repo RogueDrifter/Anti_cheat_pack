@@ -44,3 +44,9 @@ To test, simply run the package:
 ```bash
 sampctl package run
 ```
+
+## Credits:
+> Me for the anticheat pack.
+
+## Dependancies:
+None.
