@@ -142,7 +142,7 @@ public OnVehicleDamageStatusUpdate(vehicleid, playerid)
             if(EAC_Player[playerid][EacSpamC] >= 10)
             {
                 #if defined OnPlayerParticleSpam
-                OnPlayerParticleSpam(i, vehicleid);
+                OnPlayerParticleSpam(playerid, vehicleid);
                 #endif
                 SetPlayerHealth(playerid, 0.0);
                 EAC_RepairVehicle(vehicleid);
