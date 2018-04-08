@@ -49,21 +49,33 @@ sampctl package run
 
 *Anti cheats that don't require include in all scripts
 >AFkill  //Anti fake kill -Rogue
+
 >AntiFC //Anti fake clients - Rogue
+
 >rAgc //Anti gun cheats -Rogue
+
 >rAsc //Anti speed cheats- Rogue
+
 >rVM //Anti illegal car mods -Emmet_
+
 >rAcs //Anti car spam - Rogue
+
 >rED  //Anti dialog spoof/crash- Emmet_ (easyDialog)
 
 *Includes that provide spam/bug protection (not worth a ban)
 >AntiSpam //Anti chat spam- Rogue
+
 >AntiSba //Anti slide bug abuse- Rogue
+
 >Flaggers //Lag spike\desnyc detector- Rogue
 
 *Anti cheats that do require include in all scripts and only edit through GM
 >AntiJC //Anti jetpack cheats- Rogue
+
 >Opba //Anti airbreak\teleport - Rogue
+
 >rAct //Anti car trolls - Rogue
+
 >rEac //Anti carswing\particlespam - Lorenc_
+
 >rAmc //Anti money cheats- Rogue
