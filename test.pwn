@@ -24,6 +24,7 @@
 main() {
 	// write tests for libraries here and run "sampctl package run"
 }
+
 new Test_String[80];
 
 public OnPlayerFakeKill(playerid, spoofedid, spoofedreason, faketype)
