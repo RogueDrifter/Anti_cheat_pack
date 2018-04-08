@@ -45,8 +45,5 @@ To test, simply run the package:
 sampctl package run
 ```
 
-## Credits:
-> Me for the anti cheat pack.
-
 ## Dependancies:
 > None.
