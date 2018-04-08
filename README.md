@@ -49,4 +49,4 @@ sampctl package run
 > Me for the anticheat pack.
 
 ## Dependancies:
-None.
+> None.
