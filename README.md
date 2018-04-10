@@ -81,3 +81,12 @@ sampctl package run
 >rAmc //Anti money cheats- Rogue
 
 >rAntiBuggers //Anti abusing sa-mp bugs triggered by cheats- Rogue
+
+
+## How to update:
+
+>Simply open your project and run the code:
+
+```bash
+sampctl package ensure
+```
