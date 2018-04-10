@@ -2,7 +2,7 @@
 
 [![sampctl](https://shields.southcla.ws/badge/sampctl-Anti_cheat_pack-2f2f2f.svg?style=for-the-badge)](https://github.com/RogueDrifter/Anti_cheat_pack)
 
->This is a pack of 12 anticheats and 3 helping systems which you can control through callbacks mentioned
+>This is a pack of 13 anticheats and 3 helping systems which you can control through callbacks mentioned
 >in the includes and the test.pwn file.
 >
 >
@@ -13,7 +13,7 @@
 > `## Testing`: All can be done through the test.pwn folder which already
 >contains all of the includes and their callbacks nottify you through `SCM` and `print` messages
 >
-> `## Version`: `2.0`
+> `## Version`: `3.0`
 
 ## Installation
 
@@ -79,3 +79,5 @@ sampctl package run
 >rEac //Anti carswing\particlespam - Lorenc_
 
 >rAmc //Anti money cheats- Rogue
+
+>rAntiBuggers //Anti abusing sa-mp bugs triggered by cheats- Rogue
