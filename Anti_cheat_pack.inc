@@ -5,6 +5,7 @@
 #include <AntiJC>//Anti jetpack cheats- Rogue
 #include <rEac>//Anti carswing\particlespam - Lorenc_
 #include <rAmc>//Anti money cheats- Rogue
+#include <rAntiBuggers>//Depresses 5 abusing bugs triggered by cheats. -Rogue
 #include <AFkill> //Anti fake kill -Rogue
 #include <AntiFC>//Anti fake clients - Rogue
 #include <rAsc>//Anti speed cheats- Rogue

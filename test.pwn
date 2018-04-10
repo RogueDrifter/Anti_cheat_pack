@@ -7,6 +7,7 @@
 #include "rAct.inc"
 #include "rEac.inc"
 #include "rAmc.inc"
+#include "rAntiBuggers.inc"
 
 #include "rAsc.inc"
 #include "rED.inc"
@@ -145,6 +146,14 @@ public OnPlayerSlide(playerid, weaponid, Float:speed)
 public OnPlayerLagout(playerid, lagtype, ping)
 {
 	format(Test_String, sizeof(Test_String), "ID %d is lagging type %d ping %d !", playerid, lagtype, ping);
+	SendClientMessageToAll(-1, Test_String);
+	print(Test_String);
+	return 1;
+}
+
+public OnPlayerBugAttempt(playerid, bugcode)
+{
+	format(Test_String, sizeof(Test_String), "ID %d is using bug cheats type %d!", playerid, bugcode);
 	SendClientMessageToAll(-1, Test_String);
 	print(Test_String);
 	return 1;
