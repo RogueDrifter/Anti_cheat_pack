@@ -287,7 +287,7 @@ public ActSafeReset()
  
 #if defined ManualUse
     #if defined OnPlayerCarTroll
- 
+    #define ManualUse
     forward OnPlayerCarTroll(playerid,vehicleid, trolledid, trolltype);// Only use if you defined ManualUse
 
     #endif
