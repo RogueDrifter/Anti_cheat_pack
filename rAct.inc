@@ -151,13 +151,13 @@ static rAct_Detected(playerid, vehicleid, trolledid, trolltype)
     		ActPlayer[playerid][ActCheater]  = true;
     	}
     }
-    #if defined OnPlayerCarTroll
+
     if(trolledid != INVALID_PLAYER_ID)
     {
     	if(!ActPlayer[trolledid][ActCheater]) OnPlayerCarTroll(playerid,vehicleid, trolledid, trolltype);
     }
     else OnPlayerCarTroll(playerid,vehicleid, trolledid, trolltype);
-    #endif
+
     return 1;
 }
 
