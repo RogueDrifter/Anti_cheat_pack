@@ -246,7 +246,7 @@ public ActDelayState(playerid, delaytype)
     {
         case 1:
         {
-            if(!ActPlayer[playerid][ActProtectFalse] && GetPlayerState(playerid) != 9 && !ActPlayer[playerid][ActAntiSpam] && !ActPlayer[playerid][ActSPrtct] && !ActPlayer[playerid][ActDoubleProtec] && !ActPlayer[playerid][ActFFProtec])
+            if(!ActPlayer[playerid][ActProtectFalse] && GetPlayerState(playerid) == 2 && !ActPlayer[playerid][ActAntiSpam] && !ActPlayer[playerid][ActSPrtct] && !ActPlayer[playerid][ActDoubleProtec] && !ActPlayer[playerid][ActFFProtec])
             {                
                 ActPlayer[playerid][ActAntiSpam]=true;
                 SetTimerEx("ActResetHandler",2500,false,"ii",playerid, 2);
@@ -260,7 +260,7 @@ public ActDelayState(playerid, delaytype)
         }
         case 2:
         {
-            if(!ActPlayer[playerid][ActProtectFalse] && GetPlayerState(playerid) != 9 && !ActPlayer[playerid][ActAntiSpam] && !ActPlayer[playerid][ActSPrtct] && !ActPlayer[playerid][ActDoubleProtec] && !ActPlayer[playerid][ActFFProtec])
+            if(!ActPlayer[playerid][ActProtectFalse] && GetPlayerState(playerid) == 3 && !ActPlayer[playerid][ActAntiSpam] && !ActPlayer[playerid][ActSPrtct] && !ActPlayer[playerid][ActDoubleProtec] && !ActPlayer[playerid][ActFFProtec])
             {            
                 ActPlayer[playerid][ActAntiSpam]=true;
                 SetTimerEx("ActResetHandler",2500,false,"ii",playerid, 2);
@@ -511,6 +511,10 @@ public OnPlayerSpawn(playerid)
     ActPlayer[playerid][ActProtectPos] = true;
 
     GetPlayerPos(playerid, ActPlayer[playerid][ActPX], ActPlayer[playerid][ActPY], ActPlayer[playerid][ActPZ]);
+
+    KillTimer(ActPlayer[playerid][ActJustDTim]);
+    ActPlayer[playerid][ActJustDied]    = true;
+    ActPlayer[playerid][ActJustDTim] = SetTimerEx("ActResetHandler", 5000, false, "ii", playerid, 11);
 
     KillTimer(ActPlayer[playerid][ActSPrtimer]);
     ActPlayer[playerid][ActSPrtimer] = SetTimerEx("ActResetHandler", 5500, false, "ii", playerid, 9);
