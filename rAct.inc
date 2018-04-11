@@ -5,8 +5,10 @@ Last updated on Apr 7th.
 -=-=-=-=-=-=-=-=-=-=-=-=
 Callback:
 -=-=-=-=-
+
 OnPlayerCarTroll(playerid, vehicleid, trolledid, trolltype);
 -=-=-=-=-=-=-=-=--=-=-=-=
+
 Type 1: Teleporting between vehicles (can give cheaters chance to control other's players) (also lag cheat detected here).
 Type 2: Control other player's cars or spin/rotate (Done by checking the player's actual vehicle).
 Type 3: Fast kick/rotate or teleporting inside drivers. (detectd by position change)
@@ -25,7 +27,11 @@ Type 7: Teleporting inside a vehicle illegally as a passenger (without PutPlayer
 #include <a_samp>
  
 #if !defined FILTERSCRIPT
- 
+
+#if defined OnPlayerCarTroll
+    #define ManualUse
+#endif
+
 enum ActPData
 {
     bool:ActAntiSpam,
@@ -287,7 +293,6 @@ public ActSafeReset()
  
 #if defined ManualUse
     #if defined OnPlayerCarTroll
-    #define ManualUse
     forward OnPlayerCarTroll(playerid,vehicleid, trolledid, trolltype);// Only use if you defined ManualUse
 
     #endif
