@@ -1,8 +1,10 @@
 /*
 Anti car troll include by RogueDrifter Jan 15th 2018
 -=-=-=-=-=-
+
 Last updated on Apr 7th.
 -=-=-=-=-=-=-=-=-=-=-=-=
+
 Callback:
 -=-=-=-=-
 
@@ -27,10 +29,6 @@ Type 7: Teleporting inside a vehicle illegally as a passenger (without PutPlayer
 #include <a_samp>
  
 #if !defined FILTERSCRIPT
-
-#if defined OnPlayerCarTroll
-    #define ManualUse
-#endif
 
 enum ActPData
 {
@@ -139,7 +137,7 @@ forward OnGameModeExitACT();
     forward OnUnoccupiedVehicleUpdateAct(vehicleid, playerid, passenger_seat, Float:new_x, Float:new_y, Float:new_z, Float:vel_x, Float:vel_y, Float:vel_z);
 #endif
 
-#if defined ManualUse
+#if defined OnPlayerCarTroll
 static rAct_Detected(playerid, vehicleid, trolledid, trolltype)
 {
     if(!ActPlayer[playerid][ActCheater]) 
@@ -251,7 +249,7 @@ public ActDelayState(playerid, delaytype)
             {                
                 ActPlayer[playerid][ActAntiSpam]=true;
                 SetTimerEx("ActResetHandler",2500,false,"ii",playerid, 2);
-                #if defined ManualUse
+                #if defined OnPlayerCarTroll
                 rAct_Detected(playerid, GetPlayerVehicleID(playerid), INVALID_PLAYER_ID, 4);
                 #else
                 rAct_Detected(playerid);
@@ -265,7 +263,7 @@ public ActDelayState(playerid, delaytype)
             {            
                 ActPlayer[playerid][ActAntiSpam]=true;
                 SetTimerEx("ActResetHandler",2500,false,"ii",playerid, 2);
-                #if defined ManualUse
+                #if defined OnPlayerCarTroll
                 rAct_Detected(playerid, GetPlayerVehicleID(playerid), INVALID_PLAYER_ID, 7);
                 #else
                 rAct_Detected(playerid);
@@ -291,11 +289,8 @@ public ActSafeReset()
     return 1;
 }
  
-#if defined ManualUse
     #if defined OnPlayerCarTroll
-    forward OnPlayerCarTroll(playerid,vehicleid, trolledid, trolltype);// Only use if you defined ManualUse
-
-    #endif
+    forward OnPlayerCarTroll(playerid,vehicleid, trolledid, trolltype);
 
 #else
  
@@ -325,7 +320,7 @@ public OnPlayerUpdate(playerid)
     {
         ActPlayer[playerid][ActRealCar] = ActVeh;
 
-        #if defined ManualUse
+        #if defined OnPlayerCarTroll
         if(ActVehicle[ActVeh][VehicleTempOwner] != playerid &&  ActVehicle[ActVeh][VehicleTempOwner] != INVALID_PLAYER_ID) 
         {
             rAct_Detected(playerid, ActVeh, ActVehicle[ActVeh][VehicleTempOwner], 2);
@@ -357,7 +352,7 @@ public OnPlayerUpdate(playerid)
         {            
             ActPlayer[playerid][ActOVeh] = ActVeh;
 
-            #if defined ManualUse
+            #if defined OnPlayerCarTroll
             if(ActVehicle[ActVeh][VehicleTempOwner] != playerid &&  ActVehicle[ActVeh][VehicleTempOwner] != INVALID_PLAYER_ID) 
             {
                 rAct_Detected(playerid, ActVeh, ActVehicle[ActVeh][VehicleTempOwner], 1);
@@ -381,7 +376,7 @@ public OnPlayerUpdate(playerid)
             if(!ActPlayer[playerid][ActFixRJackBug] && !IsPlayerNearVehicle(playerid, x, 5.0) && !ActIsPEnExCar(playerid) && !ActPlayer[playerid][ActDoubleProtec] && !ActPlayer[playerid][ActFFProtec])
             {
                 ActPlayer[playerid][ActRemoteJack] = 2;
-                #if defined ManualUse
+                #if defined OnPlayerCarTroll
                 rAct_Detected(playerid,  ActPlayer[playerid][ActOVeh], INVALID_PLAYER_ID, 5);
                 #else
                 rAct_Detected(playerid);
@@ -414,7 +409,7 @@ public OnPlayerUpdate(playerid)
 
                 SetTimerEx("ActResetHandler", 1500, false, "ii", i, 7);
                 SetTimerEx("ActResetHandler",1500,false,"ii",i, 2);
-                #if defined ManualUse
+                #if defined OnPlayerCarTroll
                 rAct_Detected(playerid,  GetPlayerVehicleID(i), i, 3);
                 #else
                 rAct_Detected(playerid);
@@ -567,7 +562,7 @@ public OnUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat, Float:new_
                         SetTimerEx("ActResetHandler", 2500, false, "ii", i, 7);
                     }
 
-                    #if defined ManualUse
+                    #if defined OnPlayerCarTroll
                     rAct_Detected(playerid, vehicleid, i, 6);
                     #else
                     rAct_Detected(playerid);
