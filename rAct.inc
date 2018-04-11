@@ -137,8 +137,7 @@ forward OnGameModeExitACT();
     forward OnUnoccupiedVehicleUpdateAct(vehicleid, playerid, passenger_seat, Float:new_x, Float:new_y, Float:new_z, Float:vel_x, Float:vel_y, Float:vel_z);
 #endif
 
-#if defined OnPlayerCarTroll
-static rAct_Detected(playerid, vehicleid, trolledid, trolltype)
+stock rAct_Detected(playerid, vehicleid, trolledid, trolltype)
 {
     if(!ActPlayer[playerid][ActCheater]) 
     {
@@ -161,9 +160,7 @@ static rAct_Detected(playerid, vehicleid, trolledid, trolltype)
     return 1;
 }
 
-#else
-
-static rAct_Detected(playerid)
+stock rAct_DetectedN(playerid)
 {
     new ACT_pName[MAX_PLAYER_NAME],actmsg[80];
     GetPlayerName(playerid,ACT_pName,sizeof(ACT_pName));
@@ -177,7 +174,6 @@ static rAct_Detected(playerid)
 
     return 1;
 }
-#endif
 
 static ActInvalidAction(playerid)
 {
@@ -252,7 +248,7 @@ public ActDelayState(playerid, delaytype)
                 #if defined OnPlayerCarTroll
                 rAct_Detected(playerid, GetPlayerVehicleID(playerid), INVALID_PLAYER_ID, 4);
                 #else
-                rAct_Detected(playerid);
+                rAct_DetectedN(playerid);
                 #endif
             }
             else if(ActPlayer[playerid][ActProtectFalse]) ActPlayer[playerid][ActProtectFalse] = false;
@@ -266,7 +262,7 @@ public ActDelayState(playerid, delaytype)
                 #if defined OnPlayerCarTroll
                 rAct_Detected(playerid, GetPlayerVehicleID(playerid), INVALID_PLAYER_ID, 7);
                 #else
-                rAct_Detected(playerid);
+                rAct_DetectedN(playerid);
                 #endif
             }
             else if(ActPlayer[playerid][ActProtectFalse]) ActPlayer[playerid][ActProtectFalse] = false;
@@ -328,7 +324,7 @@ public OnPlayerUpdate(playerid)
         else rAct_Detected(playerid, ActVeh, INVALID_PLAYER_ID, 2);
 
         #else
-        rAct_Detected(playerid);
+        rAct_DetectedN(playerid);
         #endif
 
         SetVehicleToRespawn(ActVeh);
@@ -360,7 +356,7 @@ public OnPlayerUpdate(playerid)
             else rAct_Detected(playerid, ActVeh, INVALID_PLAYER_ID, 1);
 
             #else
-            rAct_Detected(playerid);
+            rAct_DetectedN(playerid);
             #endif
 
             SetVehicleToRespawn(ActVeh);
@@ -379,7 +375,7 @@ public OnPlayerUpdate(playerid)
                 #if defined OnPlayerCarTroll
                 rAct_Detected(playerid,  ActPlayer[playerid][ActOVeh], INVALID_PLAYER_ID, 5);
                 #else
-                rAct_Detected(playerid);
+                rAct_DetectedN(playerid);
                 #endif
             }
             else if(GetPlayerState(playerid) == 2) ActPlayer[playerid][ActRemoteJack] = 2;
@@ -412,7 +408,7 @@ public OnPlayerUpdate(playerid)
                 #if defined OnPlayerCarTroll
                 rAct_Detected(playerid,  GetPlayerVehicleID(i), i, 3);
                 #else
-                rAct_Detected(playerid);
+                rAct_DetectedN(playerid);
                 #endif
             }
         }
@@ -565,7 +561,7 @@ public OnUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat, Float:new_
                     #if defined OnPlayerCarTroll
                     rAct_Detected(playerid, vehicleid, i, 6);
                     #else
-                    rAct_Detected(playerid);
+                    rAct_DetectedN(playerid);
                     #endif
                     break;
                 }
