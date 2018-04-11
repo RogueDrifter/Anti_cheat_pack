@@ -44,6 +44,7 @@ enum ActPData
     bool:ActJustDied,
     bool:ActDoubleProtec,
     bool:ActFFProtec,
+    bool:ActDetectSpam,
 
     Float:ActPX,
     Float:ActPY,
@@ -139,6 +140,7 @@ forward OnGameModeExitACT();
 
 stock rAct_Detected(playerid, vehicleid, trolledid, trolltype)
 {
+    if(ActPlayer[playerid][ActDetectSpam]) return 0;
     if(!ActPlayer[playerid][ActCheater]) 
     {
     	if(trolledid != INVALID_PLAYER_ID)
@@ -156,12 +158,14 @@ stock rAct_Detected(playerid, vehicleid, trolledid, trolltype)
     	if(!ActPlayer[trolledid][ActCheater]) OnPlayerCarTroll(playerid,vehicleid, trolledid, trolltype);
     }
     else OnPlayerCarTroll(playerid,vehicleid, trolledid, trolltype);
-
+    ActPlayer[playerid][ActDetectSpam] = true;
+    SetTimerEx("ActResetHandler", 3000, false, "ii", playerid, 14);
     return 1;
 }
 
 stock rAct_DetectedN(playerid)
 {
+    if(ActPlayer[playerid][ActDetectSpam]) return 0;
     new ACT_pName[MAX_PLAYER_NAME],actmsg[80];
     GetPlayerName(playerid,ACT_pName,sizeof(ACT_pName));
     #if defined BanVersion
@@ -171,7 +175,8 @@ stock rAct_DetectedN(playerid)
     #endif
     SendClientMessageToAll(0xFF0000A,actmsg);
     SetTimerEx("ActDelay",250,false,"i",playerid);
-
+    ActPlayer[playerid][ActDetectSpam] = true;
+    SetTimerEx("ActResetHandler", 3000, false, "ii", playerid, 14);
     return 1;
 }
 
@@ -273,7 +278,7 @@ public ActDelayState(playerid, delaytype)
 
 public ActSafeReset()
 {
-    static const tmp2[MAX_VEHICLES] = {INVALID_PLAYER_ID,...}; 
+    new const tmp2[MAX_VEHICLES] = {INVALID_PLAYER_ID,...}; 
     memcpy(ActVehicle[MAX_VEHICLES-1][VehicleTempOwner], tmp2, 0, MAX_VEHICLES * 4); 
 
     for(new i, j = GetPlayerPoolSize(); i <= j; i++) 
@@ -664,10 +669,10 @@ public OnPlayerExitVehicle(playerid,vehicleid)
 public OnPlayerDisconnect(playerid, reason)
 {
     KillTimer(ActPlayer[playerid][ActTimer]);
-
     static gpVehicleID;
     gpVehicleID = GetPlayerVehicleID(playerid);
 
+    ActPlayer[playerid][ActDetectSpam]  = false;
     ActPlayer[playerid][ActFFProtec]    = false;
     ActPlayer[playerid][ActJustDied]    = false;
     ActPlayer[playerid][ActSPrtct]      = false;
@@ -751,6 +756,10 @@ public ActResetHandler(handleid, handletype)
         case 13:
         {
             ActPlayer[handleid][ActFFProtec]     = false;
+        }
+        case 14:
+        {
+            ActPlayer[handleid][ActDetectSpam]   = false;
         }
     }
     return 1;
