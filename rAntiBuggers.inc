@@ -76,7 +76,7 @@ public OnPlayerConnect(playerid)
         #endif
     }
 
-    rAB_Player[playerid][rAbConnected] = true;
+    else rAB_Player[playerid][rAbConnected] = true;
     if(IsPlayerNPC(playerid))
 	{
 		new rAB_PIP[17];
