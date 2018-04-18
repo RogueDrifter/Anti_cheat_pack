@@ -270,7 +270,7 @@ public OPBA_AirbrakeTeleport(playerid)
 			{
 				new Float:pOPBA_X, Float:pOPBA_Y, Float:pOPBA_Z;
 				GetPlayerPos(playerid, pOPBA_X, pOPBA_Y, pOPBA_Z);
-				if(pOPBA_Z >= 0)
+				if(pOPBA_Z >= 0.0)
 				{
 					OPBA_Player[playerid][RacCarFall] = 2;
 					SetTimerEx("OPBA_RCarFall", 2000, false, "i", playerid);
@@ -278,7 +278,7 @@ public OPBA_AirbrakeTeleport(playerid)
 			}
 			case 2..3:
 			{
-				if(OPBA_Z >= 0)
+				if(OPBA_Z >= 0.0)
 				{
 					OPBA_Player[playerid][RacCarFall] = 2;
 					SetTimerEx("OPBA_RCarFall", 2000, false, "i", playerid);
@@ -293,16 +293,16 @@ public OPBA_AirbrakeTeleport(playerid)
 		{
 			case 1:
 			{
-				new Float:pOPBA_X, Float:pOPBA_Y, Float:pOPBA_Z;
+				new Float:pOPBA_X, Float:pOPBA_Y, q:pOPBA_Z;
 				GetPlayerPos(playerid, pOPBA_X, pOPBA_Y, pOPBA_Z);
-				if(pOPBA_Z >= 0)
+				if(pOPBA_Z >= 0.0)
 				{
 					OPBA_Player[playerid][RacAbuseP] = false;
 				}
 			}
 			case 2..3:
 			{
-				if(OPBA_Z >= 0)
+				if(OPBA_Z >= 0.0)
 				{
 					OPBA_Player[playerid][RacAbuseP] = false;
 				}

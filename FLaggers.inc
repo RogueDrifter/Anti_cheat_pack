@@ -47,7 +47,7 @@ Defeinitions to use:
 #endif
 
 #if !defined FL_MAX_WAIT_TIME
-    #define FL_MAX_WAIT_TIME 3.5
+    #define FL_MAX_WAIT_TIME 3
 #endif
 
 #if !defined FL_MAX_WARNINGS
