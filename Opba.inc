@@ -293,7 +293,7 @@ public OPBA_AirbrakeTeleport(playerid)
 		{
 			case 1:
 			{
-				new Float:pOPBA_X, Float:pOPBA_Y, q:pOPBA_Z;
+				new Float:pOPBA_X, Float:pOPBA_Y, Float:pOPBA_Z;
 				GetPlayerPos(playerid, pOPBA_X, pOPBA_Y, pOPBA_Z);
 				if(pOPBA_Z >= 0.0)
 				{
