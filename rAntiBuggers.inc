@@ -1,6 +1,6 @@
 /*rAntiBuggers by RogueDrifter 
 -Feb the 10th 2018
--Last updated: release date.
+-Last updated: FEB 18th.
 
 -Callbacks: OnPlayerBugAttempt(playerid, bugcode)
 _____________________________________________
@@ -179,6 +179,7 @@ public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid, bodypart)
 
 public rAB_SpawnPlayer(playerid)
 {
+    if(playerid <0 || playerid > MAX_PLAYERS) return 0;
     rAB_Player[playerid][rAbSpawned] = false;
     SpawnPlayer(playerid);
     return 1;
@@ -193,6 +194,7 @@ public rAB_UsePlayerPedAnims()
 
 public rAB_TogglePlayerSpectating(playerid, toggle)
 {
+    if(playerid <0 || playerid > MAX_PLAYERS) return 0;
     if(!toggle)
     {
         rAB_Player[playerid][rAbSpawned] = false;

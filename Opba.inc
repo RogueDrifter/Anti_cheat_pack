@@ -3,7 +3,7 @@ Made by RogueDrifter 2018/2/13
 -=-=-=-=-=-=-=-=-=-=-=-=-=-
 -=-=- The reconnecting feature was originally made by Lordzy.
 -=-=-=-=-=-=-=-=-=-=-=-=-=
-Last updated on Apr 7th.
+Last updated on Apr 18th.
 -=-=-=-=-=-=-
 Callbacks:
 -=-=-=-=-
@@ -240,10 +240,10 @@ public OPBA_AirbrakeTeleport(playerid)
 	new OpbaTempInt = GetPlayerInterior(playerid);
 	#endif
 	
-	static OPBA_Vehicle; 
+	new OPBA_Vehicle; 
 	OPBA_Vehicle = GetPlayerVehicleID(playerid);
 
-	static Float:OPBA_X, Float:OPBA_Y, Float:OPBA_Z;
+	new Float:OPBA_X, Float:OPBA_Y, Float:OPBA_Z;
 	GetVehiclePos(OPBA_Vehicle, OPBA_X, OPBA_Y, OPBA_Z);
 
 	if(OPBA_Player[playerid][RacZ] > OPBA_Z && OPBA_Player[playerid][RacZ] < 0 && OPBA_Z < 0 && OPBA_Player[playerid][RacCarFall] == 0 && IsPlayerInAnyVehicle(playerid))
@@ -268,7 +268,7 @@ public OPBA_AirbrakeTeleport(playerid)
 		{
 			case 1:
 			{
-				static Float:pOPBA_X, Float:pOPBA_Y, Float:pOPBA_Z;
+				new Float:pOPBA_X, Float:pOPBA_Y, Float:pOPBA_Z;
 				GetPlayerPos(playerid, pOPBA_X, pOPBA_Y, pOPBA_Z);
 				if(pOPBA_Z >= 0)
 				{
@@ -293,7 +293,7 @@ public OPBA_AirbrakeTeleport(playerid)
 		{
 			case 1:
 			{
-				static Float:pOPBA_X, Float:pOPBA_Y, Float:pOPBA_Z;
+				new Float:pOPBA_X, Float:pOPBA_Y, Float:pOPBA_Z;
 				GetPlayerPos(playerid, pOPBA_X, pOPBA_Y, pOPBA_Z);
 				if(pOPBA_Z >= 0)
 				{
@@ -733,12 +733,9 @@ public OPBA_DelayCall(playerid)
 
 public OPBA_SafeReset() 
 { 
-    static const tmp2[sizeof(OPBA_VOwner)] = {INVALID_PLAYER_ID,...}; 
-    static const tmp3[sizeof(OPBA_VPassenger)] = {INVALID_PLAYER_ID,...}; 
-
-    memcpy(OPBA_VPassenger, tmp3, 0, sizeof(OPBA_VPassenger) * 4); 
-    memcpy(OPBA_VOwner, tmp2, 0, sizeof(OPBA_VOwner) * 4); 
-    static RacVeh;
+	OPBA_memset(OPBA_VPassenger, INVALID_PLAYER_ID);
+	OPBA_memset(OPBA_VOwner, INVALID_PLAYER_ID);
+    new RacVeh;
 
     for(new i, j = GetPlayerPoolSize(); i <= j; i++) 
     { 
@@ -767,7 +764,7 @@ public OPBA_RPSURF(playerid)	     return OPBA_Player[playerid][RacSurf]  		= 0;
 
 public OPBA_SetVehicleToRespawn(vehicleid)
 {
-	if(vehicleid == INVALID_VEHICLE_ID) return 0;
+	if(vehicleid < 0 || vehicleid > MAX_VEHICLES) return 0;
 	if(OPBA_VOwner[vehicleid] != INVALID_PLAYER_ID)
 	{
 		OPBA_Player[ OPBA_VOwner[vehicleid] ][RacVRspwn] = true;
@@ -779,7 +776,7 @@ public OPBA_SetVehicleToRespawn(vehicleid)
 
 public OPBA_SetPlayerPos(playerid, Float:x, Float:y, Float:z)
 {
-	if(playerid == INVALID_PLAYER_ID) return 0;
+	if(playerid > MAX_PLAYERS || playerid < 0) return 0;
 	KillTimer(OPBA_Player[playerid][RacProTimer]);
 	OPBA_Player[playerid][RacProTimer] = SetTimerEx("OPBA_ResetPImuunity", OPBA_RESET_TIME, false, "i", playerid);
 	OPBA_Player[playerid][RacBreakImmunity] = true;
@@ -790,7 +787,7 @@ public OPBA_SetPlayerPos(playerid, Float:x, Float:y, Float:z)
 
 public OPBA_TogglePlayerSpectating(playerid, toggle)
 {
-	if(playerid == INVALID_PLAYER_ID) return 0;
+	if(playerid > MAX_PLAYERS || playerid < 0) return 0;
 	KillTimer(OPBA_Player[playerid][RacProTimer]);
 	OPBA_Player[playerid][RacProTimer] = SetTimerEx("OPBA_ResetPImuunity", OPBA_RESET_TIME, false, "i", playerid);
 
@@ -800,7 +797,7 @@ public OPBA_TogglePlayerSpectating(playerid, toggle)
 
 public OPBA_SetPlayerPosFindZ(playerid, Float:x, Float:y, Float:z)
 {
-	if(playerid == INVALID_PLAYER_ID) return 0;
+	if(playerid > MAX_PLAYERS || playerid < 0) return 0;
 	KillTimer(OPBA_Player[playerid][RacProTimer]);
 	OPBA_Player[playerid][RacProTimer] = SetTimerEx("OPBA_ResetPImuunity", OPBA_RESET_TIME, false, "i", playerid);
 	OPBA_Player[playerid][RacBreakImmunity] = true;
@@ -811,7 +808,7 @@ public OPBA_SetPlayerPosFindZ(playerid, Float:x, Float:y, Float:z)
 
 public OPBA_SetVehiclePos(vehicleid, Float:x, Float:y, Float:z)
 {
-	if(vehicleid == INVALID_VEHICLE_ID) return 0;
+	if(vehicleid > MAX_VEHICLES || vehicleid < 0) return 0;
     if(OPBA_VOwner[vehicleid] != INVALID_PLAYER_ID)
     {
     	KillTimer(OPBA_Player[OPBA_VOwner[vehicleid]][RacProTimer]);
@@ -829,7 +826,7 @@ public OPBA_SetVehiclePos(vehicleid, Float:x, Float:y, Float:z)
 
 public OPBA_PutPlayerInVehicle(playerid, vehicleid, seatid)
 {
-	if(playerid == INVALID_PLAYER_ID || vehicleid == INVALID_VEHICLE_ID) return 0;
+	if(playerid > MAX_PLAYERS || playerid < 0 || vehicleid < 0 || vehicleid > MAX_VEHICLES) return 0;
 	KillTimer(OPBA_Player[playerid][RacProTimer]);
 	OPBA_Player[playerid][RacProTimer] = SetTimerEx("OPBA_ResetPImuunity", OPBA_RESET_TIME, false, "i", playerid);
 
@@ -982,7 +979,7 @@ public OnPlayerDisconnect(playerid, reason)
 			#if defined BlockIpAddress
 			UnBlockIpAddress(OPBA_PLagIP[playerid]);
 			#else
-	    	static
+	    	new
 	        	OPBA_String[32];
 
 		format(OPBA_String, sizeof(OPBA_String), "unbanip %s", OPBA_PLagIP[playerid]);
@@ -1092,7 +1089,7 @@ public OnPlayerUpdate(playerid)
 		SetTimerEx("OPBA_FixPassenger", 1200, false, "i", playerid);
 	}
 	#if !defined OPBA_CUSTOM_INTERIORS
-	static OPBA_PInt;
+	new OPBA_PInt;
 	OPBA_PInt = GetPlayerInterior(playerid);
 	if(OPBA_PInt != OPBA_Player[playerid][RacPlayerInt] && OPBA_Player[playerid][RacPlayerInt] != -1)
 	{
@@ -1112,6 +1109,70 @@ public OnPlayerUpdate(playerid)
 		#else
 	return 1;
 		#endif
+}
+
+static OPBA_memset(aArray[], iValue, iSize = sizeof(aArray)) {//by Slice
+	new
+		iAddress
+	;
+	
+	// Store the address of the array
+	#emit LOAD.S.pri 12
+	#emit STOR.S.pri iAddress
+	
+	// Convert the size from cells to bytes
+	iSize *= 4;
+	
+	// Loop until there is nothing more to fill
+	while (iSize > 0) {
+		// I have to do this because the FILL instruction doesn't accept a dynamic number.
+		if (iSize >= 4096) {
+			#emit LOAD.S.alt iAddress
+			#emit LOAD.S.pri iValue
+			#emit FILL 4096
+		
+			iSize    -= 4096;
+			iAddress += 4096;
+		} else if (iSize >= 1024) {
+			#emit LOAD.S.alt iAddress
+			#emit LOAD.S.pri iValue
+			#emit FILL 1024
+
+			iSize    -= 1024;
+			iAddress += 1024;
+		} else if (iSize >= 256) {
+			#emit LOAD.S.alt iAddress
+			#emit LOAD.S.pri iValue
+			#emit FILL 256
+
+			iSize    -= 256;
+			iAddress += 256;
+		} else if (iSize >= 64) {
+			#emit LOAD.S.alt iAddress
+			#emit LOAD.S.pri iValue
+			#emit FILL 64
+
+			iSize    -= 64;
+			iAddress += 64;
+		} else if (iSize >= 16) {
+			#emit LOAD.S.alt iAddress
+			#emit LOAD.S.pri iValue
+			#emit FILL 16
+
+			iSize    -= 16;
+			iAddress += 16;
+		} else {
+			#emit LOAD.S.alt iAddress
+			#emit LOAD.S.pri iValue
+			#emit FILL 4
+
+			iSize    -= 4;
+			iAddress += 4;
+		}
+	}
+	
+	// aArray is used, just not by its symbol name
+	#pragma unused aArray
 }
 
 static OPBA_GetPlayerSpeed(playerid)
@@ -1153,7 +1214,7 @@ static OPBA_LagInit()
 static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000) 
 {
 	#if !defined BlockIpAddress
-	static
+	new
 	    OPBA_String[32];
 	#endif
 	

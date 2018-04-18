@@ -1,4 +1,5 @@
 /*Anti car swing, particle spam and fixes breached boundaries.
+Updated: FEB 18th
 -=-==-=-=-=-==
 Originally made by Lorenc_ (Extracted/Reposted & edited by Rogue)
 -=-=-=-=
@@ -64,6 +65,7 @@ public  EAC_ResetCarSW(playerid) return EAC_Player[playerid][EacCarSpeed] = fals
  
 public EAC_RepairVehicle(vehicleid)
 {
+    if(vehicleid <0 || vehicleid > MAX_VEHICLES) return 0;
     #if !defined foreach
     for(new i, j = GetPlayerPoolSize(); i <= j; i++)
     {
@@ -89,6 +91,7 @@ public EAC_RepairVehicle(vehicleid)
  
 public EAC_SetVehicleVelocity(vehicleid, Float:X, Float:Y, Float:Z)
 {
+    if(vehicleid <0 || vehicleid > MAX_VEHICLES) return 0;
     #if !defined foreach
     for(new i, j = GetPlayerPoolSize(); i <= j; i++)
     {

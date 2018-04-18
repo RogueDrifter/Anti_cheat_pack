@@ -1,5 +1,5 @@
 /* 
-Advanced anti cash cheat by RogueDrifter 2018/2/9 -=-==Last updated on Apr 2nd.
+Advanced anti cash cheat by RogueDrifter 2018/2/9 -=-==Last updated on Apr 18th.
 USAGE: Include in all scripts and use the following:
 -=-=-=-=-=-=-=-=-=-=
 Callback:
@@ -57,7 +57,11 @@ forward Amc_ResetImmunity(playerid);
 forward Amc_CheckCash(playerid);
 
 public Amc_ResetImmunity(playerid) return rAmc_Player[playerid][AmcCashImmu]= false;
-public Amc_GetPlayerMoney(playerid) return rAmc_Player[playerid][AmcCash];
+public Amc_GetPlayerMoney(playerid) 
+{
+	if(playerid <0 || playerid > MAX_PLAYERS) return 0;
+	return rAmc_Player[playerid][AmcCash];
+}
 
 public Amc_CheckCash(playerid)
 {
@@ -70,7 +74,6 @@ public Amc_CheckCash(playerid)
     {
         static rAmcSumUp;
         rAmcSumUp = rAmcTempCash - rAmc_Player[playerid][AmcCash];
-
         if(rAmcSumUp <= 1000) return GivePlayerMoney(playerid, - rAmcSumUp);
 
         #if defined OnPlayerCashCheat
@@ -79,12 +82,12 @@ public Amc_CheckCash(playerid)
 
         GivePlayerMoney(playerid, - rAmcSumUp);
         }
-
 	return 1;
 }
 
 public Amc_ResetPlayerMoney(playerid)
 {
+	if(playerid <0 || playerid > MAX_PLAYERS) return 0;
 	if(!rAmc_Player[playerid][AmcCashImmu]) SetTimerEx("Amc_ResetImmunity", 3000, false, "i", playerid);
 	rAmc_Player[playerid][AmcCashImmu]= true;
 
@@ -95,6 +98,7 @@ public Amc_ResetPlayerMoney(playerid)
 
 public Amc_GivePlayerMoney(playerid, amount)
 {
+	if(playerid <0 || playerid > MAX_PLAYERS) return 0;
 	if(!rAmc_Player[playerid][AmcCashImmu]) SetTimerEx("Amc_ResetImmunity", 3000, false, "i", playerid);
 	rAmc_Player[playerid][AmcCashImmu]= true;
 
@@ -107,6 +111,7 @@ public OnPlayerDisconnect(playerid, reason)
 {
 	rAmc_Player[playerid][AmcCashImmu]= false;
 	KillTimer(rAmc_Player[playerid][AmcPTimer]);
+	
 		#if defined Amc_OnPlayerDisconnect
 	return Amc_OnPlayerDisconnect(playerid, reason);
 		#else

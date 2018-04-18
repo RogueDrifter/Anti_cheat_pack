@@ -1,7 +1,7 @@
 /*
 Anti weapons/ammo cheat by Rogue-=-=-= Created on 2018/3/26
 =-=-==--=-=-=-=-=
-Last updated on Apr 3rd.
+Last updated on Apr 18th.
 -=-=-=-=-=-=-=-=-=-==-=-=-=-=-
 OnPlayerGunCheat(playerid, weaponid, ammo, hacktype);
 -=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=
@@ -214,6 +214,7 @@ public OnPlayerUpdate(playerid)
 
 public rAgc_ResetPlayerWeapons(playerid)
 {
+	if(playerid <0 || playerid > MAX_PLAYERS) return 0;
     if(!rAgc_Player[playerid][rAgcWepImmu]) SetTimerEx("rAgc_ProtHandler",RAGC_IMMU_TIME,false,"d",playerid, 0);
     rAgc_Player[playerid][rAgcWepImmu] = true;
 
@@ -232,6 +233,7 @@ public rAgc_ResetPlayerWeapons(playerid)
 
 public rAgc_SetPlayerAmmo(playerid, weaponid, ammo)
 {
+	if(playerid <0 || playerid > MAX_PLAYERS) return 0;
     if(!rAgc_IsWeaponValid(weaponid) || (rAgc_IsWeaponAmmoable(weaponid) && ammo ==0)) return 0;
     rAgc_Weapons[playerid][rAgcNewAmmo][weaponid] = 0;
     rAgc_Weapons[playerid][rAgcOldAmmo][weaponid] = 0;
@@ -257,6 +259,7 @@ public rAgc_SetPlayerAmmo(playerid, weaponid, ammo)
 
 public rAgc_GivePlayerWeapon(playerid, weaponid, ammo)
 {
+	if(playerid <0 || playerid > MAX_PLAYERS) return 0;
     if(!rAgc_IsWeaponValid(weaponid) || (rAgc_IsWeaponAmmoable(weaponid) && ammo ==0)) return 0;
     rAgc_Weapons[playerid][rAgcNewAmmo][weaponid] = 0;
     rAgc_Weapons[playerid][rAgcOldAmmo][weaponid] = 0;

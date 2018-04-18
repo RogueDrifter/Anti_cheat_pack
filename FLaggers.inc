@@ -2,8 +2,9 @@
 Laggers filter by Rogue 2018/2/21
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-LAST UPDATED: April 1st.
+LAST UPDATED: April 18th.
 -=-=-=-=-=-=-=-=-=-=-=-=
+
 Callbacks:
 -=-=-=-=-=
 OnPlayerLagout(playerid, lagtype, ping);
@@ -36,7 +37,7 @@ Defeinitions to use:
 
 #define FL_INVALID_PLAYER_STATS -1
 #define FL_ADDED_VALUE      80
-#define FL_MAX_DESYNC_WARNS 2
+#define FL_MAX_DESYNC_WARNS 3
 
 #define FL_KICK_TYPE_PING_LAG 1
 #define FL_KICK_TYPE_DESYNC_LAG 2
@@ -46,7 +47,7 @@ Defeinitions to use:
 #endif
 
 #if !defined FL_MAX_WAIT_TIME
-    #define FL_MAX_WAIT_TIME 4
+    #define FL_MAX_WAIT_TIME 3.5
 #endif
 
 #if !defined FL_MAX_WARNINGS
@@ -129,13 +130,19 @@ stock FL_GetWeaponSlot(weaponid)
 }
 
 stock IsPlayerLagging(playerid)
+{
+    if(playerid > MAX_PLAYERS || playerid < 0) return 0;
     return (FLaggers_Player[playerid][FLwarns] > 1);
-
-stock IsPlayerDesynced(playerid) return FLaggers_Player[playerid][FLdesynced];
-
+}
+stock IsPlayerDesynced(playerid) 
+{
+    if(playerid > MAX_PLAYERS || playerid < 0) return 0;
+    return FLaggers_Player[playerid][FLdesynced];
+}
 //Hooked functions:
 public FL_GivePlayerWeapon(playerid, weaponid, ammo)
 {
+    if(playerid > MAX_PLAYERS || playerid < 0) return 0;
     if(FL_GetWeaponSlot(weaponid) == 0) 
     {
         switch(weaponid)
@@ -158,14 +165,17 @@ public FL_GivePlayerWeapon(playerid, weaponid, ammo)
 }
 
 public FL_SetPlayerAmmo(playerid, weaponid, ammo)
+{
+    if(playerid > MAX_PLAYERS || playerid < 0) return 0;
     return (FL_GetWeaponSlot(weaponid) == 0) ? SetPlayerAmmo(playerid, 0, FLaggers_Player[playerid][FLAmmo]) : SetPlayerAmmo(playerid, weaponid, ammo);
+}
 
 public FL_ResetPlayerWeapons(playerid)
 {
+    if(playerid > MAX_PLAYERS || playerid < 0) return 0;
     ResetPlayerWeapons(playerid);
-    SetPlayerAmmo(playerid, 0, FLaggers_Player[playerid][FLAmmo]);
-
-    return 1;
+    
+    return SetPlayerAmmo(playerid, 0, FLaggers_Player[playerid][FLAmmo]);
 }
 
 //Hooked callbacks:

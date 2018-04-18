@@ -2,7 +2,7 @@
 Anti car troll include by RogueDrifter Jan 15th 2018
 -=-=-=-=-=-
 
-Last updated on Apr 7th.
+Last updated on Apr 18th.
 -=-=-=-=-=-=-=-=-=-=-=-=
 
 Callback:
@@ -155,9 +155,19 @@ stock rAct_Detected(playerid, vehicleid, trolledid, trolltype)
 
     if(trolledid != INVALID_PLAYER_ID)
     {
-    	if(!ActPlayer[trolledid][ActCheater]) OnPlayerCarTroll(playerid,vehicleid, trolledid, trolltype);
+    	if(!ActPlayer[trolledid][ActCheater]) 
+        {
+            #if defined OnPlayerCarTroll
+            OnPlayerCarTroll(playerid,vehicleid, trolledid, trolltype);
+            #endif
+        }
     }
-    else OnPlayerCarTroll(playerid,vehicleid, trolledid, trolltype);
+    else 
+    {
+    #if defined OnPlayerCarTroll
+        OnPlayerCarTroll(playerid,vehicleid, trolledid, trolltype);
+        #endif
+    }
     ActPlayer[playerid][ActDetectSpam] = true;
     SetTimerEx("ActResetHandler", 3000, false, "ii", playerid, 14);
     return 1;
@@ -178,6 +188,70 @@ stock rAct_DetectedN(playerid)
     ActPlayer[playerid][ActDetectSpam] = true;
     SetTimerEx("ActResetHandler", 3000, false, "ii", playerid, 14);
     return 1;
+}
+
+static ACT_memset(aArray[], iValue, iSize = sizeof(aArray)) {
+	new
+		iAddress
+	;
+	
+	// Store the address of the array
+	#emit LOAD.S.pri 12
+	#emit STOR.S.pri iAddress
+	
+	// Convert the size from cells to bytes
+	iSize *= 4;
+	
+	// Loop until there is nothing more to fill
+	while (iSize > 0) {
+		// I have to do this because the FILL instruction doesn't accept a dynamic number.
+		if (iSize >= 4096) {
+			#emit LOAD.S.alt iAddress
+			#emit LOAD.S.pri iValue
+			#emit FILL 4096
+		
+			iSize    -= 4096;
+			iAddress += 4096;
+		} else if (iSize >= 1024) {
+			#emit LOAD.S.alt iAddress
+			#emit LOAD.S.pri iValue
+			#emit FILL 1024
+
+			iSize    -= 1024;
+			iAddress += 1024;
+		} else if (iSize >= 256) {
+			#emit LOAD.S.alt iAddress
+			#emit LOAD.S.pri iValue
+			#emit FILL 256
+
+			iSize    -= 256;
+			iAddress += 256;
+		} else if (iSize >= 64) {
+			#emit LOAD.S.alt iAddress
+			#emit LOAD.S.pri iValue
+			#emit FILL 64
+
+			iSize    -= 64;
+			iAddress += 64;
+		} else if (iSize >= 16) {
+			#emit LOAD.S.alt iAddress
+			#emit LOAD.S.pri iValue
+			#emit FILL 16
+
+			iSize    -= 16;
+			iAddress += 16;
+		} else {
+			#emit LOAD.S.alt iAddress
+			#emit LOAD.S.pri iValue
+			#emit FILL 4
+
+			iSize    -= 4;
+			iAddress += 4;
+		}
+	}
+	
+	// aArray is used, just not by its symbol name
+	#pragma unused aArray
 }
 
 static ActInvalidAction(playerid)
@@ -233,6 +307,7 @@ static ActPausedP(playerid) return (GetTickCount() > (ActPlayer[playerid][pPause
 
 stock ActClearAnimations(playerid, forcesync = 0)
 {
+    if(playerid > MAX_PLAYERS || playerid < 0) return 0;
     if(!ActPlayer[playerid][ActFixRJackBug]) SetTimerEx("ActResetHandler", 2500, false, "ii", playerid, 1);
     ActPlayer[playerid][ActFixRJackBug] = true;
     ClearAnimations(playerid, forcesync);
@@ -278,9 +353,7 @@ public ActDelayState(playerid, delaytype)
 
 public ActSafeReset()
 {
-    new const tmp2[MAX_VEHICLES] = {INVALID_PLAYER_ID,...}; 
-    memcpy(ActVehicle[MAX_VEHICLES-1][VehicleTempOwner], tmp2, 0, MAX_VEHICLES * 4); 
-
+    ACT_memset(ActVehicle[MAX_VEHICLES-1][VehicleTempOwner], INVALID_PLAYER_ID);
     for(new i, j = GetPlayerPoolSize(); i <= j; i++) 
     { 
         if(!IsPlayerConnected(i)) continue; 
@@ -495,7 +568,6 @@ public OnPlayerConnect(playerid)
 {
     ActPlayer[playerid][ActAntiSpam]=false;
     ActPlayer[playerid][AntiJackBug]=false;
-
     ActPlayer[playerid][ActTimer] = SetTimerEx("ActResetHandler", 1000, true, "ii", playerid, 0);
 
         #if defined OnPlayerConnectACT
@@ -509,7 +581,6 @@ public OnPlayerSpawn(playerid)
 {
     if(!ActPlayer[playerid][ActProtectPos]) SetTimerEx("ActResetHandler",2100,false,"ii",playerid, 3);
     ActPlayer[playerid][ActProtectPos] = true;
-
     GetPlayerPos(playerid, ActPlayer[playerid][ActPX], ActPlayer[playerid][ActPY], ActPlayer[playerid][ActPZ]);
 
     KillTimer(ActPlayer[playerid][ActJustDTim]);
@@ -778,6 +849,7 @@ public ActFixPPIV(playerid, vehicleid, seatid)
 
 public ActXClearAnimations(playerid, forcesync)
 {
+    if(playerid > MAX_PLAYERS || playerid < 0) return 0;
     if(!ActPlayer[playerid][ActFixRJackBug]) SetTimerEx("ActResetHandler", 2500, false, "ii", playerid, 1);    
     ActPlayer[playerid][ActFixRJackBug] = true;
     ClearAnimations(playerid, forcesync);
@@ -786,6 +858,7 @@ public ActXClearAnimations(playerid, forcesync)
 
 public ActTogglePlayerSpectating(playerid, toggle)
 {
+    if(playerid > MAX_PLAYERS || playerid < 0) return 0;
     if(!ActPlayer[playerid][ActProtectFalse]) SetTimerEx("ActResetHandler",2100,false,"ii",playerid, 8);
     ActPlayer[playerid][ActProtectFalse] = true;
     TogglePlayerSpectating(playerid, toggle);
@@ -794,6 +867,7 @@ public ActTogglePlayerSpectating(playerid, toggle)
 
 public ActRemovePlayerFromVehicle(playerid)
 {
+    if(playerid > MAX_PLAYERS || playerid < 0) return 0;
     if(!ActPlayer[playerid][ActDoubleProtec]) SetTimerEx("ActResetHandler",2100,false,"ii",playerid, 12);
     ActPlayer[playerid][ActDoubleProtec] = true;
     RemovePlayerFromVehicle(playerid);
@@ -802,6 +876,7 @@ public ActRemovePlayerFromVehicle(playerid)
 
 public ActPutPlayerInVehicle(playerid, vehicleid, seatid)
 {
+    if(playerid > MAX_PLAYERS || playerid < 0 || vehicleid < 0 || vehicleid > MAX_VEHICLES) return 0;
     if(ActVehicle[vehicleid][ActETPBugFix]) ActClearAnimations(ActVehicle[vehicleid][ActVehEnterer], 1);
     ActPlayer[playerid][ActProtectFalse] = true;
     if(seatid != 0 ) ActPlayer[playerid][ActOVeh] = vehicleid;
@@ -822,6 +897,7 @@ public ActPutPlayerInVehicle(playerid, vehicleid, seatid)
 
 public ActSetPlayerPos(playerid, Float:x, Float:y, Float:z)
 {
+    if(playerid > MAX_PLAYERS || playerid < 0) return 0;
     if(!ActPlayer[playerid][ActProtectPos]) SetTimerEx("ActResetHandler",2100,false,"ii",playerid, 3);
     ActPlayer[playerid][ActProtectPos] = true;
     SetPlayerPos(playerid, x, y, z);

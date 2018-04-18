@@ -1,7 +1,7 @@
 /*
 Anti jetpack cheats by Rogue 2018/3/26
 -=-=-=-=
-Last updated on creation date.
+Last updated on April 18th.
 -=-=-=-
 OnPlayerJetpackCheat(playerid);
 -=-=-=-=
@@ -42,6 +42,7 @@ static bool:AJC_Protection[MAX_PLAYERS char];
 
 public AJC_SetPlayerSpecialAction(playerid, actionid)
 {
+	if(playerid > MAX_PLAYERS || playerid < 0) return 0;
 	if(actionid == 2) AJC_Protection{playerid} = true;
 	SetPlayerSpecialAction(playerid, actionid);
 	return 1;
