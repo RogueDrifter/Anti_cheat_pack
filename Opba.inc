@@ -1163,8 +1163,8 @@ static OPBA_LagInit()
 static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000) 
 {
 	#if !defined BlockIpAddress
-	new
-	    OPBA_String[32];
+	new 
+		Opba_Temp_string[32];
 	#endif
 	
 	if(toggle) 
@@ -1175,8 +1175,8 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 	#if defined BlockIpAddress
 	    BlockIpAddress(OPBA_PLagIP[playerid], lag_delay);
 	#else
-		format(temp_String, sizeof(temp_String), "banip %s", OPBA_PLagIP[playerid]);
-		SendRconCommand(temp_String);
+		format(Opba_Temp_string, sizeof(Opba_Temp_string), "banip %s", OPBA_PLagIP[playerid]);
+		SendRconCommand(Opba_Temp_string);
 	#endif
 		OPBA_PLagTimer[playerid] = SetTimerEx("L_LagPlayer", lag_delay, true, "dd", playerid, lag_delay);
 	}
@@ -1191,8 +1191,8 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 	#if defined BlockIpAddress
 	    UnBlockIpAddress(OPBA_PLagIP[playerid]);
 	#else
-		format(temp_String, sizeof(temp_String), "unbanip %s", OPBA_PLagIP[playerid]);
-		SendRconCommand(temp_String);
+		format(Opba_Temp_string, sizeof(Opba_Temp_string), "unbanip %s", OPBA_PLagIP[playerid]);
+		SendRconCommand(Opba_Temp_string);
 	#endif
 	}
 	return 1;
