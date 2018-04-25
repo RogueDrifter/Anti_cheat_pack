@@ -14,7 +14,7 @@
 > `## Testing`: All can be done through the test.pwn folder which already
 >contains all of the includes and their callbacks nottify you through `SCM` and `print` messages
 >
-> `## Version`: `4.0`
+> `## Version`: `5.0`
 
 ## Installation
 
