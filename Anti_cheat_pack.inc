@@ -1,6 +1,7 @@
 #include <rAgc>//Anti gun cheats -Rogue
 #include <Flaggers>//Lag spike\desnyc detector- Rogue
 #include <Opba>//Anti airbreak\teleport - Rogue
+#define ManualUse//Needed to use the callback!
 #include <rAct>//Anti car trolls - Rogue
 #include <AntiJC>//Anti jetpack cheats- Rogue
 #include <rEac>//Anti carswing\particlespam - Lorenc_
