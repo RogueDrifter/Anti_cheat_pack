@@ -5,7 +5,7 @@
 >This is a pack of 13 anticheats and 3 helping systems which you can control through callbacks mentioned
 >in the includes and the test.pwn file.
 >
-> UPDATED: Feb 18th - 2018
+> UPDATED: Feb 25th - 2018
 >
 > `## Installation`: You simply include the files in your gamemode/fs depending
 >on the include's setup (some require include in all scripts and only edit through
@@ -33,9 +33,13 @@ Include in your code and begin using the library:
 ## Usage
 
 > Use the callbacks provided to you by the includes depending on the type of it.
+>
 > The includes are 2 types as mentioned before, some edit only through gamemode and include everywhere.
+>
 > Others done through a single script whether its the GM/FS.
+>
 > If you're including the pack as a whole you'll need to only use the callbacks through the GM, you'll still need to include the Anti_cheat_pack everywhere.
+>
 > If you use separate includes you can edit through usage through the files.
 
 ## Testing
