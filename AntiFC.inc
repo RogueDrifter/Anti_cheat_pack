@@ -9,6 +9,8 @@ playerid = the cheater who connected with a fake client.
 -=-=-=-=-=-=
 */
 
+#if !defined FILTERSCRIPT 
+
 #if defined _rAFC_Included_
 	#endinput
 #endif
@@ -63,3 +65,5 @@ static AFC_IsPlayerBot(playerid)
 #endif
 
 #define OnPlayerConnect AFC_OnPlayerConnect
+
+#endif

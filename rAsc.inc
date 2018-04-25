@@ -13,6 +13,8 @@ speedtype 2 = in plane
 -=-=-=-=-
 */
 
+#if !defined FILTERSCRIPT 
+
 #include <a_samp>
 
 #if defined _rAntiSpeed_Included
@@ -23,7 +25,7 @@ speedtype 2 = in plane
 #define ASC_MAX_FOOT_SPEED 110
 #define ASC_MAX_CAR_SPEED 290
 #define ASC_MAX_PLANE_SPEED 340
-#define ASC_MAX_SPEED_WARNS 3
+#define ASC_MAX_SPEED_WARNS 2
 
 forward ASC_AntiSpeedCheats(playerid);
 forward ASC_ResetCall(playerid);
@@ -184,3 +186,5 @@ static ASC_GetPlayerSpeed(playerid)
 #endif
 
 #define OnPlayerDisconnect ASC_OnPlayerDisconnect
+
+#endif

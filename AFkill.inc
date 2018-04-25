@@ -17,6 +17,8 @@ faketype 2 = spammed fake kill (must kick or ban instantly)
 -=-=-=-=-=--=-=-=
 */
 
+#if !defined FILTERSCRIPT 
+
 #if defined _rAntiFakeKill_Included
 	#endinput
 #endif
@@ -268,3 +270,5 @@ static IsKillFalse(killid)
 #endif
 
 #define OnPlayerDisconnect FKI_OnPlayerDisconnect
+
+#endif

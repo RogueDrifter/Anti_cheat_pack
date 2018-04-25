@@ -13,6 +13,8 @@ playerid = the spamer
 -=-=-=-=-=--=-=-=
 */
 
+#if !defined FILTERSCRIPT 
+
 #if defined _rAntiSpammer_Included
     #endinput
 #endif
@@ -118,3 +120,5 @@ public OnPlayerDisconnect(playerid, reason)
 #endif
 
 #define OnPlayerText Aspa_OnPlayerText
+
+#endif

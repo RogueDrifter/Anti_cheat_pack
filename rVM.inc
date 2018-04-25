@@ -1,5 +1,7 @@
 // OnVehicleModEx by Emmet (Edited by Rogue)
 
+#if !defined FILTERSCRIPT 
+
 #if defined _FLaggersIncluded_
 
 static
@@ -367,4 +369,6 @@ public OnVehicleMod(playerid, vehicleid, componentid)
 
 #if defined VM_OnVehicleMod
 	forward VM_OnVehicleMod(playerid, vehicleid, componentid);
+#endif
+
 #endif

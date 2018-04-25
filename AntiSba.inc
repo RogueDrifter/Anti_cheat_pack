@@ -5,6 +5,8 @@ Callbacks:
     OnPlayerSlide(playerid, weaponid, Float:speed);
 -=-=-=-==-=*/
 
+#if !defined FILTERSCRIPT 
+
 #if defined _rSBAIncluded_
     #endinput
 #endif
@@ -167,4 +169,6 @@ public CheckP(playerid)
 
     return 1;
 }
+#endif
+
 #endif

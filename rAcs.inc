@@ -9,6 +9,8 @@ Anti car spammer by RogueDrifter 2018/1/30
 OnPlayerSpamCars(playerid, number);
 */
 
+#if !defined FILTERSCRIPT 
+
 #if defined ACS_Included
 	#endinput
 #endif
@@ -148,3 +150,5 @@ public OnVehicleStreamOut(vehicleid, forplayerid)
 #endif
 
 #define OnVehicleStreamOut acs_OnVehicleStreamOut
+
+#endif
