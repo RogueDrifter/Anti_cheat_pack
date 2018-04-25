@@ -138,6 +138,7 @@ forward OnGameModeExitACT();
     forward OnUnoccupiedVehicleUpdateAct(vehicleid, playerid, passenger_seat, Float:new_x, Float:new_y, Float:new_z, Float:vel_x, Float:vel_y, Float:vel_z);
 #endif
 
+#if defined ManualUse
 static stock rAct_Detected(playerid, vehicleid, trolledid, trolltype)
 {
     if(ActPlayer[playerid][ActDetectSpam]) return 0;
@@ -173,7 +174,7 @@ static stock rAct_Detected(playerid, vehicleid, trolledid, trolltype)
     return 1;
 }
 
-#if !defined OnPlayerCarTroll
+#else
 static rAct_DetectedN(playerid)
 {
     if(ActPlayer[playerid][ActDetectSpam]) return 0;
@@ -263,7 +264,7 @@ public ActDelayState(playerid, delaytype)
             {                
                 ActPlayer[playerid][ActAntiSpam]=true;
                 SetTimerEx("ActResetHandler",2500,false,"ii",playerid, 2);
-                #if defined OnPlayerCarTroll
+                #if defined ManualUse
                 rAct_Detected(playerid, GetPlayerVehicleID(playerid), INVALID_PLAYER_ID, 4);
                 #else
                 rAct_DetectedN(playerid);
@@ -277,7 +278,7 @@ public ActDelayState(playerid, delaytype)
             {            
                 ActPlayer[playerid][ActAntiSpam]=true;
                 SetTimerEx("ActResetHandler",2500,false,"ii",playerid, 2);
-                #if defined OnPlayerCarTroll
+                #if defined ManualUse
                 rAct_Detected(playerid, GetPlayerVehicleID(playerid), INVALID_PLAYER_ID, 7);
                 #else
                 rAct_DetectedN(playerid);
@@ -300,8 +301,8 @@ public ActSafeReset()
     }
     return 1;
 }
- 
-    #if defined OnPlayerCarTroll
+
+#if defined OnPlayerCarTroll
     forward OnPlayerCarTroll(playerid,vehicleid, trolledid, trolltype);
 
 #else
@@ -332,7 +333,7 @@ public OnPlayerUpdate(playerid)
     {
         ActPlayer[playerid][ActRealCar] = ActVeh;
 
-        #if defined OnPlayerCarTroll
+        #if defined ManualUse
         if(ActVehicle[ActVeh][VehicleTempOwner] != playerid &&  ActVehicle[ActVeh][VehicleTempOwner] != INVALID_PLAYER_ID) 
         {
             rAct_Detected(playerid, ActVeh, ActVehicle[ActVeh][VehicleTempOwner], 2);
@@ -364,7 +365,7 @@ public OnPlayerUpdate(playerid)
         {            
             ActPlayer[playerid][ActOVeh] = ActVeh;
 
-            #if defined OnPlayerCarTroll
+            #if defined ManualUse
             if(ActVehicle[ActVeh][VehicleTempOwner] != playerid &&  ActVehicle[ActVeh][VehicleTempOwner] != INVALID_PLAYER_ID) 
             {
                 rAct_Detected(playerid, ActVeh, ActVehicle[ActVeh][VehicleTempOwner], 1);
@@ -388,7 +389,7 @@ public OnPlayerUpdate(playerid)
             if(!ActPlayer[playerid][ActFixRJackBug] && !IsPlayerNearVehicle(playerid, x, 5.0) && !ActIsPEnExCar(playerid) && !ActPlayer[playerid][ActDoubleProtec] && !ActPlayer[playerid][ActFFProtec])
             {
                 ActPlayer[playerid][ActRemoteJack] = 2;
-                #if defined OnPlayerCarTroll
+                #if defined ManualUse
                 rAct_Detected(playerid,  ActPlayer[playerid][ActOVeh], INVALID_PLAYER_ID, 5);
                 #else
                 rAct_DetectedN(playerid);
@@ -421,7 +422,7 @@ public OnPlayerUpdate(playerid)
 
                 SetTimerEx("ActResetHandler", 1500, false, "ii", i, 7);
                 SetTimerEx("ActResetHandler",1500,false,"ii",i, 2);
-                #if defined OnPlayerCarTroll
+                #if defined ManualUse
                 rAct_Detected(playerid,  GetPlayerVehicleID(i), i, 3);
                 #else
                 rAct_DetectedN(playerid);
@@ -576,7 +577,7 @@ public OnUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat, Float:new_
                         SetTimerEx("ActResetHandler", 2500, false, "ii", i, 7);
                     }
 
-                    #if defined OnPlayerCarTroll
+                    #if defined ManualUse
                     rAct_Detected(playerid, vehicleid, i, 6);
                     #else
                     rAct_DetectedN(playerid);
