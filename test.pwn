@@ -4,6 +4,7 @@
 #include "AntiJC.inc"
 #include "rAgc.inc"
 #include "Opba.inc"
+#define ManualUse
 #include "rAct.inc"
 #include "rEac.inc"
 #include "rAmc.inc"
