@@ -710,6 +710,7 @@ public OPBA_AirbrakeTeleport(playerid)
 #if defined OnPlayerBreakAir
 public OPBA_CheckRealTP(playerid, tpcode)
 {
+	if(tpcode == 4 && OPBA_IsPEnExCar(playerid)) return OPBA_Player[playerid][RacHoldCheck] = false;
 	if(!OPBA_Player[playerid][RacProtecInt] && !IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
 	{
 		OnPlayerBreakAir(playerid, tpcode);
@@ -1111,70 +1112,18 @@ public OnPlayerUpdate(playerid)
 		#endif
 }
 
-static OPBA_memset(aArray[], iValue, iSize = sizeof(aArray)) {//by Slice
-	new
-		iAddress
-	;
-	
-	// Store the address of the array
-	#emit LOAD.S.pri 12
-	#emit STOR.S.pri iAddress
-	
-	// Convert the size from cells to bytes
-	iSize *= 4;
-	
-	// Loop until there is nothing more to fill
-	while (iSize > 0) {
-		// I have to do this because the FILL instruction doesn't accept a dynamic number.
-		if (iSize >= 4096) {
-			#emit LOAD.S.alt iAddress
-			#emit LOAD.S.pri iValue
-			#emit FILL 4096
-		
-			iSize    -= 4096;
-			iAddress += 4096;
-		} else if (iSize >= 1024) {
-			#emit LOAD.S.alt iAddress
-			#emit LOAD.S.pri iValue
-			#emit FILL 1024
-
-			iSize    -= 1024;
-			iAddress += 1024;
-		} else if (iSize >= 256) {
-			#emit LOAD.S.alt iAddress
-			#emit LOAD.S.pri iValue
-			#emit FILL 256
-
-			iSize    -= 256;
-			iAddress += 256;
-		} else if (iSize >= 64) {
-			#emit LOAD.S.alt iAddress
-			#emit LOAD.S.pri iValue
-			#emit FILL 64
-
-			iSize    -= 64;
-			iAddress += 64;
-		} else if (iSize >= 16) {
-			#emit LOAD.S.alt iAddress
-			#emit LOAD.S.pri iValue
-			#emit FILL 16
-
-			iSize    -= 16;
-			iAddress += 16;
-		} else {
-			#emit LOAD.S.alt iAddress
-			#emit LOAD.S.pri iValue
-			#emit FILL 4
-
-			iSize    -= 4;
-			iAddress += 4;
-		}
-	}
-	
-	// aArray is used, just not by its symbol name
-	#pragma unused aArray
+static stock OPBA_IsPEnExCar(playerid)
+{
+    switch(GetPlayerAnimationIndex(playerid))
+    {
+        case 1010..1012: return 1;
+        case 1024..1025: return 1;
+        case 1043..1045: return 1;
+        case 1009, 1041: return 1;
+    }
+    if(GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_ENTER_VEHICLE) return 1;
+    return 0;
 }
-
 static OPBA_GetPlayerSpeed(playerid)
 {
     new Float:ST[4];
@@ -1464,3 +1413,67 @@ stock OPBA_FTogglePlayerSpectating(playerid, toggle)
 #define TogglePlayerSpectating OPBA_FTogglePlayerSpectating
 
 #endif
+
+static stock OPBA_memset(aArray[], iValue, iSize = sizeof(aArray)) {//by Slice
+	new
+		iAddress
+	;
+	
+	// Store the address of the array
+	#emit LOAD.S.pri 12
+	#emit STOR.S.pri iAddress
+	
+	// Convert the size from cells to bytes
+	iSize *= 4;
+	
+	// Loop until there is nothing more to fill
+	while (iSize > 0) {
+		// I have to do this because the FILL instruction doesn't accept a dynamic number.
+		if (iSize >= 4096) {
+			#emit LOAD.S.alt iAddress
+			#emit LOAD.S.pri iValue
+			#emit FILL 4096
+		
+			iSize    -= 4096;
+			iAddress += 4096;
+		} else if (iSize >= 1024) {
+			#emit LOAD.S.alt iAddress
+			#emit LOAD.S.pri iValue
+			#emit FILL 1024
+
+			iSize    -= 1024;
+			iAddress += 1024;
+		} else if (iSize >= 256) {
+			#emit LOAD.S.alt iAddress
+			#emit LOAD.S.pri iValue
+			#emit FILL 256
+
+			iSize    -= 256;
+			iAddress += 256;
+		} else if (iSize >= 64) {
+			#emit LOAD.S.alt iAddress
+			#emit LOAD.S.pri iValue
+			#emit FILL 64
+
+			iSize    -= 64;
+			iAddress += 64;
+		} else if (iSize >= 16) {
+			#emit LOAD.S.alt iAddress
+			#emit LOAD.S.pri iValue
+			#emit FILL 16
+
+			iSize    -= 16;
+			iAddress += 16;
+		} else {
+			#emit LOAD.S.alt iAddress
+			#emit LOAD.S.pri iValue
+			#emit FILL 4
+
+			iSize    -= 4;
+			iAddress += 4;
+		}
+	}
+	
+	// aArray is used, just not by its symbol name
+	#pragma unused aArray
+}

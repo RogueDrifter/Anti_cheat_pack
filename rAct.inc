@@ -138,7 +138,7 @@ forward OnGameModeExitACT();
     forward OnUnoccupiedVehicleUpdateAct(vehicleid, playerid, passenger_seat, Float:new_x, Float:new_y, Float:new_z, Float:vel_x, Float:vel_y, Float:vel_z);
 #endif
 
-stock rAct_Detected(playerid, vehicleid, trolledid, trolltype)
+static stock rAct_Detected(playerid, vehicleid, trolledid, trolltype)
 {
     if(ActPlayer[playerid][ActDetectSpam]) return 0;
     if(!ActPlayer[playerid][ActCheater]) 
@@ -173,7 +173,8 @@ stock rAct_Detected(playerid, vehicleid, trolledid, trolltype)
     return 1;
 }
 
-stock rAct_DetectedN(playerid)
+#if !defined OnPlayerCarTroll
+static rAct_DetectedN(playerid)
 {
     if(ActPlayer[playerid][ActDetectSpam]) return 0;
     new ACT_pName[MAX_PLAYER_NAME],actmsg[80];
@@ -189,70 +190,7 @@ stock rAct_DetectedN(playerid)
     SetTimerEx("ActResetHandler", 3000, false, "ii", playerid, 14);
     return 1;
 }
-
-static ACT_memset(aArray[], iValue, iSize = sizeof(aArray)) {
-	new
-		iAddress
-	;
-	
-	// Store the address of the array
-	#emit LOAD.S.pri 12
-	#emit STOR.S.pri iAddress
-	
-	// Convert the size from cells to bytes
-	iSize *= 4;
-	
-	// Loop until there is nothing more to fill
-	while (iSize > 0) {
-		// I have to do this because the FILL instruction doesn't accept a dynamic number.
-		if (iSize >= 4096) {
-			#emit LOAD.S.alt iAddress
-			#emit LOAD.S.pri iValue
-			#emit FILL 4096
-		
-			iSize    -= 4096;
-			iAddress += 4096;
-		} else if (iSize >= 1024) {
-			#emit LOAD.S.alt iAddress
-			#emit LOAD.S.pri iValue
-			#emit FILL 1024
-
-			iSize    -= 1024;
-			iAddress += 1024;
-		} else if (iSize >= 256) {
-			#emit LOAD.S.alt iAddress
-			#emit LOAD.S.pri iValue
-			#emit FILL 256
-
-			iSize    -= 256;
-			iAddress += 256;
-		} else if (iSize >= 64) {
-			#emit LOAD.S.alt iAddress
-			#emit LOAD.S.pri iValue
-			#emit FILL 64
-
-			iSize    -= 64;
-			iAddress += 64;
-		} else if (iSize >= 16) {
-			#emit LOAD.S.alt iAddress
-			#emit LOAD.S.pri iValue
-			#emit FILL 16
-
-			iSize    -= 16;
-			iAddress += 16;
-		} else {
-			#emit LOAD.S.alt iAddress
-			#emit LOAD.S.pri iValue
-			#emit FILL 4
-
-			iSize    -= 4;
-			iAddress += 4;
-		}
-	}
-	
-	// aArray is used, just not by its symbol name
-	#pragma unused aArray
-}
+#endif
 
 static ActInvalidAction(playerid)
 {
@@ -1073,3 +1011,67 @@ stock ActFSetPlayerPos(playerid, Float:x, Float:y, Float:z)
     return CallRemoteFunction("ActSetPlayerPos","ifff",playerid, x, y, z);
 
 #endif
+
+static stock ACT_memset(aArray[], iValue, iSize = sizeof(aArray)) {
+    new
+        iAddress
+    ;
+    
+    // Store the address of the array
+    #emit LOAD.S.pri 12
+    #emit STOR.S.pri iAddress
+    
+    // Convert the size from cells to bytes
+    iSize *= 4;
+    
+    // Loop until there is nothing more to fill
+    while (iSize > 0) {
+        // I have to do this because the FILL instruction doesn't accept a dynamic number.
+        if (iSize >= 4096) {
+            #emit LOAD.S.alt iAddress
+            #emit LOAD.S.pri iValue
+            #emit FILL 4096
+        
+            iSize    -= 4096;
+            iAddress += 4096;
+        } else if (iSize >= 1024) {
+            #emit LOAD.S.alt iAddress
+            #emit LOAD.S.pri iValue
+            #emit FILL 1024
+
+            iSize    -= 1024;
+            iAddress += 1024;
+        } else if (iSize >= 256) {
+            #emit LOAD.S.alt iAddress
+            #emit LOAD.S.pri iValue
+            #emit FILL 256
+
+            iSize    -= 256;
+            iAddress += 256;
+        } else if (iSize >= 64) {
+            #emit LOAD.S.alt iAddress
+            #emit LOAD.S.pri iValue
+            #emit FILL 64
+
+            iSize    -= 64;
+            iAddress += 64;
+        } else if (iSize >= 16) {
+            #emit LOAD.S.alt iAddress
+            #emit LOAD.S.pri iValue
+            #emit FILL 16
+
+            iSize    -= 16;
+            iAddress += 16;
+        } else {
+            #emit LOAD.S.alt iAddress
+            #emit LOAD.S.pri iValue
+            #emit FILL 4
+
+            iSize    -= 4;
+            iAddress += 4;
+        }
+    }
+    
+    // aArray is used, just not by its symbol name
+    #pragma unused aArray
+}
