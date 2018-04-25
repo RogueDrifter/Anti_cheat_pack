@@ -35,6 +35,8 @@ Include in your code and begin using the library:
 > Use the callbacks provided to you by the includes depending on the type of it.
 > The includes are 2 types as mentioned before, some edit only through gamemode and include everywhere.
 > Others done through a single script whether its the GM/FS.
+> If you're including the pack as a whole you'll need to only use the callbacks through the GM, you'll still need to include the Anti_cheat_pack everywhere.
+> If you use separate includes you can edit through usage through the files.
 
 ## Testing
 
