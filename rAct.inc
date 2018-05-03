@@ -683,7 +683,7 @@ public OnPlayerExitVehicle(playerid,vehicleid)
 public OnPlayerDisconnect(playerid, reason)
 {
     KillTimer(ActPlayer[playerid][ActTimer]);
-    static gpVehicleID;
+    new gpVehicleID;
     gpVehicleID = GetPlayerVehicleID(playerid);
 
     ActPlayer[playerid][ActDetectSpam]  = false;
