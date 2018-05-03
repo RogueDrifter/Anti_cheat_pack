@@ -837,7 +837,7 @@ public ActPutPlayerInVehicle(playerid, vehicleid, seatid)
 public ActSetPlayerPos(playerid, Float:x, Float:y, Float:z)
 {
     if(playerid > MAX_PLAYERS || playerid < 0) return 0;
-    if(!ActPlayer[playerid][ActProtectPos]) SetTimerEx("ActResetHandler",2100,false,"ii",playerid, 3);
+    if(!ActPlayer[playerid][ActProtectPos]) SetTimerEx("ActResetHandler",4000,false,"ii",playerid, 3);
     ActPlayer[playerid][ActProtectPos] = true;
     SetPlayerPos(playerid, x, y, z);
 
