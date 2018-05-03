@@ -165,8 +165,8 @@ static stock rAct_Detected(playerid, vehicleid, trolledid, trolltype)
     }
     else 
     {
-    #if defined OnPlayerCarTroll
-        OnPlayerCarTroll(playerid,vehicleid, trolledid, trolltype);
+        #if defined OnPlayerCarTroll
+            OnPlayerCarTroll(playerid,vehicleid, trolledid, trolltype);
         #endif
     }
     ActPlayer[playerid][ActDetectSpam] = true;
@@ -386,7 +386,7 @@ public OnPlayerUpdate(playerid)
         for(new x; x < MAX_VEHICLES; x++)
         {
             if(!IsValidVehicle(x)) continue;
-            if(!ActPlayer[playerid][ActFixRJackBug] && !IsPlayerNearVehicle(playerid, x, 5.0) && !ActIsPEnExCar(playerid) && !ActPlayer[playerid][ActDoubleProtec] && !ActPlayer[playerid][ActFFProtec])
+            if(!ActPlayer[playerid][ActFixRJackBug] && !IsPlayerNearVehicle(playerid, x, 8.0) && !ActIsPEnExCar(playerid) && !ActPlayer[playerid][ActDoubleProtec] && !ActPlayer[playerid][ActFFProtec])
             {
                 ActPlayer[playerid][ActRemoteJack] = 2;
                 #if defined ManualUse
