@@ -456,7 +456,7 @@ public OnGameModeInit()
  
 public OnGameModeExit()
 {
-	print("     [[--|| rACT V15.0 ||--]]     ");
+    print("     [[--|| rACT V15.0 ||--]]     ");
     print("     [[--|| Anti car troll by RogueDrifter V 15.0 ||--]]      ");
     print("     [[--|| Successfully Unloaded! ||--]]      ");
 
@@ -509,11 +509,11 @@ public OnPlayerConnect(playerid)
     ActPlayer[playerid][AntiJackBug]=false;
     ActPlayer[playerid][ActTimer] = SetTimerEx("ActResetHandler", 1000, true, "ii", playerid, 0);
 
-        #if defined OnPlayerConnectACT
+    #if defined OnPlayerConnectACT
         return OnPlayerConnectACT(playerid);
-        #else
+    #else
         return 1;
-            #endif
+    #endif
 }
 
 public OnPlayerSpawn(playerid)
@@ -529,11 +529,11 @@ public OnPlayerSpawn(playerid)
     KillTimer(ActPlayer[playerid][ActSPrtimer]);
     ActPlayer[playerid][ActSPrtimer] = SetTimerEx("ActResetHandler", 5500, false, "ii", playerid, 9);
     ActPlayer[playerid][ActSPrtct]   = true;
-        #if defined OnPlayerSpawnAct
-    return OnPlayerSpawnAct(playerid);
-        #else
-    return 1;
-        #endif
+    #if defined OnPlayerSpawnAct
+    	return OnPlayerSpawnAct(playerid);
+    #else
+    	return 1;
+    #endif
 }
 
 public OnUnoccupiedVehicleUpdate(vehicleid, playerid, passenger_seat, Float:new_x, Float:new_y, Float:new_z, Float:vel_x, Float:vel_y, Float:vel_z)
