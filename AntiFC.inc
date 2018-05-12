@@ -48,7 +48,7 @@ public OnPlayerConnect(playerid)
 
 static AFC_IsPlayerBot(playerid)
 {  
-	if(IsPlayerNPC(playerid)) return 0;
+    if(IsPlayerNPC(playerid)) return 0;
     new TempId[80], TempNumb;  
     gpci(playerid, TempId, sizeof(TempId));  
     for(new i = 0; i < strlen(TempId); i++)  
