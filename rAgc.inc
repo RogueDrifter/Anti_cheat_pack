@@ -139,7 +139,7 @@ public OnPlayerDisconnect(playerid, reason)
 
 public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, Float:fZ)
 {
-	static rAgcTempWeap, rAgcTempAmmos;
+	new rAgcTempWeap, rAgcTempAmmos;
 	rAgcTempWeap = GetPlayerWeapon(playerid);
 	rAgcTempAmmos= GetPlayerAmmo(playerid);
 
@@ -292,7 +292,7 @@ public rAgc_GivePlayerWeapon(playerid, weaponid, ammo)
     		{
 	            if(!rAgc_Player[playerid][rAgcAmmoImmu]) SetTimerEx("rAgc_ProtHandler",RAGC_IMMU_TIME,false,"d",playerid, 1);
 	            rAgc_Player[playerid][rAgcAmmoImmu] = true;
-	            static rAgcFixWep, rAgcFixAmmo;
+	            new rAgcFixWep, rAgcFixAmmo;
 	            GivePlayerWeapon(playerid, weaponid, ammo);
 	            GetPlayerWeaponData(playerid, rAgc_GetWeaponSlot(weaponid), rAgcFixWep, rAgcFixAmmo);
 	            rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = rAgcFixAmmo + ammo;
@@ -333,7 +333,7 @@ public rAgc_Detector(playerid)
 	if(!rAgc_IsPlayerPaused(playerid))
 	{
 		//Weapon cheat detector:
-		static rAgcAmmo,rAgcWep;
+		new rAgcAmmo,rAgcWep;
 		for(new s; s<rAgc_MAX_WEAPONIDS; s++)
 		{
 			if(!rAgc_IsWeaponValid(s)) continue;
