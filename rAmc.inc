@@ -67,12 +67,12 @@ public Amc_CheckCash(playerid)
 {
 	if(Amc_IsPlayerPaused(playerid)) return 0;
 
-	static rAmcTempCash;
+	new rAmcTempCash;
     rAmcTempCash = GetPlayerMoney(playerid);
 
     if(rAmc_Player[playerid][AmcCash] < rAmcTempCash && !rAmc_Player[playerid][AmcCashImmu])
     {
-        static rAmcSumUp;
+        new rAmcSumUp;
         rAmcSumUp = rAmcTempCash - rAmc_Player[playerid][AmcCash];
         if(rAmcSumUp <= 1000) return GivePlayerMoney(playerid, - rAmcSumUp);
 
