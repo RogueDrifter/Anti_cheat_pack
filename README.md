@@ -112,3 +112,5 @@ sampctl package ensure
 > 4- Open your gamemode and type the same line as above^.
 >
 > 5- Keep your gamemode open and use the callbacks mentioned in the post as examples to your own desire.
+
+> And that's about it! every time i announce a new version release just re-do those steps above!
