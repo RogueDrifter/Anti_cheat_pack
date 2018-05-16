@@ -5,7 +5,7 @@
 >This is a pack of 13 anticheats and 3 helping systems which you can control through callbacks mentioned
 >in the includes and the test.pwn file.
 >
-> UPDATED: Feb 25th - 2018
+> UPDATED: May 16th - 2018
 >
 > `## Installation`: You simply include the files in your gamemode/fs depending
 >on the include's setup (some require include in all scripts and only edit through
@@ -14,7 +14,7 @@
 > `## Testing`: All can be done through the test.pwn folder which already
 >contains all of the includes and their callbacks nottify you through `SCM` and `print` messages
 >
-> `## Version`: `5.0`
+> `## Version`: `6.0`
 
 ## Installation
 
@@ -97,3 +97,13 @@ sampctl package run
 ```bash
 sampctl package ensure
 ```
+
+## Non sampctl users:
+> Go get sampctl! 
+>
+> But for now:
+> 1- Download the repository.
+> 2- Take all of the .inc files and put them in your pawno/include.
+> 3- Open all of your filterscripts and use #include <Anti_cheat_pack> right after #include a_samp.
+> 4- Open your gamemode and type the same line as above^.
+> 5- Keep your gamemode open and use the callbacks mentioned in the post as examples to your own desire.
