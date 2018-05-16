@@ -103,7 +103,11 @@ sampctl package ensure
 >
 > But for now:
 > 1- Download the repository.
+>
 > 2- Take all of the .inc files and put them in your pawno/include.
+>
 > 3- Open all of your filterscripts and use #include <Anti_cheat_pack> right after #include a_samp.
+>
 > 4- Open your gamemode and type the same line as above^.
+>
 > 5- Keep your gamemode open and use the callbacks mentioned in the post as examples to your own desire.
