@@ -703,7 +703,7 @@ public OPBA_AirbrakeTeleport(playerid)
 		}
 	}
 	
-	GetPlayerPos(playerid, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]);
+	if(!OPBA_Player[playerid][RacHoldCheck]) GetPlayerPos(playerid, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]);
 	return 1;
 }
 
