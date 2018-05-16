@@ -11,11 +11,20 @@ Callbacks:
 -=-=-=-=Usable Defenitions:-=-=-=-=
 USE THIS BEFORE THE INCLUDE IF YOU CANCEL THE ORIGINAL SAMP INTERIORS (INCLUDING MOD GARAGES!) TO AVOID EXTRA CHECKS!
 #define OPBA_CUSTOM_INTERIORS 
+
 if you don't, use this to define maximum interiors you use:
 #define OPBA_MAX_INTERIORS [number]
+
 If you don't want to use the callback it will auto kick,
 If you want it to ban you can use:
 #define OPBA_BAN_VERSION
+
+breaktype 1: airbreak on foot.
+breaktype 2: airbreak as driver.
+breaktype 3: airbreak as passenger.
+breaktype 4: teleport on foot.
+breaktype 5: teleport as driver.
+breaktype 6: teleport as passenger.
 */
 
 #if defined r_BreakAir_ 
@@ -60,10 +69,13 @@ forward OPBA_SafeReset();
 
 #define OPBA_TP_DELAY_TIME	  1900
 #define OPBA_AB_TICKS 		  2
+#define OPBA_MAX_ABUSES 	  2
 #define OPBA_TELEPORT_RANGE   92.0
 #define OPBA_ONFOOT_DETECTION 22.0
 #define OPBA_INVEHI_DETECTION 27.0
 #define OPBA_MAX_DETECT_SPEED 30.0
+#define OPBA_MAX_PASS_RANGE   40.0
+
 #define OPBA_RESET_TIME 3000
 
 #if defined _FLaggersIncluded_
@@ -150,7 +162,8 @@ enum E_OPBA_PLAYER_DATA
 	bool:RacVDeath,
 	bool:RacVRspwn,
 	bool:RacHoldCheck,
-	
+	bool:RacPassFall,
+
 	RacSurf,
     RacPause,
 	RacABTicks,
@@ -158,6 +171,7 @@ enum E_OPBA_PLAYER_DATA
 	RacFallBug,
 	RacCarFall,
 	RacPlayerInt,
+	RacPassFallAbuse,
 
 	Float:RacX,
 	Float:RacY,
@@ -180,6 +194,7 @@ enum E_OPBA_PLAYER_DATA
 	bool:RacPassenger,
 	bool:RacPBFix,
 	bool:RacVDeath,
+	bool:RacPassFall,
 
 	RacSurf,
 	RacPause,
@@ -187,6 +202,7 @@ enum E_OPBA_PLAYER_DATA
 	RacPauseTicks,
 	RacFallBug,
 	RacCarFall,
+	RacPassFallAbuse,
 
 	Float:RacX,
 	Float:RacY,
@@ -245,6 +261,20 @@ public OPBA_AirbrakeTeleport(playerid)
 
 	new Float:OPBA_X, Float:OPBA_Y, Float:OPBA_Z;
 	GetVehiclePos(OPBA_Vehicle, OPBA_X, OPBA_Y, OPBA_Z);
+
+	if(OPBA_Player[playerid][RacPassFallAbuse] < OPBA_MAX_ABUSES)
+	{
+		if(GetPlayerState(playerid) == PLAYER_STATE_PASSENGER)
+		{
+			new Float:OPBA_PX, Float:OPBA_PY, Float:OPBA_PZ;
+			GetPlayerPos(playerid, OPBA_PX, OPBA_PY, OPBA_PZ);
+			if(OPBA_PZ > 0 && OPBA_Player[playerid][RacZ] > 0 && OPBA_Player[playerid][RacZ] > OPBA_PZ + 3 && OPBA_Player[playerid][RacZ] - OPBA_PZ >= 0 && !OPBA_Player[playerid][RacPassFall])
+			{
+				OPBA_Player[playerid][RacPassFall] = true;
+			}
+			else if(OPBA_Player[playerid][RacPassFall]) OPBA_Player[playerid][RacPassFall] = false, OPBA_Player[playerid][RacPassFallAbuse]++;
+		}
+	}
 
 	if(OPBA_Player[playerid][RacZ] > OPBA_Z && OPBA_Player[playerid][RacZ] < 0 && OPBA_Z < 0 && OPBA_Player[playerid][RacCarFall] == 0 && IsPlayerInAnyVehicle(playerid))
 	{
@@ -583,11 +613,9 @@ public OPBA_AirbrakeTeleport(playerid)
 			}
 			case 3:
 			{
-	 			if(OPBA_VOwner[OPBA_Vehicle] == INVALID_PLAYER_ID)
+	 			if(OPBA_VOwner[OPBA_Vehicle] == INVALID_PLAYER_ID && !OPBA_Player[playerid][RacPassFall] && !OPBA_Player[playerid][RacVDeath])
 				{
-					if(OPBA_Player[playerid][RacVDeath]) return GetPlayerPos(playerid, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]);
 					#if !defined OPBA_CUSTOM_INTERIORS
-
 					if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]) && OPBA_PInteriors[playerid][OpbaTempInt])
 					{
 						#if defined OnPlayerBreakAir
@@ -610,7 +638,7 @@ public OPBA_AirbrakeTeleport(playerid)
 						SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
 						#endif
 					}
-					else if(!IsPlayerInRangeOfPoint(playerid, OPBA_INVEHI_DETECTION, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]) && OPBA_PInteriors[playerid][OpbaTempInt])
+					else if(!IsPlayerInRangeOfPoint(playerid, OPBA_MAX_PASS_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]) && OPBA_PInteriors[playerid][OpbaTempInt])
 					{
 						if(OPBA_Player[playerid][RacABTicks] == 0) 
 						{
@@ -665,7 +693,7 @@ public OPBA_AirbrakeTeleport(playerid)
 						SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
 						#endif
 					}
-					else if(!IsPlayerInRangeOfPoint(playerid, OPBA_INVEHI_DETECTION, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
+					else if(!IsPlayerInRangeOfPoint(playerid, OPBA_MAX_PASS_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
 					{
 						if(OPBA_Player[playerid][RacABTicks] == 0) 
 						{
@@ -966,9 +994,8 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
 
 public OnPlayerDisconnect(playerid, reason)
 { 
-	OPBA_Player[playerid][RacSurf] = 0;
+
 	KillTimer(OPBA_Player[playerid][RacRTPTimer]);
-	OPBA_Player[playerid][RacABTicks] = 0;
 	#if defined _FLaggersIncluded_
 	OPBA_PlayerDelayer{playerid} = false;
 	if(OPBA_PLagTimer[playerid] != -1) 
@@ -996,6 +1023,8 @@ public OnPlayerDisconnect(playerid, reason)
 
 	if(GetPlayerState(playerid) == 2) OPBA_VOwner[GetPlayerVehicleID(playerid)] = INVALID_PLAYER_ID;
 
+	OPBA_Player[playerid][RacHoldCheck]		  = false;
+	OPBA_Player[playerid][RacPassFall] 		  = false;
 	OPBA_Player[playerid][RacVRspwn]		  = false;
 	OPBA_Player[playerid][RacVDeath]		  = false;
 	OPBA_Player[playerid][RacPassenger] 	  = false;
@@ -1006,7 +1035,9 @@ public OnPlayerDisconnect(playerid, reason)
 	OPBA_Player[playerid][RacFallBug] 		  = 0;
 	OPBA_Player[playerid][RacPause] 		  = 0;
 	OPBA_Player[playerid][RacCarFall]         = 0;
-	OPBA_Player[playerid][RacHoldCheck]= false;
+	OPBA_Player[playerid][RacABTicks] 		  = 0;
+	OPBA_Player[playerid][RacPassFallAbuse]   = 0;
+	OPBA_Player[playerid][RacSurf] 			  = 0;	
 
 	#if !defined OPBA_CUSTOM_INTERIORS
 	OPBA_Player[playerid][RacProtecInt] = false;
