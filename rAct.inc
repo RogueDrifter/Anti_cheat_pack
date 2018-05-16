@@ -45,7 +45,8 @@ enum ActPData
     bool:ActDoubleProtec,
     bool:ActFFProtec,
     bool:ActDetectSpam,
-
+    bool:ActOneP,
+    
     Float:ActPX,
     Float:ActPY,
     Float:ActPZ,
@@ -389,11 +390,16 @@ public OnPlayerUpdate(playerid)
             if(!ActPlayer[playerid][ActFixRJackBug] && !IsPlayerNearVehicle(playerid, x, 8.0) && !ActIsPEnExCar(playerid) && !ActPlayer[playerid][ActDoubleProtec] && !ActPlayer[playerid][ActFFProtec])
             {
                 ActPlayer[playerid][ActRemoteJack] = 2;
-                #if defined ManualUse
-                rAct_Detected(playerid,  ActPlayer[playerid][ActOVeh], INVALID_PLAYER_ID, 5);
-                #else
-                rAct_DetectedN(playerid);
-                #endif
+                if(ActPlayer[playerid][ActOneP])
+                {
+                    ActPlayer[playerid][ActOneP] = false;
+                    #if defined ManualUse
+                    rAct_Detected(playerid,  ActPlayer[playerid][ActOVeh], INVALID_PLAYER_ID, 5);
+                    #else
+                    rAct_DetectedN(playerid);
+                    #endif
+                }
+                else ActPlayer[playerid][ActOneP] = true;
             }
             else if(GetPlayerState(playerid) == 2) ActPlayer[playerid][ActRemoteJack] = 2;
             else if(GetPlayerState(playerid) == 1) ActPlayer[playerid][ActRemoteJack] = 0;
@@ -686,6 +692,7 @@ public OnPlayerDisconnect(playerid, reason)
     new gpVehicleID;
     gpVehicleID = GetPlayerVehicleID(playerid);
 
+    ActPlayer[playerid][ActOneP]        = false;
     ActPlayer[playerid][ActDetectSpam]  = false;
     ActPlayer[playerid][ActFFProtec]    = false;
     ActPlayer[playerid][ActJustDied]    = false;
