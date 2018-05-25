@@ -86,7 +86,7 @@ public ASC_ResetCall(playerid) 		 return ASC_PlayerASpam{playerid} = false;
 public ASC_RFallTP(playerid) 		 return ASC_PlayerFalling{playerid} = 0;
 public ASC_AntiSpeedCheats(playerid)
 {
-	static Float:AscX, Float:AscY, Float:AscZ;
+	new Float:AscX, Float:AscY, Float:AscZ;
 	if(ASC_PlayerASpam{playerid}) return 0;
 	GetPlayerPos(playerid, AscX, AscY, AscZ);
 
@@ -147,7 +147,7 @@ public ASC_AntiSpeedCheats(playerid)
 		}
 	}
 
-	GetPlayerPos(playerid, AscX, AscY, ASC_PlayerZFall[playerid]);
+	ASC_PlayerZFall[playerid] = rAscZ;
 	return 1;
 }
 
@@ -163,7 +163,7 @@ static ASC_IsAPlane(vehicleid)
 
 static ASC_GetPlayerSpeed(playerid)
 {
-	new Float:ST[4];
+    new Float:ST[4];
     if(IsPlayerInAnyVehicle(playerid))
     GetVehicleVelocity(GetPlayerVehicleID(playerid),ST[0],ST[1],ST[2]);
     else GetPlayerVelocity(playerid,ST[0],ST[1],ST[2]);
