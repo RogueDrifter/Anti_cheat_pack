@@ -274,39 +274,33 @@ public rAgc_GivePlayerWeapon(playerid, weaponid, ammo)
     		if(rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] == weaponid)
     		{
     		    rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = 1;
-            	GivePlayerWeapon(playerid, weaponid, 1);
+            	    GivePlayerWeapon(playerid, weaponid, 1);
     		}
     		else
     		{
-				rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] = weaponid;
+		    rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] = weaponid;
 	            rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = 1;
 	            GivePlayerWeapon(playerid, weaponid, 1);
-	            #if defined OnPlayerGetWeapon
-	            	OnPlayerGetWeapon(playerid, weaponid, 2, 1);
-	            #endif
     		}
     	}
     	case 1:
     	{
-    		if(rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] == weaponid)
-    		{
-	            if(!rAgc_Player[playerid][rAgcAmmoImmu]) SetTimerEx("rAgc_ProtHandler",RAGC_IMMU_TIME,false,"d",playerid, 1);
-	            rAgc_Player[playerid][rAgcAmmoImmu] = true;
-	            new rAgcFixWep, rAgcFixAmmo;
-	            GivePlayerWeapon(playerid, weaponid, ammo);
-	            GetPlayerWeaponData(playerid, rAgc_GetWeaponSlot(weaponid), rAgcFixWep, rAgcFixAmmo);
-	            rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = rAgcFixAmmo + ammo;
-    		}
-    		else
-    		{
-    			rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] = weaponid;
-	            rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = ammo;
-	            GivePlayerWeapon(playerid, weaponid, ammo);
-	            #if defined OnPlayerGetWeapon
-	            	OnPlayerGetWeapon(playerid, weaponid, 1, ammo);
-	            #endif
-    		}
-    	}
+    	    if(rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] == weaponid)
+    	    {
+	        if(!rAgc_Player[playerid][rAgcAmmoImmu]) SetTimerEx("rAgc_ProtHandler",RAGC_IMMU_TIME,false,"d",playerid, 1);
+	        rAgc_Player[playerid][rAgcAmmoImmu] = true;
+	        new rAgcFixWep, rAgcFixAmmo;
+	        GivePlayerWeapon(playerid, weaponid, ammo);
+	        GetPlayerWeaponData(playerid, rAgc_GetWeaponSlot(weaponid), rAgcFixWep, rAgcFixAmmo);
+	        rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = rAgcFixAmmo + ammo;
+    	    }
+    	    else
+    	    {
+    		rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] = weaponid;
+	        rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = ammo;
+	        GivePlayerWeapon(playerid, weaponid, ammo);
+    	    }
+        }    
     }
     return 1;
 }
