@@ -147,7 +147,7 @@ public ASC_AntiSpeedCheats(playerid)
 		}
 	}
 
-	ASC_PlayerZFall[playerid] = rAscZ;
+	ASC_PlayerZFall[playerid] = AscZ;
 	return 1;
 }
 
