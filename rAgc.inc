@@ -259,67 +259,63 @@ public rAgc_SetPlayerAmmo(playerid, weaponid, ammo)
 
 public rAgc_GivePlayerWeapon(playerid, weaponid, ammo)
 {
-	if(playerid <0 || playerid > MAX_PLAYERS) return 0;
+    if(playerid <0 || playerid > MAX_PLAYERS) return 0;
     if(!rAgc_IsWeaponValid(weaponid) || (rAgc_IsWeaponAmmoable(weaponid) && ammo ==0)) return 0;
     rAgc_Weapons[playerid][rAgcNewAmmo][weaponid] = 0;
     rAgc_Weapons[playerid][rAgcOldAmmo][weaponid] = 0;
-
     if(!rAgc_Player[playerid][rAgcWepImmu]) SetTimerEx("rAgc_ProtHandler", RAGC_IMMU_TIME, false, "d",playerid, 0);
     rAgc_Player[playerid][rAgcWepImmu] = true;
-
     switch(rAgc_IsWeaponAmmoable(weaponid))
     {
-    	case 0:
-    	{
-    		if(rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] == weaponid)
-    		{
-    		    rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = 1;
-            	    GivePlayerWeapon(playerid, weaponid, 1);
-    		}
-    		else
-    		{
-		    rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] = weaponid;
-	            rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = 1;
-	            GivePlayerWeapon(playerid, weaponid, 1);
-    		}
-    	}
-    	case 1:
-    	{
-    	    if(rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] == weaponid)
-    	    {
-	        if(!rAgc_Player[playerid][rAgcAmmoImmu]) SetTimerEx("rAgc_ProtHandler",RAGC_IMMU_TIME,false,"d",playerid, 1);
-	        rAgc_Player[playerid][rAgcAmmoImmu] = true;
-	        new rAgcFixWep, rAgcFixAmmo;
-	        GivePlayerWeapon(playerid, weaponid, ammo);
-	        GetPlayerWeaponData(playerid, rAgc_GetWeaponSlot(weaponid), rAgcFixWep, rAgcFixAmmo);
-	        rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = rAgcFixAmmo + ammo;
-    	    }
-    	    else
-    	    {
-    		rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] = weaponid;
-	        rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = ammo;
-	        GivePlayerWeapon(playerid, weaponid, ammo);
-    	    }
+        case 0:
+        {
+            if(rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] == weaponid)
+            {
+                rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = 1;
+                    GivePlayerWeapon(playerid, weaponid, 1);
+            }
+            else
+            {
+                rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] = weaponid;
+                rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = 1;
+                GivePlayerWeapon(playerid, weaponid, 1);
+            }
+        }
+        case 1:
+        {
+            if(rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] == weaponid)
+            {
+                if(!rAgc_Player[playerid][rAgcAmmoImmu]) SetTimerEx("rAgc_ProtHandler",RAGC_IMMU_TIME,false,"d",playerid, 1);
+                rAgc_Player[playerid][rAgcAmmoImmu] = true;
+                new rAgcFixWep, rAgcFixAmmo;
+                GivePlayerWeapon(playerid, weaponid, ammo);
+                GetPlayerWeaponData(playerid, rAgc_GetWeaponSlot(weaponid), rAgcFixWep, rAgcFixAmmo);
+                rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = rAgcFixAmmo + ammo;
+            }
+            else
+            {
+                rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] = weaponid;
+                rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = ammo;
+                GivePlayerWeapon(playerid, weaponid, ammo);
+            }
         }    
     }
     return 1;
 }
-
 public rAgc_DelayRapid(playerid, weapon, ammo)
 {
-	if(rAgc_Player[playerid][rAgcFirstShot] == rAgc_Player[playerid][rAgcSecondShot])
-	{
-	    rAgc_Player[playerid][rAgcAntibugTicks]++;
-	    if(rAgc_Player[playerid][rAgcAntibugTicks] == RAGC_MAX_WARNINGS_FREEZE)
-	    {
-	    	rAgc_Player[playerid][rAgcAntibugTicks] = 0;
-		    CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, weapon, ammo, 3);
-		}
-	}
-
-	rAgc_Player[playerid][rAgcFirstShot] =0; 
-	rAgc_Player[playerid][rAgcSecondShot]=0; 
-	return 1;
+    if(rAgc_Player[playerid][rAgcFirstShot] == rAgc_Player[playerid][rAgcSecondShot])
+    {
+        rAgc_Player[playerid][rAgcAntibugTicks]++;
+        if(rAgc_Player[playerid][rAgcAntibugTicks] == RAGC_MAX_WARNINGS_FREEZE)
+        {
+            rAgc_Player[playerid][rAgcAntibugTicks] = 0;
+            CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, weapon, ammo, 3);
+        }
+    }
+    rAgc_Player[playerid][rAgcFirstShot] =0; 
+    rAgc_Player[playerid][rAgcSecondShot]=0; 
+    return 1;
 }
 
 public rAgc_Detector(playerid)
