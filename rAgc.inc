@@ -272,7 +272,7 @@ public rAgc_GivePlayerWeapon(playerid, weaponid, ammo)
             if(rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] == weaponid)
             {
                 rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = 1;
-                    GivePlayerWeapon(playerid, weaponid, 1);
+                GivePlayerWeapon(playerid, weaponid, 1);
             }
             else
             {
