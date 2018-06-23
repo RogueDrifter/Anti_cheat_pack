@@ -1,5 +1,5 @@
 /*
-Anti spam by Rogue 2018/3/25
+Anti spam by Rogue 2018/3/25.
 ----
 Last Updated Mar 29th
 -=-=-=-=-=-=-

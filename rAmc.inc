@@ -1,5 +1,5 @@
 /* 
-Advanced anti cash cheat by RogueDrifter 2018/2/9 -=-==Last updated on Apr 18th.
+Advanced anti cash cheat by RogueDrifter 2018/2/9 -=-==Last updated on Apr 18th
 USAGE: Include in all scripts and use the following:
 -=-=-=-=-=-=-=-=-=-=
 Callback:

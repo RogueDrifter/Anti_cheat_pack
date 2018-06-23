@@ -162,7 +162,7 @@ public OnPlayerBugAttempt(playerid, bugcode)
 	return 1;
 }
 
-/* Easy dialog by Emmet_ Example: */
+/* Easy dialog by Emmet_ Example:*/
 #if defined CMD
 CMD:weapons(playerid, params[])
 {

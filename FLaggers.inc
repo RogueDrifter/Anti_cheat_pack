@@ -1,5 +1,5 @@
 /*
-Laggers filter by Rogue 2018/2/21
+Laggers filter by Rogue 2018/2/21.
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 LAST UPDATED: April 18th.

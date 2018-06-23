@@ -9,7 +9,7 @@
 
 	Created by Emmet on Friday, January 24, 2014.
 
-	Updated by Southclaws 2017-10-13 to add include guard.
+	Updated by Southclaws 2017-10-13 to add include guard
 */
 
 #if defined _easyDialog_included

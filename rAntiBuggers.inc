@@ -2,7 +2,7 @@
 -Feb the 10th 2018
 -Last updated: FEB 18th.
 
--Callbacks: OnPlayerBugAttempt(playerid, bugcode)
+-Callbacks: OnPlayerBugAttempt(playerid, bugcode).
 _____________________________________________
 bugcode 0 = AFK ghost      bugcode 1 = NPC spoof
 bugcode 2 = Fake spawn     bugcode 3 = Fake connect

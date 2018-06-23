@@ -1,4 +1,4 @@
-/*Anti-Slide bug include by RogueDrifter 2017-12-13
+/*Anti-Slide bug include by RogueDrifter 2017-12-13.
 -=-=-=-=
 Callbacks:
 -=-=-=-=-=

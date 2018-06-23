@@ -1,7 +1,7 @@
 /* 
 Anti speed cheats by Rogue 2018/3/26
 -=-=-=
-Last updated on Apr 6th.
+Last updated on Apr 6th
 -=-=-=-=
 OnPlayerSpeedCheat(playerid, speedtype);
 -=-=-=-=-

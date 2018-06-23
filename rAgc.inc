@@ -1,5 +1,5 @@
 /*
-Anti weapons/ammo cheat by Rogue-=-=-= Created on 2018/3/26
+Anti weapons/ammo cheat by Rogue-=-=-= Created on 2018/3/26.
 =-=-==--=-=-=-=-=
 Last updated on Apr 18th.
 -=-=-=-=-=-=-=-=-=-==-=-=-=-=-

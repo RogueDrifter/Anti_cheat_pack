@@ -1,5 +1,5 @@
 /*
-Anti jetpack cheats by Rogue 2018/3/26
+Anti jetpack cheats by Rogue 2018/3/26.
 -=-=-=-=
 Last updated on April 18th.
 -=-=-=-

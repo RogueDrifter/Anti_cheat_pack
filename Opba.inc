@@ -1,5 +1,5 @@
 /* 
-Made by RogueDrifter 2018/2/13 
+Made by RogueDrifter 2018/2/13 .
 -=-=-=-=-=-=-=-=-=-=-=-=-=-
 -=-=- The reconnecting feature was originally made by Lordzy.
 -=-=-=-=-=-=-=-=-=-=-=-=-=

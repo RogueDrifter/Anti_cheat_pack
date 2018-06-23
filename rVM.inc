@@ -1,4 +1,4 @@
-// OnVehicleModEx by Emmet (Edited by Rogue)
+// OnVehicleModEx by Emmet (Edited by Rogue).
 
 #if !defined FILTERSCRIPT 
 

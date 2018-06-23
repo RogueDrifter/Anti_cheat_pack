@@ -1,6 +1,6 @@
 /*
-Anti car spammer by RogueDrifter 2018/1/30 
-(Will auto respawn the spammed cars after the callback)
+Anti car spammer by RogueDrifter 2018/1/30 .
+(Will auto respawn the spammed cars after the callback).
 ===Usables====
 -Number of cars a player can stream in- 
 #define ACS_MAX_STREAMIN [number]
