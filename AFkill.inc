@@ -1,4 +1,4 @@
-/*
+/*test
 Anti fake kill by Rogue 2018/3/25
 ----
 Last Updated April 5th.
