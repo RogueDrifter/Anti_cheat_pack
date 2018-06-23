@@ -1,4 +1,4 @@
-/* test
+/*
 Anti fake client by Rogue 2018/3/26
 -=-=-=
 Last updated on Mar 30th.
