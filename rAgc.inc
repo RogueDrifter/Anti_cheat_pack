@@ -179,7 +179,7 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
 	    		rAgc_Player[playerid][rAgcFirstShot] =0; 
 		    	rAgc_Player[playerid][rAgcSecondShot]=0; 
 	    		rAgc_Player[playerid][rAgcAntibugTicks] = 0;
-		    	CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcTempWeap, rAgcTempAmmos, 3);
+		    	if(!rAgc_IsPlayerPaused(playerid)) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcTempWeap, rAgcTempAmmos, 3);
 		        return 0;
 		    }
 	    }
@@ -310,7 +310,7 @@ public rAgc_DelayRapid(playerid, weapon, ammo)
         if(rAgc_Player[playerid][rAgcAntibugTicks] == RAGC_MAX_WARNINGS_FREEZE)
         {
             rAgc_Player[playerid][rAgcAntibugTicks] = 0;
-            CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, weapon, ammo, 3);
+            if(!rAgc_IsPlayerPaused(playerid)) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, weapon, ammo, 3);
         }
     }
     rAgc_Player[playerid][rAgcFirstShot] =0; 
