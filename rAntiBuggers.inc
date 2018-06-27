@@ -1,9 +1,9 @@
 /*rAntiBuggers by RogueDrifter 
 -Feb the 10th 2018
--Last updated: FEB 18th.
-
+-Last updated: June 27th.
 -Callbacks: OnPlayerBugAttempt(playerid, bugcode).
 _____________________________________________
+
 bugcode 0 = AFK ghost      bugcode 1 = NPC spoof
 bugcode 2 = Fake spawn     bugcode 3 = Fake connect
                 bugcode 4 = cj run
@@ -22,18 +22,27 @@ _____________________________________________
 forward rAB_SpawnPlayer(playerid);
 forward rAB_UsePlayerPedAnims();
 forward rAB_TogglePlayerSpectating(playerid, toggle);
+forward rAB_ResetPFall(playerid);
 
 enum RAB_PLAYER_DATA
 {
     bool:rAbConnected,
     bool:rAbSpawned,
 
+    rAbPJustFell,
+
+    Float:rAbOldZ,
+
+    rAbFallTicks,
+    rAbDmgTicks,
     rAbPTicks
 }
 
 static 
     rAB_Player[MAX_PLAYERS][RAB_PLAYER_DATA],
     bool:rAB_PPedAnims;
+
+#define RAB_MAX_DMG_TICKS 3
 
 #if defined OnPlayerBugAttempt
     forward OnPlayerBugAttempt(playerid, bugcode);
@@ -69,6 +78,8 @@ static
 
 public OnPlayerConnect(playerid)
 {
+    rAB_Player[playerid][rAbFallTicks] = -1;
+    rAB_Player[playerid][rAbOldZ] = -999.0;
     if(rAB_Player[playerid][rAbConnected])
     {
         #if defined OnPlayerBugAttempt
@@ -78,18 +89,18 @@ public OnPlayerConnect(playerid)
 
     else rAB_Player[playerid][rAbConnected] = true;
     if(IsPlayerNPC(playerid))
-	{
-		new rAB_PIP[17];
-		GetPlayerIp(playerid, rAB_PIP, sizeof(rAB_PIP));
+    {
+        new rAB_PIP[17];
+        GetPlayerIp(playerid, rAB_PIP, sizeof(rAB_PIP));
         new rAB_ServerIP[17];
         GetSVarString("bind", rAB_ServerIP, sizeof(rAB_ServerIP));
-		if (!!strcmp(rAB_PIP, rAB_ServerIP))
-		{
+        if (!!strcmp(rAB_PIP, rAB_ServerIP))
+        {
             #if defined OnPlayerBugAttempt
             OnPlayerBugAttempt(playerid, 1);
             #endif
-		}
-	}
+        }
+    }
     #if defined RAB_OnPlayerConnect
         return RAB_OnPlayerConnect(playerid);
     #else
@@ -126,6 +137,9 @@ public OnPlayerDisconnect(playerid, reason)
 {
     rAB_Player[playerid][rAbSpawned]   = false;
     rAB_Player[playerid][rAbConnected] = false;
+    rAB_Player[playerid][rAbPJustFell] = 0;
+    rAB_Player[playerid][rAbDmgTicks]  =     0;
+
     #if defined RAB_OnPlayerDisconnect
         return RAB_OnPlayerDisconnect(playerid, reason);
     #else
@@ -145,9 +159,50 @@ public OnPlayerRequestClass(playerid, classid)
 
 public OnPlayerUpdate(playerid)
 {
+    if(rAB_Player[playerid][rAbFallTicks] == -1) rAB_Player[playerid][rAbFallTicks] = GetTickCount();
+    new Float:rAB_TempX, Float:rAB_TempY, Float:rAB_TempZ;
+    if(GetTickCount() - rAB_Player[playerid][rAbFallTicks] >= 1000)
+    {
+        rAB_Player[playerid][rAbFallTicks] = GetTickCount();
+        if(rAB_Player[playerid][rAbOldZ] == -999.0) GetPlayerPos(playerid, rAB_TempX, rAB_TempY, rAB_TempZ);
+        GetPlayerPos(playerid, rAB_TempX, rAB_TempY, rAB_TempZ);
+
+        if(rAB_Player[playerid][rAbPJustFell] == 0)
+        {
+            if(rAB_TempZ - rAB_Player[playerid][rAbOldZ] > 2.0 && rAB_TempZ > 0.0 && rAB_Player[playerid][rAbOldZ] > 0.0)
+            {//Player fell but above the void area.
+                rAB_Player[playerid][rAbPJustFell] = 1;
+            }
+
+            if(rAB_TempZ + rAB_Player[playerid][rAbOldZ] < -2.0 && rAB_TempZ < 0.0 && rAB_Player[playerid][rAbOldZ] > 0.0)
+            {//Player going below surface
+                rAB_Player[playerid][rAbPJustFell] = 1;
+            }
+
+            if(rAB_Player[playerid][rAbOldZ] - rAB_TempZ > 2.0 && rAB_Player[playerid][rAbOldZ] < 0.0 && rAB_TempZ < 0.0)
+            {//Player been falling in the void part
+                rAB_Player[playerid][rAbPJustFell] = 1;
+            }
+            if(rAB_TempZ == 0.0 && rAB_Player[playerid][rAbOldZ] > 2.0)
+            {//Player just fell on the ground
+                rAB_Player[playerid][rAbPJustFell] = 1;
+            }
+            if(rAB_Player[playerid][rAbOldZ] == 0.0 && rAB_TempZ < -2.0)
+            {//Player just went below surface
+                rAB_Player[playerid][rAbPJustFell] = 1;
+            }
+        }
+
+        if(rAB_Player[playerid][rAbOldZ] == rAB_TempZ && rAB_Player[playerid][rAbPJustFell] == 1) 
+        {
+            rAB_Player[playerid][rAbPJustFell] = 2;
+            SetTimerEx("rAB_ResetPFall", 2000, false, "i", playerid);
+        }
+    }
+
     if(!rAB_PPedAnims)
     {
-        if(GetPlayerAnimationIndex(playerid) == 1231 && rAB_ValidSkin(GetPlayerSkin(playerid)) && GetPlayerWeapon(playerid) != 46)
+        if(GetPlayerAnimationIndex(playerid) == 1231 && rAB_ValidSkin(GetPlayerSkin(playerid)) && GetPlayerWeapon(playerid) != 46 && rAB_Player[playerid][rAbPJustFell] == 0)
         {
             #if defined OnPlayerBugAttempt
             OnPlayerBugAttempt(playerid, 4);
@@ -155,6 +210,7 @@ public OnPlayerUpdate(playerid)
         }
     }
     rAB_Player[playerid][rAbPTicks] = GetTickCount();
+    GetPlayerPos(playerid, rAB_TempX, rAB_TempY, rAB_Player[playerid][rAbOldZ]);
     #if defined RAB_OnPlayerUpdate
         return RAB_OnPlayerUpdate(playerid);
     #else
@@ -166,9 +222,14 @@ public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid, bodypart)
 {
     if(rAB_IsPlayerAfk(playerid))
     {
-        #if defined OnPlayerBugAttempt
-        OnPlayerBugAttempt(playerid, 0);
-        #endif
+        rAB_Player[playerid][rAbDmgTicks]++;
+        if(rAB_Player[playerid][rAbDmgTicks] == RAB_MAX_DMG_TICKS)
+        {      
+            rAB_Player[playerid][rAbDmgTicks] = 0;
+            #if defined OnPlayerBugAttempt
+            OnPlayerBugAttempt(playerid, 0);
+            #endif
+        }
     }
     #if defined RAB_OnPlayerGiveDamage
         return RAB_OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid, bodypart);
@@ -202,6 +263,8 @@ public rAB_TogglePlayerSpectating(playerid, toggle)
     TogglePlayerSpectating(playerid, toggle);
     return 1;
 }
+
+public rAB_ResetPFall(playerid) return rAB_Player[playerid][rAbPJustFell] = 0;
 
 static rAB_IsPlayerAfk(playerid)
     return (GetTickCount() > (rAB_Player[playerid][rAbPTicks]+2500));
@@ -250,17 +313,17 @@ static rAB_ValidSkin(skinid)
 #define OnPlayerDeath RAB_OnPlayerDeath
 
 #if defined _ALS_OnPlayerGiveDamage
-	#undef OnPlayerGiveDamage
+    #undef OnPlayerGiveDamage
 #else
-	#define _ALS_OnPlayerGiveDamage
+    #define _ALS_OnPlayerGiveDamage
 #endif
 
 #define OnPlayerGiveDamage RAB_OnPlayerGiveDamage
 
 #if defined _ALS_OnPlayerRequestClass
-	#undef OnPlayerRequestClass
+    #undef OnPlayerRequestClass
 #else
-	#define _ALS_OnPlayerRequestClass
+    #define _ALS_OnPlayerRequestClass
 #endif
 
 #define OnPlayerRequestClass RAB_OnPlayerRequestClass
