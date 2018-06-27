@@ -5,7 +5,7 @@
 >This is a pack of 13 anticheats and 3 helping systems which you can control through callbacks mentioned
 >in the includes and the test.pwn file.
 >
-> UPDATED: May 16th - 2018
+> UPDATED: June 27th - 2018
 >
 > `## Installation`: You simply include the files in your gamemode/fs depending
 >on the include's setup (some require include in all scripts and only edit through
@@ -14,7 +14,7 @@
 > `## Testing`: All can be done through the test.pwn folder which already
 >contains all of the includes and their callbacks nottify you through `SCM` and `print` messages
 >
-> `## Version`: `6.0`
+> `## Version`: `7.0`
 
 ## Installation
 
