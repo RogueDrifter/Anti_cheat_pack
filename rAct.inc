@@ -482,7 +482,7 @@ public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
     if(ispassenger)  ActPlayer[playerid][ActOVeh]    = vehicleid;
     if(!ispassenger) ActPlayer[playerid][ActRealCar] = vehicleid;
 
-    if(!ispassenger && !ActInvalidAction(playerid) ) ActPlayer[playerid][ActRemoteJack] = 1;
+    if(!ispassenger && !ActInvalidAction(playerid) && ActVehicle[vehicleid][VehicleTempOwner] != INVALID_PLAYER_ID) ActPlayer[playerid][ActRemoteJack] = 1;
     ActPlayer[playerid][ActProtectFalse] = true;
 
     if(!ispassenger && !ActPlayer[playerid][AntiJackBug] && ActVehicle[vehicleid][VehicleTempOwner] != INVALID_PLAYER_ID)
