@@ -1,5 +1,5 @@
 /*Anti car swing, particle spam and fixes breached boundaries.
-Updated: FEB 18th.
+Updated: June 27th.
 -=-==-=-=-=-==
 Originally made by Lorenc_ (Extracted/Reposted & edited by Rogue)
 -=-=-=-=
