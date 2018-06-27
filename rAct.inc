@@ -2,7 +2,7 @@
 Anti car troll include by RogueDrifter Jan 15th 2018.
 -=-=-=-=-=-
 
-Last updated on Apr 18th.
+Last updated on June 27th.
 -=-=-=-=-=-=-=-=-=-=-=-=
 
 Callback:
