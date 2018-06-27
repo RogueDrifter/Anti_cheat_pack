@@ -1,7 +1,7 @@
 /*
 Anti weapons/ammo cheat by Rogue-=-=-= Created on 2018/3/26.
 =-=-==--=-=-=-=-=
-Last updated on Apr 18th.
+Last updated on June 27th.
 -=-=-=-=-=-=-=-=-=-==-=-=-=-=-
 OnPlayerGunCheat(playerid, weaponid, ammo, hacktype);
 -=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=-=-=-=--=-=-=-=-=-=
@@ -186,7 +186,7 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
 	    else if(rAgc_Player[playerid][rAgcConstWep] == rAgcTempWeap && rAgc_IsWeaponAmmoable(rAgcTempWeap) && (rAgc_IsWepRapid(rAgcTempWeap) || GetPlayerState(playerid) == 3))
 	    {//Anti ammo freeze for fast ammo weapons
 	    	KillTimer(rAgc_Player[playerid][rAgcRepeater]);
-	    	rAgc_Player[playerid][rAgcRepeater] = SetTimerEx("rAgc_DelayRapid", 500, false, "iii", playerid, rAgcTempWeap, rAgcTempAmmos);
+	    	rAgc_Player[playerid][rAgcRepeater] = SetTimerEx("rAgc_DelayRapid", 700, false, "iii", playerid, rAgcTempWeap, rAgcTempAmmos);
 	    }
 	    else 
 	    {
