@@ -5,7 +5,7 @@
 >This is a pack of 13 anticheats and 3 helping systems which you can control through callbacks mentioned
 >in the includes and the test.pwn file.
 >
-> UPDATED: June 27th - 2018
+> UPDATED: June 28th - 2018
 >
 > `## Installation`: You simply include the files in your gamemode/fs depending
 >on the include's setup (some require include in all scripts and only edit through
