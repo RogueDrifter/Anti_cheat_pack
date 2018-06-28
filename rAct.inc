@@ -2,7 +2,7 @@
 Anti car troll include by RogueDrifter Jan 15th 2018.
 -=-=-=-=-=-
 
-Last updated on June 27th.
+Last updated on June 28th.
 -=-=-=-=-=-=-=-=-=-=-=-=
 
 Callback:
@@ -482,10 +482,10 @@ public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
     if(ispassenger)  ActPlayer[playerid][ActOVeh]    = vehicleid;
     if(!ispassenger) ActPlayer[playerid][ActRealCar] = vehicleid;
 
-    if(!ispassenger && !ActInvalidAction(playerid) && ActVehicle[vehicleid][VehicleTempOwner] != INVALID_PLAYER_ID) ActPlayer[playerid][ActRemoteJack] = 1;
+    if(!ispassenger && !ActInvalidAction(playerid) && ActVehicle[vehicleid][VehicleTempOwner] != INVALID_PLAYER_ID && ActVehicle[vehicleid[VehicleTempOwner] != playerid) ActPlayer[playerid][ActRemoteJack] = 1;
     ActPlayer[playerid][ActProtectFalse] = true;
 
-    if(!ispassenger && !ActPlayer[playerid][AntiJackBug] && ActVehicle[vehicleid][VehicleTempOwner] != INVALID_PLAYER_ID)
+    if(!ispassenger && !ActPlayer[playerid][AntiJackBug] && ActVehicle[vehicleid][VehicleTempOwner] != INVALID_PLAYER_ID && ActVehicle[vehicleid[VehicleTempOwner] != playerid)
     {
         ActPlayer[playerid][AntiJackBug]=true;
         SetTimerEx("ActResetHandler",6000,false,"ii",playerid, 6);
