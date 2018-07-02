@@ -434,7 +434,7 @@ public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 
     ActPlayer[playerid][ActProtectFalse] = true;
 
-    if(!ispassenger && !ActPlayer[playerid][AntiJackBug] && ActVehicle[vehicleid][VehicleTempOwner] != INVALID_PLAYER_ID && ActVehicle[vehicleid[VehicleTempOwner] != playerid)
+    if(!ispassenger && !ActPlayer[playerid][AntiJackBug] && ActVehicle[vehicleid][VehicleTempOwner] != INVALID_PLAYER_ID && ActVehicle[vehicleid][VehicleTempOwner] != playerid)
     {
         ActPlayer[playerid][AntiJackBug]=true;
         SetTimerEx("ActResetHandler",6000,false,"ii",playerid, 6);
