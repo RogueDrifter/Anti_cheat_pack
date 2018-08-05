@@ -356,19 +356,19 @@ public OnPlayerUpdate(playerid)
         }
     }
 
-    if(!IsPlayerInRangeOfPoint(playerid, 20.0, ActPlayer[playerid][ActPX], ActPlayer[playerid][ActPY], ActPlayer[playerid][ActPZ]) 
+    if(!IsPlayerInRangeOfPoint(playerid, 25.0, ActPlayer[playerid][ActPX], ActPlayer[playerid][ActPY], ActPlayer[playerid][ActPZ]) 
     && ActPlayer[playerid][ActPX] != 0 && ActPlayer[playerid][ActPY] != 0 && !ActIsPEnExCar(playerid) && !ActPlayer[playerid][ActPassgBug] && !ActPlayer[playerid][ActJustDied] 
     && ActPlayer[playerid][ActPZ] != 0 && !ActPlayer[playerid][ActProtectPos]  && !ActPlayerDown(playerid)
-    && GetPlayerSurfingVehicleID(playerid) == INVALID_VEHICLE_ID && GetPlayerState(playerid) == 1 && GetPlayerInterior(playerid) == 0)
+    && GetPlayerSurfingVehicleID(playerid) == INVALID_VEHICLE_ID && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT && GetPlayerInterior(playerid) == 0)
     {
         for(new i, j = GetPlayerPoolSize(); i <= j; i++)
         {
             if(!IsPlayerConnected(i)) continue;
             new Float:ActTempX, Float:ActTempY, Float:ActTempZ;
             GetPlayerPos(i, ActTempX, ActTempY, ActTempZ);
-            if(IsPlayerInRangeOfPoint(playerid, 1.3, ActTempX, ActTempY, ActTempZ)
+            if(IsPlayerInRangeOfPoint(playerid, 1.2, ActTempX, ActTempY, ActTempZ)
             && !ActPlayer[i][ActAntiSpam] && GetPlayerState(i) == PLAYER_STATE_DRIVER 
-            && i != playerid && IsPlayerNearVehicle(playerid, GetPlayerVehicleID(i), 5.0))
+            && i != playerid && IsPlayerNearVehicle(playerid, GetPlayerVehicleID(i), 5.0) && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT)
             {
                 ActPlayer[i][ActAntiSpam]=true; 
                 SetVehicleToRespawn(GetPlayerVehicleID(i));
