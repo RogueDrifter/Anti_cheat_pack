@@ -61,6 +61,7 @@ forward OPBA_ResetVDeath(playerid);
 forward OPBA_ResetTP(playerid);
 forward OPBA_RPFALL(playerid);
 forward OPBA_RPSURF(playerid);
+forward OPBA_PassengerRTP(playerid);
 forward OPBA_SafeReset();
 
 #if defined OnPlayerBreakAir
@@ -163,9 +164,10 @@ enum E_OPBA_PLAYER_DATA
 	bool:RacVRspwn,
 	bool:RacHoldCheck,
 	bool:RacPassFall,
+	bool:RacPassengerTP,
 
 	RacSurf,
-    RacPause,
+	RacPause,
 	RacABTicks,
 	RacPauseTicks,
 	RacFallBug,
@@ -195,6 +197,7 @@ enum E_OPBA_PLAYER_DATA
 	bool:RacPBFix,
 	bool:RacVDeath,
 	bool:RacPassFall,
+	bool:RacPassengerTP,
 
 	RacSurf,
 	RacPause,
@@ -739,6 +742,7 @@ public OPBA_AirbrakeTeleport(playerid)
 public OPBA_CheckRealTP(playerid, tpcode)
 {
 	if(tpcode == 4 && OPBA_IsPEnExCar(playerid)) return OPBA_Player[playerid][RacHoldCheck] = false;
+	if(tpcode == 6 && OPBA_Player[playerid][RacPassengerTP]) return OPBA_Player[playerid][RacHoldCheck] = false;
 	if(!OPBA_Player[playerid][RacProtecInt] && !IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
 	{
 		OnPlayerBreakAir(playerid, tpcode);
@@ -764,32 +768,33 @@ public OPBA_SafeReset()
 { 
 	OPBA_memset(OPBA_VPassenger, INVALID_PLAYER_ID);
 	OPBA_memset(OPBA_VOwner, INVALID_PLAYER_ID);
-    new RacVeh;
+	new RacVeh;
 
-    for(new i, j = GetPlayerPoolSize(); i <= j; i++) 
-    { 
-    	RacVeh = GetPlayerVehicleID(i);
-        if(!IsPlayerConnected(i)) continue; 
-        if(GetPlayerState(i)== PLAYER_STATE_DRIVER) 
-        OPBA_VOwner[RacVeh]     = i ; 
-    	if(GetPlayerState(i) == PLAYER_STATE_PASSENGER)
-    	OPBA_VPassenger[RacVeh] = i  ;
-    } 
+	for(new i, j = GetPlayerPoolSize(); i <= j; i++) 
+	{ 
+		RacVeh = GetPlayerVehicleID(i);
+		if(!IsPlayerConnected(i)) continue; 
+		if(GetPlayerState(i)== PLAYER_STATE_DRIVER) 
+		OPBA_VOwner[RacVeh]     = i ; 
+		if(GetPlayerState(i) == PLAYER_STATE_PASSENGER)
+		OPBA_VPassenger[RacVeh] = i  ;
+	} 
 
-    return 1; 
+	return 1; 
 } 
 
-public OPBA_PreventAbuse(playerid)	 return OPBA_Player[playerid][RacCarFall] 		= 0, OPBA_Player[playerid][RacAbuseP] 	   = true;
-public OPBA_RCarFall(playerid) 		 return OPBA_Player[playerid][RacCarFall] 		= 0, KillTimer(OPBA_Player[playerid][RacPATimer]);
-public OPBA_FixFallBug(playerid) 	 return OPBA_Player[playerid][RacFallBug] 		= 0;
-public OPBA_ResetPImuunity(playerid) return OPBA_Player[playerid][RacBreakImmunity] = false;
-public OPBA_SetPPos(playerid) 		 return OPBA_Player[playerid][RacSImu] 			= true;
-public OPBA_FixPassenger(playerid)   return OPBA_Player[playerid][RacPBFix]			= false;
-public OPBA_ResetVDeath(playerid) 	 return OPBA_Player[playerid][RacVDeath] 		= false;
-public OPBA_RVRSPWN(playerid) 		 return OPBA_Player[playerid][RacVRspwn] 	    = false;
-public OPBA_ResetTP(playerid)		 return OPBA_Player[playerid][RacABTicks]	    = 0;
-public OPBA_RPFALL(playerid) 		 return OPBA_Player[playerid][RacPause]  		= 0;
-public OPBA_RPSURF(playerid)	     return OPBA_Player[playerid][RacSurf]  		= 0;
+public OPBA_PreventAbuse(playerid)	return OPBA_Player[playerid][RacCarFall]		= 0,	OPBA_Player[playerid][RacAbuseP]	= true;
+public OPBA_RCarFall(playerid)		return OPBA_Player[playerid][RacCarFall]		= 0,	KillTimer(OPBA_Player[playerid][RacPATimer]);
+public OPBA_FixFallBug(playerid)	return OPBA_Player[playerid][RacFallBug]		= 0;
+public OPBA_ResetPImuunity(playerid)return OPBA_Player[playerid][RacBreakImmunity]	= false;
+public OPBA_SetPPos(playerid)		return OPBA_Player[playerid][RacSImu]			= true;
+public OPBA_FixPassenger(playerid)	return OPBA_Player[playerid][RacPBFix]			= false;
+public OPBA_PassengerRTP(playerid)	return OPBA_Player[playerid][RacPassengerTP]	= false;
+public OPBA_ResetVDeath(playerid)	return OPBA_Player[playerid][RacVDeath]			= false;
+public OPBA_RVRSPWN(playerid)		return OPBA_Player[playerid][RacVRspwn]			= false;
+public OPBA_ResetTP(playerid)		return OPBA_Player[playerid][RacABTicks]		= 0;
+public OPBA_RPFALL(playerid)		return OPBA_Player[playerid][RacPause]			= 0;
+public OPBA_RPSURF(playerid)		return OPBA_Player[playerid][RacSurf]			= 0;
 
 public OPBA_SetVehicleToRespawn(vehicleid)
 {
@@ -799,7 +804,12 @@ public OPBA_SetVehicleToRespawn(vehicleid)
 		OPBA_Player[ OPBA_VOwner[vehicleid] ][RacVRspwn] = true;
 		SetTimerEx("OPBA_RVRSPWN", 1000, false, "i", OPBA_VOwner[vehicleid]);
 	}
-	
+	else if(OPBA_VPassenger[vehicleid] != INVALID_PLAYER_ID)
+	{
+		OPBA_Player[ OPBA_VPassenger[vehicleid] ][RacPassengerTP] = true;
+		SetTimerEx("OPBA_PassengerRTP", OPBA_RESET_TIME, false, "i", OPBA_VPassenger[vehicleid]);
+	}
+
 	return SetVehicleToRespawn(vehicleid);
 }
 
@@ -838,18 +848,28 @@ public OPBA_SetPlayerPosFindZ(playerid, Float:x, Float:y, Float:z)
 public OPBA_SetVehiclePos(vehicleid, Float:x, Float:y, Float:z)
 {
 	if(vehicleid > MAX_VEHICLES || vehicleid < 0) return 0;
-    if(OPBA_VOwner[vehicleid] != INVALID_PLAYER_ID)
-    {
-    	KillTimer(OPBA_Player[OPBA_VOwner[vehicleid]][RacProTimer]);
-    	OPBA_Player[OPBA_VOwner[vehicleid]][RacProTimer] = SetTimerEx("OPBA_ResetPImuunity", OPBA_RESET_TIME, false, "i", OPBA_VOwner[vehicleid]),
-    	OPBA_Player[OPBA_VOwner[vehicleid]][RacBreakImmunity] = true;
+	if(OPBA_VOwner[vehicleid] != INVALID_PLAYER_ID)
+	{
+		KillTimer(OPBA_Player[OPBA_VOwner[vehicleid]][RacProTimer]);
+		OPBA_Player[OPBA_VOwner[vehicleid]][RacProTimer] = SetTimerEx("OPBA_ResetPImuunity", OPBA_RESET_TIME, false, "i", OPBA_VOwner[vehicleid]),
+		OPBA_Player[OPBA_VOwner[vehicleid]][RacBreakImmunity] = true;
 
 		OPBA_Player[OPBA_VOwner[vehicleid]][RacX] = x, OPBA_Player[OPBA_VOwner[vehicleid]][RacY] = y,
 		OPBA_Player[OPBA_VOwner[vehicleid]][RacZ] = z;
-    	SetVehiclePos(vehicleid, x, y, z);
-    }
+		SetVehiclePos(vehicleid, x, y, z);
+	}
 
-    else SetVehiclePos(vehicleid, x, y, z);
+	else if(OPBA_VPassenger[vehicleid] != INVALID_PLAYER_ID)
+	{
+		OPBA_Player[ OPBA_VPassenger[vehicleid] ][RacPassengerTP] = true;
+		SetTimerEx("OPBA_PassengerRTP", 1000, false, "i", OPBA_VPassenger[vehicleid]);
+
+		OPBA_Player[OPBA_VPassenger[vehicleid]][RacX] = x, OPBA_Player[OPBA_VPassenger[vehicleid]][RacY] = y,
+		OPBA_Player[OPBA_VPassenger[vehicleid]][RacZ] = z;
+		SetVehiclePos(vehicleid, x, y, z);
+	}
+
+	else SetVehiclePos(vehicleid, x, y, z);
 	return 1;
 }
 
@@ -916,37 +936,29 @@ public OnPlayerExitVehicle(playerid, vehicleid)
 
 public OnGameModeInit()
 {
-	print("     [[--|| OnPlayerBreakAir V2.9 ||--]]     ");
-    print("     [[--|| Anti airbreak by RogueDrifter V2.9 ||--]]      ");
-    print("     [[--|| Successfully Loaded! ||--]]      ");
+	OP_SafeTimer = SetTimer("OPBA_SafeReset", 5000, true);
 
-    OP_SafeTimer = SetTimer("OPBA_SafeReset", 5000, true);
-
-        #if defined OPBA_OnGameModeInit
-    return OPBA_OnGameModeInit();
-        #else
-    return 1;
-            #endif
+	#if defined OPBA_OnGameModeInit
+		return OPBA_OnGameModeInit();
+	#else
+		return 1;
+	#endif
 }
 
 public OnGameModeExit()
 {
-	print("     [[--|| OnPlayerBreakAir V2.9 ||--]]     ");
-    print("     [[--|| Anti airbreak by RogueDrifter V2.9 ||--]]      ");
-    print("     [[--|| Successfully Unloaded! ||--]]      ");
-
     #if defined _FLaggersIncluded_
-	if(!OPBAG_LagInit)
-	    OPBA_LagInit();
+		if(!OPBAG_LagInit)
+			OPBA_LagInit();
     #endif
 
 	KillTimer(OP_SafeTimer);
 
-        #if defined OPBA_OnGameModeExit
-    return OPBA_OnGameModeExit();
-        #else
-    return 1;
-            #endif
+	#if defined OPBA_OnGameModeExit
+		return OPBA_OnGameModeExit();
+	#else
+		return 1;
+	#endif
 }
 
 public OnPlayerConnect(playerid)
@@ -954,19 +966,19 @@ public OnPlayerConnect(playerid)
 	#if defined _FLaggersIncluded_
 	if(OPBA_PLagTimer[playerid] != -1) 
 	{
-	    KillTimer(OPBA_PLagTimer[playerid]);
-	    OPBA_PLagTimer[playerid] = -1;
+		KillTimer(OPBA_PLagTimer[playerid]);
+		OPBA_PLagTimer[playerid] = -1;
 	}
 	GetPlayerIp(playerid, OPBA_PLagIP[playerid], 16);
 	#endif
 	OPBA_Player[playerid][RacPlayerInt] = -1;
 	OPBA_Player[playerid][RacDetectTimer] = SetTimerEx("OPBA_AirbrakeTeleport", 300, true, "i", playerid);
 
-		#if defined OPBA_OnPlayerConnect
-	return OPBA_OnPlayerConnect(playerid);
-		#else
-	return 1;
-		#endif
+	#if defined OPBA_OnPlayerConnect
+		return OPBA_OnPlayerConnect(playerid);
+	#else
+		return 1;
+	#endif
 }
 
 public OnPlayerStateChange(playerid, newstate, oldstate)
@@ -985,11 +997,11 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
 		}
 	}
 
-			#if defined OPBA_OnPlayerStateChange
-	return OPBA_OnPlayerStateChange(playerid, newstate, oldstate);
-		#else
-	return 1;
-		#endif
+	#if defined OPBA_OnPlayerStateChange
+		return OPBA_OnPlayerStateChange(playerid, newstate, oldstate);
+	#else
+		return 1;
+	#endif
 }
 
 public OnPlayerDisconnect(playerid, reason)
@@ -997,25 +1009,24 @@ public OnPlayerDisconnect(playerid, reason)
 
 	KillTimer(OPBA_Player[playerid][RacRTPTimer]);
 	#if defined _FLaggersIncluded_
-	OPBA_PlayerDelayer{playerid} = false;
-	if(OPBA_PLagTimer[playerid] != -1) 
-	{
-    	KillTimer(OPBA_PLagTimer[playerid]);
-    	OPBA_PLagTimer[playerid] = -1;
-    	if(reason != 2) 
-    	{
-			#if defined BlockIpAddress
-			UnBlockIpAddress(OPBA_PLagIP[playerid]);
-			#else
-	    	new
-	        	OPBA_String[32];
+		OPBA_PlayerDelayer{playerid} = false;
+		if(OPBA_PLagTimer[playerid] != -1) 
+		{
+			KillTimer(OPBA_PLagTimer[playerid]);
+			OPBA_PLagTimer[playerid] = -1;
+			if(reason != 2) 
+			{
+				#if defined BlockIpAddress
+					UnBlockIpAddress(OPBA_PLagIP[playerid]);
+				#else
+					new OPBA_String[32];
 
-		format(OPBA_String, sizeof(OPBA_String), "unbanip %s", OPBA_PLagIP[playerid]);
-		SendRconCommand(OPBA_String);
-		#endif
+					format(OPBA_String, sizeof(OPBA_String), "unbanip %s", OPBA_PLagIP[playerid]);
+					SendRconCommand(OPBA_String);
+			}
 		}
-	}
-	OPBA_WarnsIncrease{playerid} = 0;
+				#endif
+		OPBA_WarnsIncrease{playerid} = 0;
 	#endif
 
 	KillTimer(OPBA_Player[playerid][RacDetectTimer]);
@@ -1023,6 +1034,7 @@ public OnPlayerDisconnect(playerid, reason)
 
 	if(GetPlayerState(playerid) == 2) OPBA_VOwner[GetPlayerVehicleID(playerid)] = INVALID_PLAYER_ID;
 
+	OPBA_Player[playerid][RacPassengerTP]	  = false;
 	OPBA_Player[playerid][RacHoldCheck]		  = false;
 	OPBA_Player[playerid][RacPassFall] 		  = false;
 	OPBA_Player[playerid][RacVRspwn]		  = false;
@@ -1042,9 +1054,9 @@ public OnPlayerDisconnect(playerid, reason)
 	#if !defined OPBA_CUSTOM_INTERIORS
 	OPBA_Player[playerid][RacProtecInt] = false;
 	for(new i; i < OPBA_MAX_INTERIORS; i++)
-    {
-    	OPBA_PInteriors[playerid][i] = false;
-    }
+	{
+		OPBA_PInteriors[playerid][i] = false;
+	}
 
     #endif
 			#if defined OPBA_OnPlayerDisconnect
@@ -1076,8 +1088,8 @@ public OnPlayerSpawn(playerid)
 public OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid)
 {
 	KillTimer(OPBA_Player[playerid][RacFixTimer]);
-    OPBA_PInteriors[playerid][oldinteriorid] = false;
-    OPBA_Player[playerid][RacFixTimer] = SetTimerEx("OPBA_FixIBug", 1500, false, "ii", playerid, newinteriorid);
+	OPBA_PInteriors[playerid][oldinteriorid] = false;
+	OPBA_Player[playerid][RacFixTimer] = SetTimerEx("OPBA_FixIBug", 1500, false, "ii", playerid, newinteriorid);
 
 		#if defined OPBA_OnPlayerInteriorChange
 	return OPBA_OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid);
@@ -1145,26 +1157,26 @@ public OnPlayerUpdate(playerid)
 
 static stock OPBA_IsPEnExCar(playerid)
 {
-    switch(GetPlayerAnimationIndex(playerid))
-    {
-        case 1010..1012: return 1;
-        case 1024..1025: return 1;
-        case 1043..1045: return 1;
-        case 1009, 1041: return 1;
-    }
-    if(GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_ENTER_VEHICLE) return 1;
-    return 0;
+	switch(GetPlayerAnimationIndex(playerid))
+	{
+		case 1010..1012: return 1;
+		case 1024..1025: return 1;
+		case 1043..1045: return 1;
+		case 1009, 1041: return 1;
+	}
+	if(GetPlayerSpecialAction(playerid) == SPECIAL_ACTION_ENTER_VEHICLE) return 1;
+	return 0;
 }
 static OPBA_GetPlayerSpeed(playerid)
 {
-    new Float:ST[4];
+	new Float:ST[4];
 
-    if(IsPlayerInAnyVehicle(playerid))
-    GetVehicleVelocity(GetPlayerVehicleID(playerid),ST[0],ST[1],ST[2]);
+	if(IsPlayerInAnyVehicle(playerid))
+	GetVehicleVelocity(GetPlayerVehicleID(playerid),ST[0],ST[1],ST[2]);
 
-    else GetPlayerVelocity(playerid,ST[0],ST[1],ST[2]);
-    ST[3] = floatsqroot(floatpower(floatabs(ST[0]), 2.0) + floatpower(floatabs(ST[1]), 2.0) + floatpower(floatabs(ST[2]), 2.0)) * 179.28625;
-    return floatround(ST[3]);
+	else GetPlayerVelocity(playerid,ST[0],ST[1],ST[2]);
+	ST[3] = floatsqroot(floatpower(floatabs(ST[0]), 2.0) + floatpower(floatabs(ST[1]), 2.0) + floatpower(floatabs(ST[2]), 2.0)) * 179.28625;
+	return floatround(ST[3]);
 }
 
 static OPBA_PlayerFalling(playerid) 
@@ -1184,8 +1196,8 @@ static OPBA_LagInit()
 {
 	for(new i, j = GetPlayerPoolSize(); i <= j; i++)
 	{
-	    if(!IsPlayerConnected(i)) continue;
-	    OnPlayerConnect(i);
+		if(!IsPlayerConnected(i)) continue;
+		OnPlayerConnect(i);
 	}
 	OPBAG_LagInit = true;
 	return 1;
@@ -1201,10 +1213,10 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 	if(toggle) 
 	{
 		if(OPBA_PLagTimer[playerid] != -1)
-		    return 0;
+			return 0;
 
 	#if defined BlockIpAddress
-	    BlockIpAddress(OPBA_PLagIP[playerid], lag_delay);
+		BlockIpAddress(OPBA_PLagIP[playerid], lag_delay);
 	#else
 		format(Opba_Temp_string, sizeof(Opba_Temp_string), "banip %s", OPBA_PLagIP[playerid]);
 		SendRconCommand(Opba_Temp_string);
@@ -1213,14 +1225,14 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 	}
 	else 
 	{
-	    if(OPBA_PLagTimer[playerid] == -1)
-	        return 0;
-	        
+		if(OPBA_PLagTimer[playerid] == -1)
+			return 0;
+	
 		KillTimer(OPBA_PLagTimer[playerid]);
 		OPBA_PLagTimer[playerid] = -1;
 
 	#if defined BlockIpAddress
-	    UnBlockIpAddress(OPBA_PLagIP[playerid]);
+		UnBlockIpAddress(OPBA_PLagIP[playerid]);
 	#else
 		format(Opba_Temp_string, sizeof(Opba_Temp_string), "unbanip %s", OPBA_PLagIP[playerid]);
 		SendRconCommand(Opba_Temp_string);
