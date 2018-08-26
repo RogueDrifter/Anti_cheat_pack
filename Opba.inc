@@ -11,14 +11,11 @@ Callbacks:
 -=-=-=-=Usable Defenitions:-=-=-=-=
 USE THIS BEFORE THE INCLUDE IF YOU CANCEL THE ORIGINAL SAMP INTERIORS (INCLUDING MOD GARAGES!) TO AVOID EXTRA CHECKS!
 #define OPBA_CUSTOM_INTERIORS 
-
 if you don't, use this to define maximum interiors you use:
 #define OPBA_MAX_INTERIORS [number]
-
 If you don't want to use the callback it will auto kick,
 If you want it to ban you can use:
 #define OPBA_BAN_VERSION
-
 breaktype 1: airbreak on foot.
 breaktype 2: airbreak as driver.
 breaktype 3: airbreak as passenger.
@@ -746,10 +743,17 @@ public OPBA_CheckRealTP(playerid, tpcode)
 {
 	if(tpcode == 4 && OPBA_IsPEnExCar(playerid)) return OPBA_Player[playerid][RacHoldCheck] = false;
 	if(tpcode == 6 && OPBA_Player[playerid][RacPassengerTP]) return OPBA_Player[playerid][RacHoldCheck] = false;
+	#if !defined OPBA_CUSTOM_INTERIORS
 	if(!OPBA_Player[playerid][RacProtecInt] && !IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
 	{
 		OnPlayerBreakAir(playerid, tpcode);
 	}
+	#else
+	if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
+	{
+		OnPlayerBreakAir(playerid, tpcode);
+	}
+	#endif
 	OPBA_Player[playerid][RacHoldCheck] = false;
 	return 1;
 }
