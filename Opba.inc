@@ -916,7 +916,7 @@ public OnPlayerExitVehicle(playerid, vehicleid)
 
 public OnGameModeInit()
 {
-	print("     [[--|| OnPlayerBreakAir V2.5 ||--]]     ");
+	print("     [[--|| OnPlayerBreakAir V2.9 ||--]]     ");
     print("     [[--|| Anti airbreak by RogueDrifter V2.9 ||--]]      ");
     print("     [[--|| Successfully Loaded! ||--]]      ");
 
