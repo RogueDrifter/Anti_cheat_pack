@@ -144,6 +144,10 @@ forward OnGameModeExitACT();
 #if defined ManualUse
 static stock rAct_Detected(playerid, vehicleid, trolledid, trolltype)
 {
+    #if !defined OnPlayerCarTroll
+        #pragma unused vehicelid, trolltype
+    #endif
+    
     if(ActPlayer[playerid][ActDetectSpam]) return 0;
     if(!ActPlayer[playerid][ActCheater]) 
     {
