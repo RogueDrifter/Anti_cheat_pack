@@ -401,10 +401,6 @@ public OnPlayerUpdate(playerid)
 
 public OnGameModeInit()
 {
-        print("     [[--|| rACT V15.0 ||--]]     ");
-        print("     [[--|| Anti car troll by RogueDrifter V 15.0 ||--]]      ");
-        print("     [[--|| Successfully Loaded! ||--]]      ");
-        
         SafeTimer = SetTimer("ActSafeReset",2500,true);
 
         #if defined OnGameModeInitACT
@@ -416,9 +412,6 @@ public OnGameModeInit()
  
 public OnGameModeExit()
 {
-    print("     [[--|| rACT V15.0 ||--]]     ");
-    print("     [[--|| Anti car troll by RogueDrifter V 15.0 ||--]]      ");
-    print("     [[--|| Successfully Unloaded! ||--]]      ");
 
     KillTimer(SafeTimer);
 
