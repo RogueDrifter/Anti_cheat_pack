@@ -1,9 +1,2 @@
-* text=auto
-
-*.c text
-*.h text
-
-*.sln text eol=crlf
-
-*.png binary
-*.jpg binary
+*.pwn linguist-language=Pawn
+*.inc linguist-language=Pawn
