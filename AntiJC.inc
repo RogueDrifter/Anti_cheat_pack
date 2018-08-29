@@ -5,7 +5,6 @@ Last updated on April 18th.
 -=-=-=-
 OnPlayerJetpackCheat(playerid);
 -=-=-=-=
-
 playerid = the cheater who spoofed a jetpack.
 -=-=-=-=-=--=-=-=
 */
