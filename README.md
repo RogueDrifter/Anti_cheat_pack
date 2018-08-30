@@ -2,10 +2,10 @@
 
 [![sampctl](https://shields.southcla.ws/badge/sampctl-Anti_cheat_pack-2f2f2f.svg?style=for-the-badge)](https://github.com/RogueDrifter/Anti_cheat_pack)
 
->This is a pack of 13 anticheats and 3 helping systems which you can control through callbacks mentioned
+>This is a pack of 14 anticheats and 3 helping systems which you can control through callbacks mentioned
 >in the includes and the test.pwn file.
 >
-> UPDATED: June 28th - 2018
+> UPDATED: August 30th - 2018
 >
 > `## Installation`: You simply include the files in your gamemode/fs depending
 >on the include's setup (some require include in all scripts and only edit through
@@ -82,6 +82,8 @@ sampctl package run
 >rAgc //Anti gun cheats -Rogue
 
 >rAct //Anti car trolls - Rogue
+
+>rAGM //Anti godmode - Rogue
 
 >rEac //Anti carswing\particlespam - Lorenc_
 
