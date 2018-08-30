@@ -36,7 +36,7 @@ breaktype 6: teleport as passenger.
 
 forward OPBA_SetPlayerPos(playerid, Float:x, Float:y, Float:z);
 forward OPBA_SetPlayerPosFindZ(playerid, Float:x, Float:y, Float:z);
-forward OPBA_TogglePlayerSpectating(playerid, toggle);
+forward OPBA_TogglePlayerSpectating(playerid, bool:toggle);
 forward OPBA_SetVehiclePos(vehicleid, Float:x, Float:y, Float:z);
 forward OPBA_PutPlayerInVehicle(playerid, vehicleid, seatid);
 forward OPBA_SetVehicleToRespawn(vehicleid);
@@ -831,7 +831,7 @@ public OPBA_SetPlayerPos(playerid, Float:x, Float:y, Float:z)
 	return SetPlayerPos(playerid, x, y, z);
 }
 
-public OPBA_TogglePlayerSpectating(playerid, toggle)
+public OPBA_TogglePlayerSpectating(playerid, bool:toggle)
 {
 	if(playerid > MAX_PLAYERS || playerid < 0) return 0;
 	KillTimer(OPBA_Player[playerid][RacProTimer]);
@@ -1411,7 +1411,7 @@ stock OPBA_FSetPlayerPosFindZ(playerid, Float:x, Float:y, Float:z)
 stock OPBA_FPutPlayerInVehicle(playerid, vehicleid, seatid)
 	return CallRemoteFunction("OPBA_PutPlayerInVehicle", "iii", playerid, vehicleid, seatid);
 
-stock OPBA_FTogglePlayerSpectating(playerid, toggle)
+stock OPBA_FTogglePlayerSpectating(playerid, bool:toggle)
 	return CallRemoteFunction("OPBA_TogglePlayerSpectating", "ii", playerid, toggle);
 
 #if defined _ALS_SetPlayerPos
