@@ -21,7 +21,7 @@ _____________________________________________
 
 forward rAB_SpawnPlayer(playerid);
 forward rAB_UsePlayerPedAnims();
-forward rAB_TogglePlayerSpectating(playerid, toggle);
+forward rAB_TogglePlayerSpectating(playerid, bool:toggle);
 forward rAB_ResetPFall(playerid);
 
 enum RAB_PLAYER_DATA
@@ -253,15 +253,11 @@ public rAB_UsePlayerPedAnims()
     return 1;
 }
 
-public rAB_TogglePlayerSpectating(playerid, toggle)
+public rAB_TogglePlayerSpectating(playerid, bool:toggle)
 {
     if(playerid <0 || playerid > MAX_PLAYERS) return 0;
-    if(!toggle)
-    {
-        rAB_Player[playerid][rAbSpawned] = false;
-    }
-    TogglePlayerSpectating(playerid, toggle);
-    return 1;
+    if(!toggle) rAB_Player[playerid][rAbSpawned] = false;
+    return TogglePlayerSpectating(playerid, toggle);
 }
 
 public rAB_ResetPFall(playerid) return rAB_Player[playerid][rAbPJustFell] = 0;
