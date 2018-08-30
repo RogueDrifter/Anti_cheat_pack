@@ -350,7 +350,7 @@ static rAB_ValidSkin(skinid)
 
 #else //If it's a FS
 
-stock rAB_FTogglePlayerSpectating(playerid, toggle)
+stock rAB_FTogglePlayerSpectating(playerid, bool:toggle)
     return CallRemoteFunction("rAB_TogglePlayerSpectating", "ii", playerid, toggle);
 
 stock rAB_FSpawnPlayer(playerid)
