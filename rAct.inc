@@ -86,7 +86,7 @@ new
 #define RACT_TELEPORT_PASSENGER 5
 #define RACT_KICKPLAYER_CAR	 6
 
-forward ActTogglePlayerSpectating(playerid, toggle);
+forward ActTogglePlayerSpectating(playerid, bool:toggle);
 forward ActPutPlayerInVehicle(playerid, vehicleid, seatid);
 forward ActSetPlayerPos(playerid, Float:x, Float:y, Float:z);
 forward ActRemovePlayerFromVehicle(playerid);
@@ -677,7 +677,7 @@ public ActFixPPIV(playerid, vehicleid, seatid)
 	return 1;
 }
 
-public ActTogglePlayerSpectating(playerid, toggle)
+public ActTogglePlayerSpectating(playerid, bool:toggle)
 {
 	if(playerid > MAX_PLAYERS || playerid < 0) return 0;
 	if(!ActPlayer[playerid][ActProtectFalse]) SetTimerEx("ActResetHandler",2100, false,"ii", playerid, 8);
@@ -867,7 +867,7 @@ public ActSetPlayerPos(playerid, Float:x, Float:y, Float:z)
 stock ActFRemovePlayerFromVehicle(playerid)
 	return CallRemoteFunction("ActRemovePlayerFromVehicle","i", playerid);
 
-stock ActFTogglePlayerSpectating(playerid, toggle = 0)
+stock ActFTogglePlayerSpectating(playerid, bool:toggle)
 	return CallRemoteFunction("ActTogglePlayerSpectating","ii", playerid, toggle);
 
 stock ActFPutPlayerInVehicle(playerid, vehicleid, seatid)
