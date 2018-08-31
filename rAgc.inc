@@ -11,7 +11,7 @@ ammo 	 = the ammo used
 hacktype 1 = weapon cheat 	   (spoofed weapon)
 hacktype 2 = ammo cheat   	   (spoofed ammo  )
 hacktype 3 = freeze ammo cheat (self explained)
-hacktype 4 = Rapid fire 	   ( ~~~~~~~~~~~  )
+hacktype 4 = Rapid fire 	   (also super fast cbugging)
 -=-=-=-=-=-=-=-=-=-=
 */
 
