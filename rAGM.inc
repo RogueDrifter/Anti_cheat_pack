@@ -24,7 +24,7 @@ gmtype 1 = in car (not added yet).
 
 #if !defined FILTERSCRIPT 
 
-#define RAGM_MAX_SHOT_TICKS 1
+#define RAGM_MAX_SHOT_TICKS 0
 
 forward rAGM_TogglePlayerControllable(playerid, bool:toggle);
 forward rAGM_FinalCheck(hitid);
