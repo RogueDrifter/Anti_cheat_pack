@@ -60,7 +60,7 @@ public OnPlayerGunCheat(playerid, weaponid, ammo, hacktype)
 
 public OnPlayerSpeedCheat(playerid, speedtype)
 {
-	format(Test_String, sizeof(Test_String), "ID %d just speed cheats type !", playerid, speedtype);
+	format(Test_String, sizeof(Test_String), "ID %d just speed cheats type %d!", playerid, speedtype);
 	SendClientMessageToAll(-1, Test_String);
 	print(Test_String);
 	return 1;
