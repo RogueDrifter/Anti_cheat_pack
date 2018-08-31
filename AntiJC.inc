@@ -43,8 +43,7 @@ public AJC_SetPlayerSpecialAction(playerid, actionid)
 {
 	if(playerid > MAX_PLAYERS || playerid < 0) return 0;
 	if(actionid == 2) AJC_Protection{playerid} = true;
-	SetPlayerSpecialAction(playerid, actionid);
-	return 1;
+	return SetPlayerSpecialAction(playerid, actionid);
 }
 
 public OnPlayerDisconnect(playerid, reason)
@@ -61,8 +60,11 @@ public OnPlayerUpdate(playerid)
 {
 	if(GetPlayerSpecialAction(playerid) == 2 && !AJC_Protection{playerid})
 	{
-		SetPlayerSpecialAction(playerid, 0);
-		CallLocalFunction("OnPlayerJetpackCheat", "i", playerid);
+		AJC_Protection{playerid} = true;
+		SetPlayerHealth(playerid, 0.0);
+		#if defined OnPlayerJetpackCheat
+			OnPlayerJetpackCheat(playerid);
+		#endif
 	}
 
 	#if defined AJC_OnPlayerUpdate
