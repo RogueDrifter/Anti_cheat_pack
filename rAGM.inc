@@ -199,7 +199,7 @@ public rAGM_ResetTicks(playerid) return rAGM_Player[playerid][RagPTicks] = 0;
 
 static rAGM_IsWeaponAmmoable(weaponid)
 {
-	return (22 <= weaponid <= 34);
+	return (22 <= weaponid <= 33);
 }
 
 static rAGM_IsPlayerPaused(playerid)
