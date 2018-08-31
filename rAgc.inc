@@ -159,8 +159,12 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
     { //After the second call of the callback
     	if(rAgc_Player[playerid][rAgcSecondTick] - rAgc_Player[playerid][rAgcFirstTick] < RAGC_MAX_RAPID_TIME_NORMAL && rAgc_Player[playerid][rAgcConstWep] == rAgcTempWeap && !rAgc_IsWepRapid(rAgcTempWeap) && GetPlayerState(playerid) != 3)
     	{//Anti rapid fire for slow weapons
-			CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcTempWeap, rAgcTempAmmos, 4);
-	        rAgc_Player[playerid][rAgcFirstTick] = 0; 
+			#if defined _FLaggersIncluded_
+				if(!IsPlayerDesynced(playerid)) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcTempWeap, rAgcTempAmmos, 4);
+	        #else
+				CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcTempWeap, rAgcTempAmmos, 4);
+			#endif
+			rAgc_Player[playerid][rAgcFirstTick] = 0; 
 	        rAgc_Player[playerid][rAgcSecondTick]= 0; 
 	        return 0; 
 	    }
@@ -179,7 +183,14 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
 	    		rAgc_Player[playerid][rAgcFirstShot] =0; 
 		    	rAgc_Player[playerid][rAgcSecondShot]=0; 
 	    		rAgc_Player[playerid][rAgcAntibugTicks] = 0;
-		    	if(!rAgc_IsPlayerPaused(playerid)) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcTempWeap, rAgcTempAmmos, 3);
+		    	if(!rAgc_IsPlayerPaused(playerid))
+				{
+					#if defined _FLaggersIncluded_
+						if(!IsPlayerDesynced(playerid)) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcTempWeap, rAgcTempAmmos, 3);
+					#else
+						CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcTempWeap, rAgcTempAmmos, 3);
+					#endif
+				}
 		        return 0;
 		    }
 	    }
@@ -331,7 +342,11 @@ public rAgc_Detector(playerid)
 			if(rAgc_Weapons[playerid][rAgcPlayerWeapons][rAgcWep] != rAgcWep && !rAgc_Player[playerid][rAgcWepImmu] && !rAgc_IsWeaponSys(rAgcWep))
 			{
 				rAgc_ResetPlayerWeapons(playerid);
-				CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcWep, rAgcAmmo, 1);
+				#if defined _FLaggersIncluded_
+					if(!IsPlayerDesynced(playerid)) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcWep, rAgcAmmo, 1);
+				#else	
+					CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcWep, rAgcAmmo, 1);
+				#endif
 				return 0;
 			}
 			//Ammo cheat detector:
@@ -347,8 +362,12 @@ public rAgc_Detector(playerid)
 		    	{
 		    		rAgc_Player[playerid][rAgcASWarns] = 0;
 			   		rAgc_ResetPlayerWeapons(playerid);
-			    	CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcWep, rAgcAmmo, 2);
-			    }
+					#if defined _FLaggersIncluded_
+						if(!IsPlayerDesynced(playerid)) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcWep, rAgcAmmo, 2);
+					#else
+			    		CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcWep, rAgcAmmo, 2);
+			    	#endif
+				}
 			    return 0;
 			}
 	    }
