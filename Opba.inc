@@ -1027,12 +1027,11 @@ public OnPlayerDisconnect(playerid, reason)
 					UnBlockIpAddress(OPBA_PLagIP[playerid]);
 				#else
 					new OPBA_String[32];
-
 					format(OPBA_String, sizeof(OPBA_String), "unbanip %s", OPBA_PLagIP[playerid]);
 					SendRconCommand(OPBA_String);
+				#endif
 			}
 		}
-				#endif
 		OPBA_WarnsIncrease{playerid} = 0;
 	#endif
 
