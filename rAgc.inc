@@ -310,7 +310,7 @@ public rAgc_DelayRapid(playerid, weapon, ammo)
         if(rAgc_Player[playerid][rAgcAntibugTicks] == RAGC_MAX_WARNINGS_FREEZE)
         {
             rAgc_Player[playerid][rAgcAntibugTicks] = 0;
-            if(!rAgc_IsPlayerPaused(playerid) && weapon != 38) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, weapon, ammo, 3);
+            //if(!rAgc_IsPlayerPaused(playerid)) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, weapon, ammo, 3);
         }
     }
     rAgc_Player[playerid][rAgcFirstShot] =0; 
