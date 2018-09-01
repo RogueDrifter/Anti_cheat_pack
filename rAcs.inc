@@ -46,7 +46,7 @@ OnPlayerSpamCars(playerid, number);
 new 
 	AcsCheckTimer[MAX_PLAYERS] ;
 new
-    AcsStreamForP[MAX_VEHICLES];
+	AcsStreamForP[MAX_VEHICLES];
 new 
 	AcsStreamedIn[MAX_PLAYERS] ;
 
@@ -55,17 +55,17 @@ forward acs_SpamCheck(playerid);
 public acs_SpamCheck(playerid)
 {
  	if(AcsStreamedIn[playerid] >= ACS_MAX_STREAMIN)
-    {
-        for(new v; v < MAX_VEHICLES; v++)
-        {
-            if(!IsValidVehicle(v) || AcsStreamForP[v] != playerid) continue;
-            SetVehicleToRespawn(v);
-            }
+	{
+		for(new v; v < MAX_VEHICLES; v++)
+		{
+			if(!IsValidVehicle(v) || AcsStreamForP[v] != playerid) continue;
+			SetVehicleToRespawn(v);
+		}
 
-        #if defined OnPlayerSpamCars
-        OnPlayerSpamCars(playerid, AcsStreamedIn[playerid]);
-        #endif
-        }
+		#if defined OnPlayerSpamCars
+			OnPlayerSpamCars(playerid, AcsStreamedIn[playerid]);
+		#endif
+	}
 
 	return 1;
 }
@@ -74,45 +74,45 @@ public OnPlayerDisconnect(playerid, reason)
 {
 	KillTimer(AcsCheckTimer[playerid]);
 
-		#if defined acs_OnPlayerDisconnect
-	return acs_OnPlayerDisconnect(playerid, reason);
-		#else
-	return 1;
-		#endif
+	#if defined acs_OnPlayerDisconnect
+		return acs_OnPlayerDisconnect(playerid, reason);
+	#else
+		return 1;
+	#endif
 }
 
 public OnPlayerConnect(playerid)
 {
-    AcsStreamedIn[playerid]	= 0;
-    AcsCheckTimer[playerid] = SetTimerEx("acs_SpamCheck", 2000, true, "i", playerid);
-		#if defined acs_OnPlayerConnect
-    return acs_OnPlayerConnect(playerid);
-    	#else
-    return 1;
-    	#endif
+	AcsStreamedIn[playerid]	= 0;
+	AcsCheckTimer[playerid] = SetTimerEx("acs_SpamCheck", 2000, true, "i", playerid);
+	#if defined acs_OnPlayerConnect
+		return acs_OnPlayerConnect(playerid);
+	#else
+		return 1;
+	#endif
 }
 
 public OnVehicleStreamIn(vehicleid, forplayerid)
 {
-    AcsStreamForP[vehicleid] = forplayerid;
-    AcsStreamedIn[forplayerid]			 ++;
-        #if defined acs_OnVehicleStreamIn
-    return  acs_OnVehicleStreamIn(vehicleid, forplayerid);
-        #else
-    return 1;
-        #endif
+	AcsStreamForP[vehicleid] = forplayerid;
+	AcsStreamedIn[forplayerid]			 ++;
+	#if defined acs_OnVehicleStreamIn
+		return  acs_OnVehicleStreamIn(vehicleid, forplayerid);
+	#else
+		return 1;
+	#endif
 }
 
 public OnVehicleStreamOut(vehicleid, forplayerid)
 {
-    AcsStreamForP[vehicleid] = -1;
-    AcsStreamedIn[forplayerid]	--;
+	AcsStreamForP[vehicleid] = -1;
+	AcsStreamedIn[forplayerid]	--;
 
-        #if defined acs_OnVehicleStreamOut
-    return  acs_OnVehicleStreamOut(vehicleid, forplayerid);
-        #else
-    return 1;
-        #endif
+	#if defined acs_OnVehicleStreamOut
+		return  acs_OnVehicleStreamOut(vehicleid, forplayerid);
+	#else
+		return 1;
+	#endif
 }
 
 #if defined OnPlayerSpamCars
@@ -122,7 +122,7 @@ public OnVehicleStreamOut(vehicleid, forplayerid)
 #if defined _ALS_OnPlayerConnect
   #undef OnPlayerConnect
 #else
-    #define _ALS_OnPlayerConnect
+	#define _ALS_OnPlayerConnect
 #endif
 
 #define OnPlayerConnect acs_OnPlayerConnect
@@ -130,7 +130,7 @@ public OnVehicleStreamOut(vehicleid, forplayerid)
 #if defined _ALS_OnPlayerDisconnect
   #undef OnPlayerDisconnect
 #else
-    #define _ALS_OnPlayerDisconnect
+	#define _ALS_OnPlayerDisconnect
 #endif
 
 #define OnPlayerDisconnect acs_OnPlayerDisconnect
@@ -138,7 +138,7 @@ public OnVehicleStreamOut(vehicleid, forplayerid)
 #if defined _ALS_OnVehicleStreamIn
   #undef OnVehicleStreamIn
 #else
-    #define _ALS_OnVehicleStreamIn
+	#define _ALS_OnVehicleStreamIn
 #endif
 
 #define OnVehicleStreamIn acs_OnVehicleStreamIn
@@ -146,7 +146,7 @@ public OnVehicleStreamOut(vehicleid, forplayerid)
 #if defined _ALS_OnVehicleStreamOut
   #undef OnVehicleStreamOut
 #else
-    #define _ALS_OnVehicleStreamOut
+	#define _ALS_OnVehicleStreamOut
 #endif
 
 #define OnVehicleStreamOut acs_OnVehicleStreamOut

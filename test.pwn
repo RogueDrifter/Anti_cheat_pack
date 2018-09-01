@@ -8,10 +8,10 @@
 main() {
 	CreateVehicle(561, 0.0, 0.0, 0.0, 0.0, 0, 0, 0);
 }
-new Test_String[80];
 
 public OnPlayerFakeKill(playerid, spoofedid, spoofedreason, faketype)
 {
+	new Test_String[80];
 	format(Test_String, sizeof(Test_String), "ID %d just spoof killed ID %d reason %d type %d", playerid, spoofedid, spoofedreason, faketype);
 	SendClientMessageToAll(-1, Test_String);
 	print(Test_String);
@@ -20,6 +20,7 @@ public OnPlayerFakeKill(playerid, spoofedid, spoofedreason, faketype)
 
 public OnPlayerFakeConnect(playerid)
 {
+	new Test_String[80];
 	format(Test_String, sizeof(Test_String), "ID %d is fake connecting!", playerid);
 	SendClientMessageToAll(-1, Test_String);
 	print(Test_String);
@@ -28,6 +29,7 @@ public OnPlayerFakeConnect(playerid)
 
 public OnPlayerJetpackCheat(playerid)
 {
+	new Test_String[80];
 	format(Test_String, sizeof(Test_String), "ID %d is using jetpack cheats!", playerid);
 	SendClientMessageToAll(-1, Test_String);
 	print(Test_String);
@@ -36,6 +38,7 @@ public OnPlayerJetpackCheat(playerid)
 
 public OnPlayerGodmode(playerid, gmtype)
 {
+	new Test_String[80];
 	format(Test_String, sizeof(Test_String), "ID %d is using godmode cheats type %d!", playerid, gmtype);
 	SendClientMessageToAll(-1, Test_String);
 	print(Test_String);
@@ -44,6 +47,7 @@ public OnPlayerGodmode(playerid, gmtype)
 
 public OnPlayerSpamChat(playerid)
 {
+	new Test_String[80];
 	format(Test_String, sizeof(Test_String), "ID %d is spamming chat!", playerid);
 	SendClientMessageToAll(-1, Test_String);
 	print(Test_String);
@@ -52,6 +56,7 @@ public OnPlayerSpamChat(playerid)
 
 public OnPlayerGunCheat(playerid, weaponid, ammo, hacktype)
 {
+	new Test_String[80];
 	format(Test_String, sizeof(Test_String), "ID %d just used weapon cheats weapon %d ammo %d type %d!", playerid, weaponid, ammo, hacktype);
 	SendClientMessageToAll(-1, Test_String);
 	print(Test_String);
@@ -60,6 +65,7 @@ public OnPlayerGunCheat(playerid, weaponid, ammo, hacktype)
 
 public OnPlayerSpeedCheat(playerid, speedtype)
 {
+	new Test_String[80];
 	format(Test_String, sizeof(Test_String), "ID %d just speed cheats type %d!", playerid, speedtype);
 	SendClientMessageToAll(-1, Test_String);
 	print(Test_String);
@@ -68,6 +74,7 @@ public OnPlayerSpeedCheat(playerid, speedtype)
 
 public OnPlayerBreakAir(playerid, breaktype)
 {
+	new Test_String[80];
 	format(Test_String, sizeof(Test_String), "ID %d used airbreak/teleport cheats type %d !", playerid, breaktype);
 	SendClientMessageToAll(-1, Test_String);
 	print(Test_String);
@@ -76,6 +83,7 @@ public OnPlayerBreakAir(playerid, breaktype)
 
 public OnPlayerSpamCars(playerid, number)
 {
+	new Test_String[80];
 	format(Test_String, sizeof(Test_String), "ID %d used car spammed %d vehicles !", playerid, number);
 	SendClientMessageToAll(-1, Test_String);
 	print(Test_String);
@@ -84,6 +92,7 @@ public OnPlayerSpamCars(playerid, number)
 
 public OnPlayerCarTroll(playerid, vehicleid, trolledid, trolltype)
 {
+	new Test_String[80];
 	if(trolledid == INVALID_PLAYER_ID)
 		format(Test_String, sizeof(Test_String), "ID %d used car troll cheats vehicle %d type %d !", playerid, vehicleid, trolltype);
 	else
@@ -95,6 +104,7 @@ public OnPlayerCarTroll(playerid, vehicleid, trolledid, trolltype)
 
 public OnPlayerCashCheat(playerid, oldcash, newcash, amount)
 {
+	new Test_String[80];
 	format(Test_String, sizeof(Test_String), "ID %d used money cheats for %d !", playerid, amount);
 	SendClientMessageToAll(-1, Test_String);
 	print(Test_String);
@@ -103,6 +113,7 @@ public OnPlayerCashCheat(playerid, oldcash, newcash, amount)
 
 public OnPlayerCarSwing(playerid, vehicleid)
 {
+	new Test_String[80];
 	format(Test_String, sizeof(Test_String), "ID %d used car swing cheats vehicle %d !", playerid, vehicleid);
 	SendClientMessageToAll(-1, Test_String);
 	print(Test_String);
@@ -111,6 +122,7 @@ public OnPlayerCarSwing(playerid, vehicleid)
 
 public OnPlayerParticleSpam(playerid, vehicleid)
 {
+	new Test_String[80];
 	format(Test_String, sizeof(Test_String), "ID %d used car particle spam cheats vehicle %d !", playerid, vehicleid);
 	SendClientMessageToAll(-1, Test_String);
 	print(Test_String);
@@ -119,6 +131,7 @@ public OnPlayerParticleSpam(playerid, vehicleid)
 
 public OnVehicleModEx(playerid, vehicleid, componentid, illegal)
 {
+	new Test_String[80];
 	if(illegal)
 	{
 		format(Test_String, sizeof(Test_String), "ID %d used car mod cheats component %d vehicle %d !", playerid, componentid, vehicleid);
@@ -130,6 +143,7 @@ public OnVehicleModEx(playerid, vehicleid, componentid, illegal)
 
 public OnPlayerSlide(playerid, weaponid, Float:speed)
 {
+	new Test_String[80];
 	format(Test_String, sizeof(Test_String), "ID %d is slide bugging weapon %d !", playerid, weaponid);
 	SendClientMessageToAll(-1, Test_String);
 	print(Test_String);
@@ -138,6 +152,7 @@ public OnPlayerSlide(playerid, weaponid, Float:speed)
 
 public OnPlayerLagout(playerid, lagtype, ping)
 {
+	new Test_String[80];
 	format(Test_String, sizeof(Test_String), "ID %d is lagging type %d ping %d !", playerid, lagtype, ping);
 	SendClientMessageToAll(-1, Test_String);
 	print(Test_String);
@@ -146,6 +161,7 @@ public OnPlayerLagout(playerid, lagtype, ping)
 
 public OnPlayerBugAttempt(playerid, bugcode)
 {
+	new Test_String[80];
 	format(Test_String, sizeof(Test_String), "ID %d is using bug cheats type %d!", playerid, bugcode);
 	SendClientMessageToAll(-1, Test_String);
 	print(Test_String);
@@ -156,31 +172,31 @@ public OnPlayerBugAttempt(playerid, bugcode)
 #if defined CMD
 CMD:weapons(playerid, params[])
 {
-    Dialog_Show(playerid, WeaponMenu, DIALOG_STYLE_LIST, "Weapon Menu", "9mm\nSilenced 9mm\nDesert Eagle\nShotgun\nSawn-off Shotgun\nCombat Shotgun", "Select", "Cancel");
-    return 1;
+	Dialog_Show(playerid, WeaponMenu, DIALOG_STYLE_LIST, "Weapon Menu", "9mm\nSilenced 9mm\nDesert Eagle\nShotgun\nSawn-off Shotgun\nCombat Shotgun", "Select", "Cancel");
+	return 1;
 }
 #endif
 
 Dialog:WeaponMenu(playerid, response, listitem, inputtext[])
 {
-    if (response)
-    {
-        new str[64];
-        format(str, 64, "You have selected the '%s'.", inputtext);
+	if (response)
+	{
+		new str[64];
+		format(str, 64, "You have selected the '%s'.", inputtext);
 
-        GivePlayerWeapon(playerid, listitem + 22, 500);
-        SendClientMessage(playerid, -1, str);
-    }
-    return 1;
+		GivePlayerWeapon(playerid, listitem + 22, 500);
+		SendClientMessage(playerid, -1, str);
+	}
+	return 1;
 }
 
 public OnDialogPerformed(playerid, dialog[], response, success)
 {
-    if (!strcmp(dialog, "WeaponMenu") && IsPlayerInAnyVehicle(playerid))
-    {
-        SendClientMessage(playerid, -1, "You must be on-foot to spawn a weapon.");
-        return 0;
-    }
-    return 1;
+	if (!strcmp(dialog, "WeaponMenu") && IsPlayerInAnyVehicle(playerid))
+	{
+		SendClientMessage(playerid, -1, "You must be on-foot to spawn a weapon.");
+		return 0;
+	}
+	return 1;
 }
 /* Easy dialog by Emmet_ Example ^ */

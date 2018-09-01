@@ -58,7 +58,7 @@ public OnPlayerDisconnect(playerid, reason)
 	ASC_PlayerASpam{playerid}   = false;
 	ASC_PlayerFalling{playerid} = 0;
 	ASC_SpeedWarns{playerid} = 0;
-	ASC_PlayerZFall[playerid]    = 0.0;
+	ASC_PlayerZFall[playerid]	= 0.0;
 
 	KillTimer(ASC_TimerSpeedChecker[playerid]);
 	KillTimer(ASC_RFWTimer[playerid]);
@@ -153,28 +153,28 @@ public ASC_AntiSpeedCheats(playerid)
 
 static ASC_IsAPlane(vehicleid)
 {
-    switch(GetVehicleModel(vehicleid))
-    {
-        case 592, 577, 511, 512, 593, 520, 553, 476, 519, 460, 513, 464: return 1;
-        case 548, 425, 417, 487, 488, 497, 563, 447, 469, 465, 501: return 1; 
-    }
-    return 0;
+	switch(GetVehicleModel(vehicleid))
+	{
+		case 592, 577, 511, 512, 593, 520, 553, 476, 519, 460, 513, 464: return 1;
+		case 548, 425, 417, 487, 488, 497, 563, 447, 469, 465, 501: return 1; 
+	}
+	return 0;
 }
 
 static ASC_GetPlayerSpeed(playerid)
 {
-    new Float:ST[4];
-    if(IsPlayerInAnyVehicle(playerid))
-    GetVehicleVelocity(GetPlayerVehicleID(playerid),ST[0],ST[1],ST[2]);
-    else GetPlayerVelocity(playerid,ST[0],ST[1],ST[2]);
-    ST[3] = floatsqroot(floatpower(floatabs(ST[0]), 2.0) + floatpower(floatabs(ST[1]), 2.0) + floatpower(floatabs(ST[2]), 2.0)) * 179.28625;
-    return floatround(ST[3]);
+	new Float:ST[4];
+	if(IsPlayerInAnyVehicle(playerid))
+	GetVehicleVelocity(GetPlayerVehicleID(playerid),ST[0],ST[1],ST[2]);
+	else GetPlayerVelocity(playerid,ST[0],ST[1],ST[2]);
+	ST[3] = floatsqroot(floatpower(floatabs(ST[0]), 2.0) + floatpower(floatabs(ST[1]), 2.0) + floatpower(floatabs(ST[2]), 2.0)) * 179.28625;
+	return floatround(ST[3]);
 }
 
 #if defined _ALS_OnPlayerConnect
   #undef OnPlayerConnect
 #else
-    #define _ALS_OnPlayerConnect
+	#define _ALS_OnPlayerConnect
 #endif
 
 #define OnPlayerConnect ASC_OnPlayerConnect
@@ -182,7 +182,7 @@ static ASC_GetPlayerSpeed(playerid)
 #if defined _ALS_OnPlayerDisconnect
   #undef OnPlayerDisconnect
 #else
-    #define _ALS_OnPlayerDisconnect
+	#define _ALS_OnPlayerDisconnect
 #endif
 
 #define OnPlayerDisconnect ASC_OnPlayerDisconnect

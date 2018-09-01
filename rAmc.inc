@@ -68,20 +68,20 @@ public Amc_CheckCash(playerid)
 	if(Amc_IsPlayerPaused(playerid)) return 0;
 
 	new rAmcTempCash;
-    rAmcTempCash = GetPlayerMoney(playerid);
+	rAmcTempCash = GetPlayerMoney(playerid);
 
-    if(rAmc_Player[playerid][AmcCash] < rAmcTempCash && !rAmc_Player[playerid][AmcCashImmu])
-    {
-        new rAmcSumUp;
-        rAmcSumUp = rAmcTempCash - rAmc_Player[playerid][AmcCash];
-        if(rAmcSumUp <= 1000) return GivePlayerMoney(playerid, - rAmcSumUp);
+	if(rAmc_Player[playerid][AmcCash] < rAmcTempCash && !rAmc_Player[playerid][AmcCashImmu])
+	{
+		new rAmcSumUp;
+		rAmcSumUp = rAmcTempCash - rAmc_Player[playerid][AmcCash];
+		if(rAmcSumUp <= 1000) return GivePlayerMoney(playerid, - rAmcSumUp);
 
-        #if defined OnPlayerCashCheat
-        OnPlayerCashCheat(playerid, rAmc_Player[playerid][AmcCash], rAmcTempCash, rAmcSumUp);
-        #endif
+		#if defined OnPlayerCashCheat
+			OnPlayerCashCheat(playerid, rAmc_Player[playerid][AmcCash], rAmcTempCash, rAmcSumUp);
+		#endif
 
-        GivePlayerMoney(playerid, - rAmcSumUp);
-        }
+		GivePlayerMoney(playerid, - rAmcSumUp);
+	}
 	return 1;
 }
 
@@ -92,8 +92,7 @@ public Amc_ResetPlayerMoney(playerid)
 	rAmc_Player[playerid][AmcCashImmu]= true;
 
 	rAmc_Player[playerid][AmcCash] = 0;
-	ResetPlayerMoney(playerid);
-	return 1;
+	return ResetPlayerMoney(playerid);
 }
 
 public Amc_GivePlayerMoney(playerid, amount)
@@ -103,8 +102,7 @@ public Amc_GivePlayerMoney(playerid, amount)
 	rAmc_Player[playerid][AmcCashImmu]= true;
 
 	rAmc_Player[playerid][AmcCash] += amount;
-	GivePlayerMoney(playerid, amount);
-	return 1;
+	return GivePlayerMoney(playerid, amount);
 }
 
 public OnPlayerDisconnect(playerid, reason)
@@ -112,22 +110,22 @@ public OnPlayerDisconnect(playerid, reason)
 	rAmc_Player[playerid][AmcCashImmu]= false;
 	KillTimer(rAmc_Player[playerid][AmcPTimer]);
 	
-		#if defined Amc_OnPlayerDisconnect
-	return Amc_OnPlayerDisconnect(playerid, reason);
-		#else
-	return 1;
-		#endif
+	#if defined Amc_OnPlayerDisconnect
+		return Amc_OnPlayerDisconnect(playerid, reason);
+	#else
+		return 1;
+	#endif
 }
 
 public OnPlayerUpdate(playerid)
 {
 	rAmc_Player[playerid][AmcPTick] = GetTickCount();
 
-		#if defined Amc_OnPlayerUpdate
-	return Amc_OnPlayerUpdate(playerid);
-		#else
-	return 1;
-		#endif
+	#if defined Amc_OnPlayerUpdate
+		return Amc_OnPlayerUpdate(playerid);
+	#else
+		return 1;
+	#endif
 }
 
 public OnPlayerConnect(playerid)
@@ -135,11 +133,11 @@ public OnPlayerConnect(playerid)
 	Amc_ResetPlayerMoney(playerid);
 	rAmc_Player[playerid][AmcPTimer] = SetTimerEx("Amc_CheckCash", 15000, true, "i", playerid);
 
-		#if defined Amc_OnPlayerConnect
-	return Amc_OnPlayerConnect(playerid);
-		#else
-	return 1;
-		#endif
+	#if defined Amc_OnPlayerConnect
+		return Amc_OnPlayerConnect(playerid);
+	#else
+		return 1;
+	#endif
 }
 
 static Amc_IsPlayerPaused(playerid)
@@ -152,7 +150,7 @@ static Amc_IsPlayerPaused(playerid)
 #if defined _ALS_OnPlayerDisconnect
   #undef OnPlayerDisconnect
 #else
-    #define _ALS_OnPlayerDisconnect
+	#define _ALS_OnPlayerDisconnect
 #endif
 
 #define OnPlayerDisconnect Amc_OnPlayerDisconnect
@@ -160,7 +158,7 @@ static Amc_IsPlayerPaused(playerid)
 #if defined _ALS_OnPlayerUpdate
   #undef OnPlayerUpdate
 #else
-    #define _ALS_OnPlayerUpdate
+	#define _ALS_OnPlayerUpdate
 #endif
 
 #define OnPlayerUpdate Amc_OnPlayerUpdate
@@ -168,7 +166,7 @@ static Amc_IsPlayerPaused(playerid)
 #if defined _ALS_OnPlayerConnect
   #undef OnPlayerConnect
 #else
-    #define _ALS_OnPlayerConnect
+	#define _ALS_OnPlayerConnect
 #endif
 
 #define OnPlayerConnect Amc_OnPlayerConnect
@@ -176,7 +174,7 @@ static Amc_IsPlayerPaused(playerid)
 #if defined _ALS_GivePlayerMoney
   #undef GivePlayerMoney
 #else
-    #define _ALS_GivePlayerMoney
+	#define _ALS_GivePlayerMoney
 #endif
 
 #define GivePlayerMoney Amc_GivePlayerMoney
@@ -184,7 +182,7 @@ static Amc_IsPlayerPaused(playerid)
 #if defined _ALS_ResetPlayerMoney
   #undef ResetPlayerMoney
 #else
-    #define _ALS_ResetPlayerMoney
+	#define _ALS_ResetPlayerMoney
 #endif
 
 #define ResetPlayerMoney Amc_ResetPlayerMoney
@@ -192,7 +190,7 @@ static Amc_IsPlayerPaused(playerid)
 #if defined _ALS_GetPlayerMoney
   #undef GetPlayerMoney
 #else
-    #define _ALS_GetPlayerMoney
+	#define _ALS_GetPlayerMoney
 #endif
 
 #define GetPlayerMoney Amc_GetPlayerMoney
@@ -211,7 +209,7 @@ stock Amc_FResetPlayerMoney(playerid)
 #if defined _ALS_GivePlayerMoney
   #undef GivePlayerMoney
 #else
-    #define _ALS_GivePlayerMoney
+	#define _ALS_GivePlayerMoney
 #endif
 
 #define GivePlayerMoney Amc_FGivePlayerMoney
@@ -219,7 +217,7 @@ stock Amc_FResetPlayerMoney(playerid)
 #if defined _ALS_ResetPlayerMoney
   #undef ResetPlayerMoney
 #else
-    #define _ALS_ResetPlayerMoney
+	#define _ALS_ResetPlayerMoney
 #endif
 
 #define ResetPlayerMoney Amc_FResetPlayerMoney
@@ -227,7 +225,7 @@ stock Amc_FResetPlayerMoney(playerid)
 #if defined _ALS_GetPlayerMoney
   #undef GetPlayerMoney
 #else
-    #define _ALS_GetPlayerMoney
+	#define _ALS_GetPlayerMoney
 #endif
 
 #define GetPlayerMoney Amc_FGetPlayerMoney

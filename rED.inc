@@ -135,7 +135,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 		if ((s_Public == -1) || (CallLocalFunction("OnDialogPerformed", "dsdd", playerid, string[7], response, funcidx(string) != -1)))
 		{
-	 		CallLocalFunction(string, "ddds", playerid, response, listitem, (!inputtext[0]) ? ("\1") : (inputtext));
+			CallLocalFunction(string, "ddds", playerid, response, listitem, (!inputtext[0]) ? ("\1") : (inputtext));
 		}
 	}
 	#if defined DR_OnDialogResponse
