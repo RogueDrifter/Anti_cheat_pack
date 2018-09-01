@@ -320,7 +320,7 @@ public OnVehicleMod(playerid, vehicleid, componentid)
 					CallLocalFunction("OnVehicleModEx", "iiiii", playerid, vehicleid, componentid, true);
 				}
 			}
-		else CallLocalFunction("OnVehicleModEx", "iiiii", playerid, vehicleid, componentid, true);
+			else CallLocalFunction("OnVehicleModEx", "iiiii", playerid, vehicleid, componentid, true);
 		#else
 			CallLocalFunction("OnVehicleModEx", "iiiii", playerid, vehicleid, componentid, true);
 		#endif
