@@ -351,7 +351,7 @@ public rAgc_Detector(playerid)
 			GetPlayerWeaponData(playerid, rAgc_GetWeaponSlot(s), rAgcWep, rAgcAmmo);
 			if(rAgc_Weapons[playerid][rAgcPlayerWeapons][rAgcWep] != rAgcWep && !rAgc_Player[playerid][rAgcWepImmu] && !rAgc_IsWeaponSys(rAgcWep))
 			{
-				rAgc_ResetPlayerWeapons(playerid);
+				if(rAgc_GetWeaponSlot(rAgcWep) != 0) rAgc_ResetPlayerWeapons(playerid);
 				#if defined _FLaggersIncluded_
 					if(!IsPlayerDesynced(playerid)) 
 					{
@@ -374,7 +374,7 @@ public rAgc_Detector(playerid)
 				else 
 				{
 					rAgc_Player[playerid][rAgcASWarns] = 0;
-			   		rAgc_ResetPlayerWeapons(playerid);
+			   		if(rAgc_GetWeaponSlot(rAgcWep) != 0) rAgc_ResetPlayerWeapons(playerid);
 					#if defined _FLaggersIncluded_
 						if(!IsPlayerDesynced(playerid)) 
 						{
