@@ -1,5 +1,5 @@
-#include <FLaggers>//Lag spike\desnyc detector- Rogue
 #include <rAgc>//Anti gun cheats -Rogue
+#include <FLaggers>//Lag spike\desnyc detector- Rogue
 #include <Opba>//Anti airbreak\teleport - Rogue
 #include <rAct>//Anti car trolls - Rogue
 #include <AntiJC>//Anti jetpack cheats- Rogue
