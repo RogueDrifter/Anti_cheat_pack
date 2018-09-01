@@ -108,12 +108,12 @@ public OnPlayerConnect(playerid)
 public OnPlayerSpawn(playerid)
 {
 	for(new s; s<rAgc_MAX_WEAPONIDS; s++)
-    {
+	{
 		rAgc_Weapons[playerid][rAgcNewAmmo][s] = 0;
 		rAgc_Weapons[playerid][rAgcOldAmmo][s] = 0;
-    }
+	}
 
-    rAgc_ResetPlayerWeapons(playerid);
+	rAgc_ResetPlayerWeapons(playerid);
 	#if defined rAgc_OnPlayerSpawn
 		return rAgc_OnPlayerSpawn(playerid);
 	#else
@@ -149,62 +149,68 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
 		rAgc_Player[playerid][rAgcFirstShot] = rAgcTempAmmos;
 		rAgc_Player[playerid][rAgcConstWep]  = rAgcTempWeap;
 	}
-    else if(rAgc_Player[playerid][rAgcFirstTick] != 0 && rAgc_Player[playerid][rAgcSecondTick] == 0)
-    { //Second call of the callback
-    	rAgc_Player[playerid][rAgcSecondTick] = GetTickCount(); 
-    	rAgc_Player[playerid][rAgcSecondShot] = rAgcTempAmmos;
-    } 
-    
-    else if(rAgc_Player[playerid][rAgcFirstTick] != 0 && rAgc_Player[playerid][rAgcSecondTick] != 0 ) 
-    { //After the second call of the callback
-    	if(rAgc_Player[playerid][rAgcSecondTick] - rAgc_Player[playerid][rAgcFirstTick] < RAGC_MAX_RAPID_TIME_NORMAL && rAgc_Player[playerid][rAgcConstWep] == rAgcTempWeap && !rAgc_IsWepRapid(rAgcTempWeap) && GetPlayerState(playerid) != 3)
-    	{//Anti rapid fire for slow weapons
+	else if(rAgc_Player[playerid][rAgcFirstTick] != 0 && rAgc_Player[playerid][rAgcSecondTick] == 0)
+	{ //Second call of the callback
+		rAgc_Player[playerid][rAgcSecondTick] = GetTickCount(); 
+		rAgc_Player[playerid][rAgcSecondShot] = rAgcTempAmmos;
+	} 
+	
+	else if(rAgc_Player[playerid][rAgcFirstTick] != 0 && rAgc_Player[playerid][rAgcSecondTick] != 0 ) 
+	{ //After the second call of the callback
+		if(rAgc_Player[playerid][rAgcSecondTick] - rAgc_Player[playerid][rAgcFirstTick] < RAGC_MAX_RAPID_TIME_NORMAL && rAgc_Player[playerid][rAgcConstWep] == rAgcTempWeap && !rAgc_IsWepRapid(rAgcTempWeap) && GetPlayerState(playerid) != 3)
+		{//Anti rapid fire for slow weapons
 			#if defined _FLaggersIncluded_
-				if(!IsPlayerDesynced(playerid)) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcTempWeap, rAgcTempAmmos, 4);
-	        #else
-				CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcTempWeap, rAgcTempAmmos, 4);
+				if(!IsPlayerDesynced(playerid)) 
+				{
+					if(rAgc_GetWeaponSlot(rAgcTempWeap) != 0) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcTempWeap, rAgcTempAmmos, 4);
+				}
+			#else
+				if(rAgc_GetWeaponSlot(rAgcTempWeap) != 0) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcTempWeap, rAgcTempAmmos, 4);
 			#endif
 			rAgc_Player[playerid][rAgcFirstTick] = 0; 
-	        rAgc_Player[playerid][rAgcSecondTick]= 0; 
-	        return 0; 
-	    }
-	    else 
-	    {
-	        rAgc_Player[playerid][rAgcFirstTick] =0; 
-	        rAgc_Player[playerid][rAgcSecondTick]=0; 
-	    }
+			rAgc_Player[playerid][rAgcSecondTick]= 0; 
+			return 0; 
+		}
+		else 
+		{
+			rAgc_Player[playerid][rAgcFirstTick] =0; 
+			rAgc_Player[playerid][rAgcSecondTick]=0; 
+		}
 
-	    if(rAgc_Player[playerid][rAgcFirstShot] == rAgc_Player[playerid][rAgcSecondShot] && rAgc_Player[playerid][rAgcConstWep] == rAgcTempWeap 
-	    	&& rAgc_IsWeaponAmmoable(rAgcTempWeap) && !rAgc_IsWepRapid(rAgcTempWeap) && GetPlayerState(playerid) != 3)
-	    {//Anti ammo freeze for slow ammo weapons
-	    	rAgc_Player[playerid][rAgcAntibugTicks]++;
-	    	if(rAgc_Player[playerid][rAgcAntibugTicks] == RAGC_MAX_WARNINGS_FREEZE)
-	    	{
-	    		rAgc_Player[playerid][rAgcFirstShot] =0; 
-		    	rAgc_Player[playerid][rAgcSecondShot]=0; 
-	    		rAgc_Player[playerid][rAgcAntibugTicks] = 0;
-		    	if(!rAgc_IsPlayerPaused(playerid))
+		if(rAgc_Player[playerid][rAgcFirstShot] == rAgc_Player[playerid][rAgcSecondShot] && rAgc_Player[playerid][rAgcConstWep] == rAgcTempWeap 
+			&& rAgc_IsWeaponAmmoable(rAgcTempWeap) && !rAgc_IsWepRapid(rAgcTempWeap) && GetPlayerState(playerid) != 3)
+		{//Anti ammo freeze for slow ammo weapons
+			rAgc_Player[playerid][rAgcAntibugTicks]++;
+			if(rAgc_Player[playerid][rAgcAntibugTicks] == RAGC_MAX_WARNINGS_FREEZE)
+			{
+				rAgc_Player[playerid][rAgcFirstShot] =0; 
+				rAgc_Player[playerid][rAgcSecondShot]=0; 
+				rAgc_Player[playerid][rAgcAntibugTicks] = 0;
+				if(!rAgc_IsPlayerPaused(playerid))
 				{
 					#if defined _FLaggersIncluded_
-						if(!IsPlayerDesynced(playerid)) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcTempWeap, rAgcTempAmmos, 3);
+						if(!IsPlayerDesynced(playerid))
+						{
+							if(rAgc_GetWeaponSlot(rAgcTempWeap) != 0) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcTempWeap, rAgcTempAmmos, 3);
+						}
 					#else
-						CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcTempWeap, rAgcTempAmmos, 3);
+						if(rAgc_GetWeaponSlot(rAgcTempWeap) != 0) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcTempWeap, rAgcTempAmmos, 3);
 					#endif
 				}
-		        return 0;
-		    }
-	    }
-	    else if(rAgc_Player[playerid][rAgcConstWep] == rAgcTempWeap && rAgc_IsWeaponAmmoable(rAgcTempWeap) && (rAgc_IsWepRapid(rAgcTempWeap) || GetPlayerState(playerid) == 3))
-	    {//Anti ammo freeze for fast ammo weapons
-	    	KillTimer(rAgc_Player[playerid][rAgcRepeater]);
-	    	rAgc_Player[playerid][rAgcRepeater] = SetTimerEx("rAgc_DelayRapid", 700, false, "iii", playerid, rAgcTempWeap, rAgcTempAmmos);
-	    }
-	    else 
-	    {
-	    	rAgc_Player[playerid][rAgcFirstShot] =0; 
-	        rAgc_Player[playerid][rAgcSecondShot]=0; 
-	    }
-    } 
+				return 0;
+			}
+		}
+		else if(rAgc_Player[playerid][rAgcConstWep] == rAgcTempWeap && rAgc_IsWeaponAmmoable(rAgcTempWeap) && (rAgc_IsWepRapid(rAgcTempWeap) || GetPlayerState(playerid) == 3))
+		{//Anti ammo freeze for fast ammo weapons
+			KillTimer(rAgc_Player[playerid][rAgcRepeater]);
+			rAgc_Player[playerid][rAgcRepeater] = SetTimerEx("rAgc_DelayRapid", 700, false, "iii", playerid, rAgcTempWeap, rAgcTempAmmos);
+		}
+		else 
+		{
+			rAgc_Player[playerid][rAgcFirstShot] =0; 
+			rAgc_Player[playerid][rAgcSecondShot]=0; 
+		}
+	} 
 	#if defined rAgc_OnPlayerWeaponShot
 		return rAgc_OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, Float:fZ);
 	#else
@@ -226,107 +232,111 @@ public OnPlayerUpdate(playerid)
 public rAgc_ResetPlayerWeapons(playerid)
 {
 	if(playerid <0 || playerid > MAX_PLAYERS) return 0;
-    if(!rAgc_Player[playerid][rAgcWepImmu]) SetTimerEx("rAgc_ProtHandler",RAGC_IMMU_TIME,false,"d",playerid, 0);
-    rAgc_Player[playerid][rAgcWepImmu] = true;
+	if(!rAgc_Player[playerid][rAgcWepImmu]) SetTimerEx("rAgc_ProtHandler",RAGC_IMMU_TIME,false,"d",playerid, 0);
+	rAgc_Player[playerid][rAgcWepImmu] = true;
 
-    for(new s; s<rAgc_MAX_WEAPONIDS; s++)
-    {
-        if(rAgc_Weapons[playerid][rAgcPlayerWeapons][s] != 0)
-        {
-            rAgc_Weapons[playerid][rAgcPlayerWeapons][s] = 0;
-            rAgc_Weapons[playerid][rAgcPlayerAmmo][s] = 0;
-        }
-    }
+	for(new s; s<rAgc_MAX_WEAPONIDS; s++)
+	{
+		if(rAgc_Weapons[playerid][rAgcPlayerWeapons][s] != 0)
+		{
+			rAgc_Weapons[playerid][rAgcPlayerWeapons][s] = 0;
+			rAgc_Weapons[playerid][rAgcPlayerAmmo][s] = 0;
+		}
+	}
 
-    ResetPlayerWeapons(playerid);
-    return 1;
+	ResetPlayerWeapons(playerid);
+	return 1;
 }
 
 public rAgc_SetPlayerAmmo(playerid, weaponid, ammo)
 {
 	if(playerid <0 || playerid > MAX_PLAYERS) return 0;
-    if(!rAgc_IsWeaponValid(weaponid) || (rAgc_IsWeaponAmmoable(weaponid) && ammo ==0)) return 0;
-    rAgc_Weapons[playerid][rAgcNewAmmo][weaponid] = 0;
-    rAgc_Weapons[playerid][rAgcOldAmmo][weaponid] = 0;
+	if(!rAgc_IsWeaponValid(weaponid) || (rAgc_IsWeaponAmmoable(weaponid) && ammo ==0)) return 0;
+	rAgc_Weapons[playerid][rAgcNewAmmo][weaponid] = 0;
+	rAgc_Weapons[playerid][rAgcOldAmmo][weaponid] = 0;
 
-    if(!rAgc_Player[playerid][rAgcWepImmu]) SetTimerEx("rAgc_ProtHandler", RAGC_IMMU_TIME, false, "d",playerid, 0);
-    rAgc_Player[playerid][rAgcWepImmu] = true;
+	if(!rAgc_Player[playerid][rAgcWepImmu]) SetTimerEx("rAgc_ProtHandler", RAGC_IMMU_TIME, false, "d",playerid, 0);
+	rAgc_Player[playerid][rAgcWepImmu] = true;
 
-    switch(rAgc_IsWeaponAmmoable(weaponid))
-    {
-    	case 0:
-    	{
-        	rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = 1;
-        	SetPlayerAmmo(playerid, weaponid, 1);
-    	}
-    	case 1:
-    	{
-    		rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = ammo;
-        	SetPlayerAmmo(playerid, weaponid, ammo);
-    	}
-    }
-    return 1;
+	switch(rAgc_IsWeaponAmmoable(weaponid))
+	{
+		case 0:
+		{
+			rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = 1;
+			SetPlayerAmmo(playerid, weaponid, 1);
+		}
+		case 1:
+		{
+			rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = ammo;
+			SetPlayerAmmo(playerid, weaponid, ammo);
+		}
+	}
+	return 1;
 }
 
 public rAgc_GivePlayerWeapon(playerid, weaponid, ammo)
 {
-    if(playerid <0 || playerid > MAX_PLAYERS) return 0;
-    if(!rAgc_IsWeaponValid(weaponid) || (rAgc_IsWeaponAmmoable(weaponid) && ammo ==0)) return 0;
-    rAgc_Weapons[playerid][rAgcNewAmmo][weaponid] = 0;
-    rAgc_Weapons[playerid][rAgcOldAmmo][weaponid] = 0;
-    if(!rAgc_Player[playerid][rAgcWepImmu]) SetTimerEx("rAgc_ProtHandler", RAGC_IMMU_TIME, false, "d",playerid, 0);
-    rAgc_Player[playerid][rAgcWepImmu] = true;
-    switch(rAgc_IsWeaponAmmoable(weaponid))
-    {
-        case 0:
-        {
-            if(rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] == weaponid)
-            {
-                rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = 1;
-                GivePlayerWeapon(playerid, weaponid, 1);
-            }
-            else
-            {
-                rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] = weaponid;
-                rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = 1;
-                GivePlayerWeapon(playerid, weaponid, 1);
-            }
-        }
-        case 1:
-        {
-            if(rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] == weaponid)
-            {
-                if(!rAgc_Player[playerid][rAgcAmmoImmu]) SetTimerEx("rAgc_ProtHandler",RAGC_IMMU_TIME,false,"d",playerid, 1);
-                rAgc_Player[playerid][rAgcAmmoImmu] = true;
-                new rAgcFixWep, rAgcFixAmmo;
-                GivePlayerWeapon(playerid, weaponid, ammo);
-                GetPlayerWeaponData(playerid, rAgc_GetWeaponSlot(weaponid), rAgcFixWep, rAgcFixAmmo);
-                rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = rAgcFixAmmo + ammo;
-            }
-            else
-            {
-                rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] = weaponid;
-                rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = ammo;
-                GivePlayerWeapon(playerid, weaponid, ammo);
-            }
-        }    
-    }
-    return 1;
+	if(playerid <0 || playerid > MAX_PLAYERS) return 0;
+	if(!rAgc_IsWeaponValid(weaponid) || (rAgc_IsWeaponAmmoable(weaponid) && ammo ==0)) return 0;
+	rAgc_Weapons[playerid][rAgcNewAmmo][weaponid] = 0;
+	rAgc_Weapons[playerid][rAgcOldAmmo][weaponid] = 0;
+	if(!rAgc_Player[playerid][rAgcWepImmu]) SetTimerEx("rAgc_ProtHandler", RAGC_IMMU_TIME, false, "d",playerid, 0);
+	rAgc_Player[playerid][rAgcWepImmu] = true;
+	switch(rAgc_IsWeaponAmmoable(weaponid))
+	{
+		case 0:
+		{
+			if(rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] == weaponid)
+			{
+				rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = 1;
+				GivePlayerWeapon(playerid, weaponid, 1);
+			}
+			else
+			{
+				rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] = weaponid;
+				rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = 1;
+				GivePlayerWeapon(playerid, weaponid, 1);
+			}
+		}
+		case 1:
+		{
+			if(rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] == weaponid)
+			{
+				if(!rAgc_Player[playerid][rAgcAmmoImmu]) SetTimerEx("rAgc_ProtHandler",RAGC_IMMU_TIME,false,"d",playerid, 1);
+				rAgc_Player[playerid][rAgcAmmoImmu] = true;
+				new rAgcFixWep, rAgcFixAmmo;
+				GivePlayerWeapon(playerid, weaponid, ammo);
+				GetPlayerWeaponData(playerid, rAgc_GetWeaponSlot(weaponid), rAgcFixWep, rAgcFixAmmo);
+				rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = rAgcFixAmmo + ammo;
+			}
+			else
+			{
+				rAgc_Weapons[playerid][rAgcPlayerWeapons][weaponid] = weaponid;
+				rAgc_Weapons[playerid][rAgcPlayerAmmo][weaponid] = ammo;
+				GivePlayerWeapon(playerid, weaponid, ammo);
+			}
+		}	
+	}
+	return 1;
 }
+
 public rAgc_DelayRapid(playerid, weapon, ammo)
 {
-    if(rAgc_Player[playerid][rAgcFirstShot] == rAgc_Player[playerid][rAgcSecondShot])
-    {
-        rAgc_Player[playerid][rAgcAntibugTicks]++;
-        if(rAgc_Player[playerid][rAgcAntibugTicks] == RAGC_MAX_WARNINGS_FREEZE)
-        {
-            rAgc_Player[playerid][rAgcAntibugTicks] = 0;
-            //if(!rAgc_IsPlayerPaused(playerid)) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, weapon, ammo, 3);
-        }
-    }
-    rAgc_Player[playerid][rAgcFirstShot] =0; 
-    rAgc_Player[playerid][rAgcSecondShot]=0; 
-    return 1;
+	if(rAgc_Player[playerid][rAgcFirstShot] == rAgc_Player[playerid][rAgcSecondShot])
+	{
+		rAgc_Player[playerid][rAgcAntibugTicks]++;
+		if(rAgc_Player[playerid][rAgcAntibugTicks] == RAGC_MAX_WARNINGS_FREEZE)
+		{
+			rAgc_Player[playerid][rAgcAntibugTicks] = 0;
+			/*if(!rAgc_IsPlayerPaused(playerid))
+			{
+				if(rAgc_GetWeaponSlot(weapon) != 0) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, weapon, ammo, 3);
+			}*/
+		}
+	}
+	rAgc_Player[playerid][rAgcFirstShot] =0; 
+	rAgc_Player[playerid][rAgcSecondShot]=0; 
+	return 1;
 }
 
 public rAgc_Detector(playerid)
@@ -343,34 +353,40 @@ public rAgc_Detector(playerid)
 			{
 				rAgc_ResetPlayerWeapons(playerid);
 				#if defined _FLaggersIncluded_
-					if(!IsPlayerDesynced(playerid)) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcWep, rAgcAmmo, 1);
+					if(!IsPlayerDesynced(playerid)) 
+					{
+						if(rAgc_GetWeaponSlot(rAgcWep) != 0) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcWep, rAgcAmmo, 1);
+					}
 				#else	
-					CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcWep, rAgcAmmo, 1);
+					if(rAgc_GetWeaponSlot(rAgcWep) != 0) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcWep, rAgcAmmo, 1);
 				#endif
 				return 0;
 			}
 			//Ammo cheat detector:
 			if(!rAgc_Player[playerid][rAgcAmmoImmu] && rAgc_Weapons[playerid][rAgcPlayerAmmo][rAgcWep] < rAgcAmmo 
 				&& rAgc_IsWeaponAmmoable(rAgcWep))	
-		    {
-		    	if(rAgc_Player[playerid][rAgcASWarns] < RAGC_MAX_SPOOF_WARNS)
-		    	{	
-		    		rAgc_Player[playerid][rAgcASWarns]++;
-		    		SetPlayerAmmo(playerid, rAgcWep, rAgc_Weapons[playerid][rAgcPlayerAmmo][rAgcWep]);
-		    	}
-		    	else 
-		    	{
-		    		rAgc_Player[playerid][rAgcASWarns] = 0;
+			{
+				if(rAgc_Player[playerid][rAgcASWarns] < RAGC_MAX_SPOOF_WARNS)
+				{	
+					rAgc_Player[playerid][rAgcASWarns]++;
+					SetPlayerAmmo(playerid, rAgcWep, rAgc_Weapons[playerid][rAgcPlayerAmmo][rAgcWep]);
+				}
+				else 
+				{
+					rAgc_Player[playerid][rAgcASWarns] = 0;
 			   		rAgc_ResetPlayerWeapons(playerid);
 					#if defined _FLaggersIncluded_
-						if(!IsPlayerDesynced(playerid)) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcWep, rAgcAmmo, 2);
+						if(!IsPlayerDesynced(playerid)) 
+						{
+							if(rAgc_GetWeaponSlot(rAgcWep) != 0) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcWep, rAgcAmmo, 2);
+						}
 					#else
-			    		CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcWep, rAgcAmmo, 2);
-			    	#endif
+						if(rAgc_GetWeaponSlot(rAgcWep) != 0) CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcWep, rAgcAmmo, 2);
+					#endif
 				}
-			    return 0;
+				return 0;
 			}
-	    }
+		}
 	}
 	return 1;
 }
@@ -392,10 +408,10 @@ public rAgc_ProtHandler(handleid, handletype)
 }
 
 static rAgc_IsWeaponAmmoable(Weapon)
-    return ( 22 <= Weapon <= 43 || 16 <= Weapon <= 18  );
+	return ( 22 <= Weapon <= 43 || 16 <= Weapon <= 18  );
 
 static rAgc_IsWeaponValid(Weapon)
-    return ( 0 <= Weapon <= 18 || 22 <= Weapon <= 46   );
+	return ( 0 <= Weapon <= 18 || 22 <= Weapon <= 46   );
 
 static rAgc_IsWeaponSys(Weapon)
 	return (Weapon == 46 || Weapon == 0 || Weapon == 40);
@@ -414,31 +430,31 @@ static rAgc_IsWepRapid(Weapon)
 
 static rAgc_GetWeaponSlot(weaponid) 
 { 
-    switch(weaponid) 
-    { 
-        case 0..1:   return 0;
-        case 2..9:   return 1;
-        case 22..24: return 2;
-        case 25..27: return 3;
-        case 28..29: return 4;
-        case 32:     return 4;
-        case 30..31: return 5;
-        case 33..34: return 6;
-        case 35..38: return 7;
-        case 16..18: return 8;
-        case 39:     return 8;
-        case 41..43: return 9;
-        case 10..15: return 10;
-        case 44..46: return 11;
-        case 40: 	 return 12;
-    } 
-    return 0; 
+	switch(weaponid) 
+	{ 
+		case 0..1:   return 0;
+		case 2..9:   return 1;
+		case 22..24: return 2;
+		case 25..27: return 3;
+		case 28..29: return 4;
+		case 32:	 return 4;
+		case 30..31: return 5;
+		case 33..34: return 6;
+		case 35..38: return 7;
+		case 16..18: return 8;
+		case 39:	 return 8;
+		case 41..43: return 9;
+		case 10..15: return 10;
+		case 44..46: return 11;
+		case 40: 	 return 12;
+	} 
+	return 0; 
 }
 
 #if defined _ALS_OnPlayerDisconnect
   #undef OnPlayerDisconnect
 #else
-    #define _ALS_OnPlayerDisconnect
+	#define _ALS_OnPlayerDisconnect
 #endif
 
 #define OnPlayerDisconnect rAgc_OnPlayerDisconnect
@@ -446,7 +462,7 @@ static rAgc_GetWeaponSlot(weaponid)
 #if defined _ALS_OnPlayerSpawn
   #undef OnPlayerSpawn
 #else
-    #define _ALS_OnPlayerSpawn
+	#define _ALS_OnPlayerSpawn
 #endif
 
 #define OnPlayerSpawn rAgc_OnPlayerSpawn
@@ -454,7 +470,7 @@ static rAgc_GetWeaponSlot(weaponid)
 #if defined _ALS_OnPlayerConnect
   #undef OnPlayerConnect
 #else
-    #define _ALS_OnPlayerConnect
+	#define _ALS_OnPlayerConnect
 #endif
 
 #define OnPlayerConnect rAgc_OnPlayerConnect
@@ -462,7 +478,7 @@ static rAgc_GetWeaponSlot(weaponid)
 #if defined _ALS_OnPlayerWeaponShot
   #undef OnPlayerWeaponShot
 #else
-    #define _ALS_OnPlayerWeaponShot
+	#define _ALS_OnPlayerWeaponShot
 #endif
 
 #define OnPlayerWeaponShot rAgc_OnPlayerWeaponShot
@@ -470,7 +486,7 @@ static rAgc_GetWeaponSlot(weaponid)
 #if defined _ALS_OnPlayerUpdate
   #undef OnPlayerUpdate
 #else
-    #define _ALS_OnPlayerUpdate
+	#define _ALS_OnPlayerUpdate
 #endif
 
 #define OnPlayerUpdate rAgc_OnPlayerUpdate
@@ -478,7 +494,7 @@ static rAgc_GetWeaponSlot(weaponid)
 #if defined _ALS_GivePlayerWeapon
   #undef GivePlayerWeapon
 #else
-    #define _ALS_GivePlayerWeapon
+	#define _ALS_GivePlayerWeapon
 #endif
 
 #define GivePlayerWeapon rAgc_GivePlayerWeapon
@@ -486,7 +502,7 @@ static rAgc_GetWeaponSlot(weaponid)
 #if defined _ALS_ResetPlayerAmmo
   #undef ResetPlayerAmmo
 #else
-    #define _ALS_ResetPlayerAmmo
+	#define _ALS_ResetPlayerAmmo
 #endif
 
 #define ResetPlayerAmmo rAgc_ResetPlayerAmmo
@@ -494,7 +510,7 @@ static rAgc_GetWeaponSlot(weaponid)
 #if defined _ALS_SetPlayerAmmo
   #undef SetPlayerAmmo
 #else
-    #define _ALS_SetPlayerAmmo
+	#define _ALS_SetPlayerAmmo
 #endif
 
 #define SetPlayerAmmo rAgc_SetPlayerAmmo
@@ -513,7 +529,7 @@ stock rAgc_FSetPlayerAmmo(playerid, slot, ammo)
 #if defined _ALS_GivePlayerWeapon
   #undef GivePlayerWeapon
 #else
-    #define _ALS_GivePlayerWeapon
+	#define _ALS_GivePlayerWeapon
 #endif
 
 #define GivePlayerWeapon rAgc_FGivePlayerWeapon
@@ -521,7 +537,7 @@ stock rAgc_FSetPlayerAmmo(playerid, slot, ammo)
 #if defined _ALS_ResetPlayerAmmo
   #undef ResetPlayerAmmo
 #else
-    #define _ALS_ResetPlayerAmmo
+	#define _ALS_ResetPlayerAmmo
 #endif
 
 #define ResetPlayerAmmo rAgc_FResetPlayerAmmo
@@ -529,7 +545,7 @@ stock rAgc_FSetPlayerAmmo(playerid, slot, ammo)
 #if defined _ALS_SetPlayerAmmo
   #undef SetPlayerAmmo
 #else
-    #define _ALS_SetPlayerAmmo
+	#define _ALS_SetPlayerAmmo
 #endif
 
 #define SetPlayerAmmo rAgc_FSetPlayerAmmo
