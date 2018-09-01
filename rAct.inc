@@ -344,13 +344,13 @@ public OnPlayerUpdate(playerid)
 
 public OnGameModeInit()
 {
-		SafeTimer = SetTimer("ActSafeReset",2500,true);
+	SafeTimer = SetTimer("ActSafeReset",2500,true);
 
-		#if defined OnGameModeInitACT
-			return OnGameModeInitACT();
-		#else
-			return 1;
-		#endif
+	#if defined OnGameModeInitACT
+		return OnGameModeInitACT();
+	#else
+		return 1;
+	#endif
 }
  
 public OnGameModeExit()
