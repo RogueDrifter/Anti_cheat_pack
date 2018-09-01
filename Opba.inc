@@ -149,74 +149,74 @@ forward OPBA_SafeReset();
 #endif
 
 #if !defined OPBA_CUSTOM_INTERIORS
-enum E_OPBA_PLAYER_DATA
-{
-	bool:RacBreakImmunity,
-	bool:RacSImu,
-	bool:RacAbuseP,
-	bool:RacProtecInt,
-	bool:RacPassenger,
-	bool:RacPBFix,
-	bool:RacVDeath,
-	bool:RacVRspwn,
-	bool:RacHoldCheck,
-	bool:RacPassFall,
-	bool:RacPassengerTP,
+	enum E_OPBA_PLAYER_DATA
+	{
+		bool:RacBreakImmunity,
+		bool:RacSImu,
+		bool:RacAbuseP,
+		bool:RacProtecInt,
+		bool:RacPassenger,
+		bool:RacPBFix,
+		bool:RacVDeath,
+		bool:RacVRspwn,
+		bool:RacHoldCheck,
+		bool:RacPassFall,
+		bool:RacPassengerTP,
 
-	RacSurf,
-	RacPause,
-	RacABTicks,
-	RacPauseTicks,
-	RacFallBug,
-	RacCarFall,
-	RacPlayerInt,
-	RacPassFallAbuse,
+		RacSurf,
+		RacPause,
+		RacABTicks,
+		RacPauseTicks,
+		RacFallBug,
+		RacCarFall,
+		RacPlayerInt,
+		RacPassFallAbuse,
 
-	Float:RacX,
-	Float:RacY,
-	Float:RacZ,
-	
-	RacRTPTimer,
-	RacIntTimer,
-	RacPATimer,	
-	RacFixTimer,	
-	RacProTimer,
-	RacDetectTimer
-};
+		Float:RacX,
+		Float:RacY,
+		Float:RacZ,
+		
+		RacRTPTimer,
+		RacIntTimer,
+		RacPATimer,	
+		RacFixTimer,	
+		RacProTimer,
+		RacDetectTimer
+	};
 
 #else
-enum E_OPBA_PLAYER_DATA
-{
-	bool:RacBreakImmunity,
-	bool:RacSImu,
-	bool:RacAbuseP,
-	bool:RacPassenger,
-	bool:RacPBFix,
-	bool:RacVDeath,
-	bool:RacPassFall,
-	bool:RacPassengerTP,
-	bool:RacVRspwn,
-	bool:RacHoldCheck,
+	enum E_OPBA_PLAYER_DATA
+	{
+		bool:RacBreakImmunity,
+		bool:RacSImu,
+		bool:RacAbuseP,
+		bool:RacPassenger,
+		bool:RacPBFix,
+		bool:RacVDeath,
+		bool:RacPassFall,
+		bool:RacPassengerTP,
+		bool:RacVRspwn,
+		bool:RacHoldCheck,
 
-	RacSurf,
-	RacPause,
-	RacABTicks,
-	RacPauseTicks,
-	RacPlayerInt,
-	RacFallBug,
-	RacCarFall,
-	RacPassFallAbuse,
+		RacSurf,
+		RacPause,
+		RacABTicks,
+		RacPauseTicks,
+		RacPlayerInt,
+		RacFallBug,
+		RacCarFall,
+		RacPassFallAbuse,
 
-	Float:RacX,
-	Float:RacY,
-	Float:RacZ,
-	
-	RacRTPTimer,
-	RacPATimer,	
-	RacFixTimer,	
-	RacProTimer,
-	RacDetectTimer
-};
+		Float:RacX,
+		Float:RacY,
+		Float:RacZ,
+		
+		RacRTPTimer,
+		RacPATimer,	
+		RacFixTimer,	
+		RacProTimer,
+		RacDetectTimer
+	};
 #endif
 
 #if defined _FLaggersIncluded_
@@ -229,34 +229,34 @@ enum E_OPBA_PLAYER_DATA
 
 #if !defined OPBA_CUSTOM_INTERIORS
 
-static 
-	OPBA_Player[MAX_PLAYERS][E_OPBA_PLAYER_DATA],
-	
-	bool:OPBA_PInteriors[MAX_PLAYERS][OPBA_MAX_INTERIORS],
+	static 
+		OPBA_Player[MAX_PLAYERS][E_OPBA_PLAYER_DATA],
+		
+		bool:OPBA_PInteriors[MAX_PLAYERS][OPBA_MAX_INTERIORS],
 
-	OPBA_VOwner[MAX_VEHICLES],
+		OPBA_VOwner[MAX_VEHICLES],
 
-	OPBA_VPassenger[MAX_VEHICLES],
+		OPBA_VPassenger[MAX_VEHICLES],
 
-	OP_SafeTimer;
+		OP_SafeTimer;
 
 #else
 
-static 
-	OPBA_Player[MAX_PLAYERS][E_OPBA_PLAYER_DATA],
+	static 
+		OPBA_Player[MAX_PLAYERS][E_OPBA_PLAYER_DATA],
 
-	OPBA_VOwner[MAX_VEHICLES],
+		OPBA_VOwner[MAX_VEHICLES],
 
-	OPBA_VPassenger[MAX_VEHICLES],
+		OPBA_VPassenger[MAX_VEHICLES],
 
-	OP_SafeTimer;
+		OP_SafeTimer;
 
 #endif
 
 public OPBA_AirbrakeTeleport(playerid)
 {
 	#if !defined OPBA_CUSTOM_INTERIORS
-	new OpbaTempInt = GetPlayerInterior(playerid);
+		new OpbaTempInt = GetPlayerInterior(playerid);
 	#endif
 	
 	new OPBA_Vehicle; 
@@ -356,21 +356,21 @@ public OPBA_AirbrakeTeleport(playerid)
 	if(OPBA_Player[playerid][RacHoldCheck]) return 0;
 	if(OPBA_Player[playerid][RacBreakImmunity] ) return GetPlayerPos(playerid, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]);
 	#if !defined OPBA_CUSTOM_INTERIORS
-	if(OpbaTempInt != OPBA_Player[playerid][RacPlayerInt] || OPBA_Player[playerid][RacProtecInt]) return GetPlayerPos(playerid, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]);
+		if(OpbaTempInt != OPBA_Player[playerid][RacPlayerInt] || OPBA_Player[playerid][RacProtecInt]) return GetPlayerPos(playerid, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]);
 	#endif
 
 	if(OPBA_GetPlayerSpeed(playerid) <= OPBA_MAX_DETECT_SPEED && OPBA_Player[playerid][RacPause] == 0 && OPBA_Player[playerid][RacFallBug] == 0
 	&& OPBA_Player[playerid][RacSImu] && OPBA_Player[playerid][RacCarFall] == 0)
 	{
 		#if !defined OnPlayerBreakAir
-		new OPBA_CheaterName[MAX_PLAYER_NAME], OPBA_CheatString[60];
-		GetPlayerName(playerid, OPBA_CheaterName, sizeof(OPBA_CheaterName));
+			new OPBA_CheaterName[MAX_PLAYER_NAME], OPBA_CheatString[60];
+			GetPlayerName(playerid, OPBA_CheaterName, sizeof(OPBA_CheaterName));
 
-		#if !defined OPBA_BAN_VERSION
-		format(OPBA_CheatString, sizeof(OPBA_CheatString), "Server has kicked %s, reason: Airbreak", OPBA_CheaterName);
-		#else
-		format(OPBA_CheatString, sizeof(OPBA_CheatString), "Server has banned %s, reason: Airbreak", OPBA_CheaterName);
-		#endif
+			#if !defined OPBA_BAN_VERSION
+				format(OPBA_CheatString, sizeof(OPBA_CheatString), "Server has kicked %s, reason: Airbreak", OPBA_CheaterName);
+			#else
+				format(OPBA_CheatString, sizeof(OPBA_CheatString), "Server has banned %s, reason: Airbreak", OPBA_CheaterName);
+			#endif
 
 		#endif
 
@@ -383,116 +383,115 @@ public OPBA_AirbrakeTeleport(playerid)
 				if(GetPlayerSurfingVehicleID(playerid) == INVALID_VEHICLE_ID && GetPlayerSpecialAction(playerid) != 2)
 				{
 					#if !defined OPBA_CUSTOM_INTERIORS
-					if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]) && OPBA_PInteriors[playerid][OpbaTempInt])
-					{
-						#if defined OnPlayerBreakAir
-
-						#if defined _FLaggersIncluded_
-						if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
+						if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]) && OPBA_PInteriors[playerid][OpbaTempInt])
 						{
-							OPBA_PlayerDelayer{playerid} = true;
-							SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-							OPBA_WarnsIncrease{playerid}++;
-							if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
-						}
-						else if(!OPBA_PlayerDelayer{playerid}) OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 4);
-						#else
-						OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 4);
-						#endif
-
-						#else
-						SendClientMessageToAll(-1, OPBA_CheatString);
-						SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
-						#endif
-					}
-					else if(!IsPlayerInRangeOfPoint(playerid, OPBA_ONFOOT_DETECTION, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]) && OPBA_PInteriors[playerid][OpbaTempInt])
-					{
-						if(OPBA_Player[playerid][RacABTicks] == 0) 
-						{
-							KillTimer(OPBA_Player[playerid][RacRTPTimer]);
-							OPBA_Player[playerid][RacRTPTimer] = SetTimerEx("OPBA_ResetTP", 50000, false, "i", playerid);
-						}
-						if(OPBA_Player[playerid][RacABTicks] < OPBA_AB_TICKS) OPBA_Player[playerid][RacABTicks]++;
-						if(OPBA_Player[playerid][RacABTicks] == OPBA_AB_TICKS)
-						{
-							OPBA_Player[playerid][RacABTicks] = 0;
 							#if defined OnPlayerBreakAir
 
-							#if defined _FLaggersIncluded_
-							if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
-							{
-								OPBA_PlayerDelayer{playerid} = true;
-								SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-								OPBA_WarnsIncrease{playerid}++;
-								if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
-							}
-							else if(!OPBA_PlayerDelayer{playerid}) OnPlayerBreakAir(playerid, 1);
-							#else
-							OnPlayerBreakAir(playerid, 1);
-							#endif
+								#if defined _FLaggersIncluded_
+									if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
+									{
+										OPBA_PlayerDelayer{playerid} = true;
+										SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+										OPBA_WarnsIncrease{playerid}++;
+										if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
+									}
+									else if(!OPBA_PlayerDelayer{playerid}) OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 4);
+								#else
+									OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 4);
+								#endif
 
 							#else
-							SendClientMessageToAll(-1, OPBA_CheatString);
-							SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
+								SendClientMessageToAll(-1, OPBA_CheatString);
+								SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
 							#endif
 						}
-					}
+						else if(!IsPlayerInRangeOfPoint(playerid, OPBA_ONFOOT_DETECTION, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]) && OPBA_PInteriors[playerid][OpbaTempInt])
+						{
+							if(OPBA_Player[playerid][RacABTicks] == 0) 
+							{
+								KillTimer(OPBA_Player[playerid][RacRTPTimer]);
+								OPBA_Player[playerid][RacRTPTimer] = SetTimerEx("OPBA_ResetTP", 50000, false, "i", playerid);
+							}
+							if(OPBA_Player[playerid][RacABTicks] < OPBA_AB_TICKS) OPBA_Player[playerid][RacABTicks]++;
+							if(OPBA_Player[playerid][RacABTicks] == OPBA_AB_TICKS)
+							{
+								OPBA_Player[playerid][RacABTicks] = 0;
+								#if defined OnPlayerBreakAir
 
+									#if defined _FLaggersIncluded_
+										if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
+										{
+											OPBA_PlayerDelayer{playerid} = true;
+											SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+											OPBA_WarnsIncrease{playerid}++;
+											if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
+										}
+										else if(!OPBA_PlayerDelayer{playerid}) OnPlayerBreakAir(playerid, 1);
+									#else
+										OnPlayerBreakAir(playerid, 1);
+									#endif
+
+								#else
+									SendClientMessageToAll(-1, OPBA_CheatString);
+									SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
+								#endif
+							}
+						}
 					#else
-					if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
-					{
-						#if defined OnPlayerBreakAir
-
-						#if defined _FLaggersIncluded_
-						if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
+						if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
 						{
-							OPBA_PlayerDelayer{playerid} = true;
-							SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-							OPBA_WarnsIncrease{playerid}++;
-							if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
-						}
-						else if(!OPBA_PlayerDelayer{playerid}) OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 4);
-						#else
-						OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 4);
-						#endif
-
-						#else
-						SendClientMessageToAll(-1, OPBA_CheatString);
-						SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
-						#endif
-					}
-					else if(!IsPlayerInRangeOfPoint(playerid, OPBA_ONFOOT_DETECTION, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
-					{
-						if(OPBA_Player[playerid][RacABTicks] == 0) 
-						{
-							KillTimer(OPBA_Player[playerid][RacRTPTimer]);
-							OPBA_Player[playerid][RacRTPTimer] = SetTimerEx("OPBA_ResetTP", 50000, false, "i", playerid);
-						}
-						if(OPBA_Player[playerid][RacABTicks] < OPBA_AB_TICKS) OPBA_Player[playerid][RacABTicks]++;
-						if(OPBA_Player[playerid][RacABTicks] == OPBA_AB_TICKS)
-						{
-							OPBA_Player[playerid][RacABTicks] = 0;
 							#if defined OnPlayerBreakAir
-							
-							#if defined _FLaggersIncluded_
-							if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
-							{
-								OPBA_PlayerDelayer{playerid} = true;
-								SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-								OPBA_WarnsIncrease{playerid}++;
-								if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
-							}
-							else if(!OPBA_PlayerDelayer{playerid}) OnPlayerBreakAir(playerid, 1);
+
+								#if defined _FLaggersIncluded_
+									if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
+									{
+										OPBA_PlayerDelayer{playerid} = true;
+										SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+										OPBA_WarnsIncrease{playerid}++;
+										if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
+									}
+									else if(!OPBA_PlayerDelayer{playerid}) OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 4);
+								#else
+									OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 4);
+								#endif
+
 							#else
-							OnPlayerBreakAir(playerid, 1);
-							#endif
-							
-							#else
-							SendClientMessageToAll(-1, OPBA_CheatString);
-							SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
+								SendClientMessageToAll(-1, OPBA_CheatString);
+								SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
 							#endif
 						}
-					}
+						else if(!IsPlayerInRangeOfPoint(playerid, OPBA_ONFOOT_DETECTION, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
+						{
+							if(OPBA_Player[playerid][RacABTicks] == 0) 
+							{
+								KillTimer(OPBA_Player[playerid][RacRTPTimer]);
+								OPBA_Player[playerid][RacRTPTimer] = SetTimerEx("OPBA_ResetTP", 50000, false, "i", playerid);
+							}
+							if(OPBA_Player[playerid][RacABTicks] < OPBA_AB_TICKS) OPBA_Player[playerid][RacABTicks]++;
+							if(OPBA_Player[playerid][RacABTicks] == OPBA_AB_TICKS)
+							{
+								OPBA_Player[playerid][RacABTicks] = 0;
+								#if defined OnPlayerBreakAir
+								
+									#if defined _FLaggersIncluded_
+										if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
+										{
+											OPBA_PlayerDelayer{playerid} = true;
+											SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+											OPBA_WarnsIncrease{playerid}++;
+											if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
+										}
+										else if(!OPBA_PlayerDelayer{playerid}) OnPlayerBreakAir(playerid, 1);
+									#else
+										OnPlayerBreakAir(playerid, 1);
+									#endif
+									
+								#else
+									SendClientMessageToAll(-1, OPBA_CheatString);
+									SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
+								#endif
+							}
+						}
 					#endif
 				}
 			}
@@ -501,202 +500,29 @@ public OPBA_AirbrakeTeleport(playerid)
 				if(OPBA_Player[playerid][RacVRspwn]) return GetPlayerPos(playerid, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]);
 
 				#if !defined OPBA_CUSTOM_INTERIORS
-				if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]) && OPBA_PInteriors[playerid][OpbaTempInt])
-				{
-					#if defined OnPlayerBreakAir
-						
-					#if defined _FLaggersIncluded_
-					if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
-					{
-						OPBA_PlayerDelayer{playerid} = true;
-						SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-						OPBA_WarnsIncrease{playerid}++;
-						if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
-					}
-					else if(!OPBA_PlayerDelayer{playerid}) OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 5);
-					#else
-					OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 5);
-					#endif
-
-					#else
-					SendClientMessageToAll(-1, OPBA_CheatString);
-					SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
-					#endif
-				}
-				else if(!IsPlayerInRangeOfPoint(playerid, OPBA_INVEHI_DETECTION, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]) && OPBA_PInteriors[playerid][OpbaTempInt])
-				{
-					if(OPBA_Player[playerid][RacABTicks] == 0) 
-					{
-						KillTimer(OPBA_Player[playerid][RacRTPTimer]);
-						OPBA_Player[playerid][RacRTPTimer] = SetTimerEx("OPBA_ResetTP", 50000, false, "i", playerid);
-					}
-					if(OPBA_Player[playerid][RacABTicks] < OPBA_AB_TICKS) OPBA_Player[playerid][RacABTicks]++;
-					if(OPBA_Player[playerid][RacABTicks] == OPBA_AB_TICKS)
-					{
-						OPBA_Player[playerid][RacABTicks] = 0;
-						#if defined OnPlayerBreakAir
-							
-						#if defined _FLaggersIncluded_
-						if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
-						{
-							OPBA_PlayerDelayer{playerid} = true;
-							SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-							OPBA_WarnsIncrease{playerid}++;
-							if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
-						}
-						else if(!OPBA_PlayerDelayer{playerid}) OnPlayerBreakAir(playerid, 2);
-						#else
-						OnPlayerBreakAir(playerid, 2);
-						#endif
-
-						#else
-						SendClientMessageToAll(-1, OPBA_CheatString);
-						SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
-						#endif
-					}
-				}
-
-				#else
-
-				if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
-				{
-					#if defined OnPlayerBreakAir
-						
-					#if defined _FLaggersIncluded_
-					if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
-					{
-						OPBA_PlayerDelayer{playerid} = true;
-						SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-						OPBA_WarnsIncrease{playerid}++;
-						if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
-					}
-					else if(!OPBA_PlayerDelayer{playerid}) OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 5);
-					#else
-					OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 5);
-					#endif
-					
-					#else
-					SendClientMessageToAll(-1, OPBA_CheatString);
-					SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
-					#endif
-				}
-				else if(!IsPlayerInRangeOfPoint(playerid, OPBA_INVEHI_DETECTION, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
-				{
-					if(OPBA_Player[playerid][RacABTicks] == 0) 
-					{
-						KillTimer(OPBA_Player[playerid][RacRTPTimer]);
-						OPBA_Player[playerid][RacRTPTimer] = SetTimerEx("OPBA_ResetTP", 50000, false, "i", playerid);
-					}
-					if(OPBA_Player[playerid][RacABTicks] < OPBA_AB_TICKS) OPBA_Player[playerid][RacABTicks]++;
-					if(OPBA_Player[playerid][RacABTicks] == OPBA_AB_TICKS)
-					{
-						OPBA_Player[playerid][RacABTicks] = 0;
-						#if defined OnPlayerBreakAir
-							
-						#if defined _FLaggersIncluded_
-						if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
-						{
-							OPBA_PlayerDelayer{playerid} = true;
-							SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-							OPBA_WarnsIncrease{playerid}++;
-							if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
-						}
-						else if(!OPBA_PlayerDelayer{playerid}) OnPlayerBreakAir(playerid, 2);
-						#else
-						OnPlayerBreakAir(playerid, 2);
-						#endif
-						
-						#else
-						SendClientMessageToAll(-1, OPBA_CheatString);
-						SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
-						#endif
-					}
-				}
-				#endif
-			}
-			case 3:
-			{
-	 			if(OPBA_VOwner[OPBA_Vehicle] == INVALID_PLAYER_ID && !OPBA_Player[playerid][RacPassFall] && !OPBA_Player[playerid][RacVDeath])
-				{
-					#if !defined OPBA_CUSTOM_INTERIORS
 					if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]) && OPBA_PInteriors[playerid][OpbaTempInt])
 					{
 						#if defined OnPlayerBreakAir
-						
-						#if defined _FLaggersIncluded_
-						if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
-						{
-							OPBA_PlayerDelayer{playerid} = true;
-							SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-							OPBA_WarnsIncrease{playerid}++;
-							if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
-						}
-						else if(!OPBA_PlayerDelayer{playerid}) OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 6);
-						#else
-						OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 6);
-						#endif
-						
-						#else
-						SendClientMessageToAll(-1, OPBA_CheatString);
-						SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
-						#endif
-					}
-					else if(!IsPlayerInRangeOfPoint(playerid, OPBA_MAX_PASS_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]) && OPBA_PInteriors[playerid][OpbaTempInt])
-					{
-						if(OPBA_Player[playerid][RacABTicks] == 0) 
-						{
-							KillTimer(OPBA_Player[playerid][RacRTPTimer]);
-							OPBA_Player[playerid][RacRTPTimer] = SetTimerEx("OPBA_ResetTP", 50000, false, "i", playerid);
-						}
-						if(OPBA_Player[playerid][RacABTicks] < OPBA_AB_TICKS) OPBA_Player[playerid][RacABTicks]++;
-						if(OPBA_Player[playerid][RacABTicks] == OPBA_AB_TICKS)
-						{
-							OPBA_Player[playerid][RacABTicks] = 0;
-							#if defined OnPlayerBreakAir
 							
 							#if defined _FLaggersIncluded_
-							if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
-							{
-								OPBA_PlayerDelayer{playerid} = true;
-								SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-								OPBA_WarnsIncrease{playerid}++;
-								if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
-							}
-							else if(!OPBA_PlayerDelayer{playerid}) OnPlayerBreakAir(playerid, 3);
+								if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
+								{
+									OPBA_PlayerDelayer{playerid} = true;
+									SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+									OPBA_WarnsIncrease{playerid}++;
+									if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
+								}
+								else if(!OPBA_PlayerDelayer{playerid}) OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 5);
 							#else
-							OnPlayerBreakAir(playerid, 3);
+								OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 5);
 							#endif
-							
-							#else
+
+						#else
 							SendClientMessageToAll(-1, OPBA_CheatString);
 							SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
-							#endif
-						}
-					}
-					#else
-					if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
-					{
-						#if defined OnPlayerBreakAir
-							
-						#if defined _FLaggersIncluded_
-						if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
-						{
-							OPBA_PlayerDelayer{playerid} = true;
-							SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-							OPBA_WarnsIncrease{playerid}++;
-							if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
-						}
-						else if(!OPBA_PlayerDelayer{playerid}) OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 6);
-						#else
-						OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 6);
-						#endif
-						
-						#else
-						SendClientMessageToAll(-1, OPBA_CheatString);
-						SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
 						#endif
 					}
-					else if(!IsPlayerInRangeOfPoint(playerid, OPBA_MAX_PASS_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
+					else if(!IsPlayerInRangeOfPoint(playerid, OPBA_INVEHI_DETECTION, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]) && OPBA_PInteriors[playerid][OpbaTempInt])
 					{
 						if(OPBA_Player[playerid][RacABTicks] == 0) 
 						{
@@ -709,26 +535,199 @@ public OPBA_AirbrakeTeleport(playerid)
 							OPBA_Player[playerid][RacABTicks] = 0;
 							#if defined OnPlayerBreakAir
 								
-							#if defined _FLaggersIncluded_
-							if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
-							{
-								OPBA_PlayerDelayer{playerid} = true;
-								SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-								OPBA_WarnsIncrease{playerid}++;
-								if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
-							}
-							else if(!OPBA_PlayerDelayer{playerid}) OnPlayerBreakAir(playerid, 3);
+								#if defined _FLaggersIncluded_
+									if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
+									{
+										OPBA_PlayerDelayer{playerid} = true;
+										SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+										OPBA_WarnsIncrease{playerid}++;
+										if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
+									}
+									else if(!OPBA_PlayerDelayer{playerid}) OnPlayerBreakAir(playerid, 2);
+								#else
+									OnPlayerBreakAir(playerid, 2);
+								#endif
+
 							#else
-							OnPlayerBreakAir(playerid, 3);
+								SendClientMessageToAll(-1, OPBA_CheatString);
+								SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
+							#endif
+						}
+					}
+
+				#else
+
+					if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
+					{
+						#if defined OnPlayerBreakAir
+							
+							#if defined _FLaggersIncluded_
+								if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
+								{
+									OPBA_PlayerDelayer{playerid} = true;
+									SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+									OPBA_WarnsIncrease{playerid}++;
+									if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
+								}
+								else if(!OPBA_PlayerDelayer{playerid}) OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 5);
+							#else
+								OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 5);
 							#endif
 							
-							#else
+						#else
 							SendClientMessageToAll(-1, OPBA_CheatString);
 							SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
+						#endif
+					}
+					else if(!IsPlayerInRangeOfPoint(playerid, OPBA_INVEHI_DETECTION, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
+					{
+						if(OPBA_Player[playerid][RacABTicks] == 0) 
+						{
+							KillTimer(OPBA_Player[playerid][RacRTPTimer]);
+							OPBA_Player[playerid][RacRTPTimer] = SetTimerEx("OPBA_ResetTP", 50000, false, "i", playerid);
+						}
+						if(OPBA_Player[playerid][RacABTicks] < OPBA_AB_TICKS) OPBA_Player[playerid][RacABTicks]++;
+						if(OPBA_Player[playerid][RacABTicks] == OPBA_AB_TICKS)
+						{
+							OPBA_Player[playerid][RacABTicks] = 0;
+							#if defined OnPlayerBreakAir
+								
+								#if defined _FLaggersIncluded_
+									if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
+									{
+										OPBA_PlayerDelayer{playerid} = true;
+										SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+										OPBA_WarnsIncrease{playerid}++;
+										if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
+									}
+									else if(!OPBA_PlayerDelayer{playerid}) OnPlayerBreakAir(playerid, 2);
+								#else
+									OnPlayerBreakAir(playerid, 2);
+								#endif
+								
+							#else
+								SendClientMessageToAll(-1, OPBA_CheatString);
+								SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
 							#endif
 						}
 					}
 				#endif
+			}
+			case 3:
+			{
+	 			if(OPBA_VOwner[OPBA_Vehicle] == INVALID_PLAYER_ID && !OPBA_Player[playerid][RacPassFall] && !OPBA_Player[playerid][RacVDeath])
+				{
+					#if !defined OPBA_CUSTOM_INTERIORS
+						if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]) && OPBA_PInteriors[playerid][OpbaTempInt])
+						{
+							#if defined OnPlayerBreakAir
+							
+								#if defined _FLaggersIncluded_
+									if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
+									{
+										OPBA_PlayerDelayer{playerid} = true;
+										SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+										OPBA_WarnsIncrease{playerid}++;
+										if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
+									}
+									else if(!OPBA_PlayerDelayer{playerid}) OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 6);
+								#else
+									OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 6);
+								#endif
+							
+							#else
+								SendClientMessageToAll(-1, OPBA_CheatString);
+								SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
+							#endif
+						}
+						else if(!IsPlayerInRangeOfPoint(playerid, OPBA_MAX_PASS_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]) && OPBA_PInteriors[playerid][OpbaTempInt])
+						{
+							if(OPBA_Player[playerid][RacABTicks] == 0) 
+							{
+								KillTimer(OPBA_Player[playerid][RacRTPTimer]);
+								OPBA_Player[playerid][RacRTPTimer] = SetTimerEx("OPBA_ResetTP", 50000, false, "i", playerid);
+							}
+							if(OPBA_Player[playerid][RacABTicks] < OPBA_AB_TICKS) OPBA_Player[playerid][RacABTicks]++;
+							if(OPBA_Player[playerid][RacABTicks] == OPBA_AB_TICKS)
+							{
+								OPBA_Player[playerid][RacABTicks] = 0;
+								#if defined OnPlayerBreakAir
+								
+									#if defined _FLaggersIncluded_
+										if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
+										{
+											OPBA_PlayerDelayer{playerid} = true;
+											SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+											OPBA_WarnsIncrease{playerid}++;
+											if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
+										}
+										else if(!OPBA_PlayerDelayer{playerid}) OnPlayerBreakAir(playerid, 3);
+									#else
+										OnPlayerBreakAir(playerid, 3);
+									#endif
+								
+								#else
+									SendClientMessageToAll(-1, OPBA_CheatString);
+									SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
+								#endif
+							}
+						}
+					#else
+						if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
+						{
+							#if defined OnPlayerBreakAir
+								
+								#if defined _FLaggersIncluded_
+									if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
+									{
+										OPBA_PlayerDelayer{playerid} = true;
+										SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+										OPBA_WarnsIncrease{playerid}++;
+										if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
+									}
+									else if(!OPBA_PlayerDelayer{playerid}) OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 6);
+								#else
+									OPBA_Player[playerid][RacHoldCheck] = true, SetTimerEx("OPBA_CheckRealTP", OPBA_TP_DELAY_TIME, false, "ii", playerid, 6);
+								#endif
+								
+							#else
+								SendClientMessageToAll(-1, OPBA_CheatString);
+								SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
+							#endif
+						}
+						else if(!IsPlayerInRangeOfPoint(playerid, OPBA_MAX_PASS_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
+						{
+							if(OPBA_Player[playerid][RacABTicks] == 0) 
+							{
+								KillTimer(OPBA_Player[playerid][RacRTPTimer]);
+								OPBA_Player[playerid][RacRTPTimer] = SetTimerEx("OPBA_ResetTP", 50000, false, "i", playerid);
+							}
+							if(OPBA_Player[playerid][RacABTicks] < OPBA_AB_TICKS) OPBA_Player[playerid][RacABTicks]++;
+							if(OPBA_Player[playerid][RacABTicks] == OPBA_AB_TICKS)
+							{
+								OPBA_Player[playerid][RacABTicks] = 0;
+								#if defined OnPlayerBreakAir
+									
+									#if defined _FLaggersIncluded_
+										if( (IsPlayerLagging(playerid) || OPBA_WarnsIncrease{playerid} > 0) && !OPBA_PlayerDelayer{playerid})
+										{
+											OPBA_PlayerDelayer{playerid} = true;
+											SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+											OPBA_WarnsIncrease{playerid}++;
+											if(OPBA_WarnsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) OPBA_WarnsIncrease{playerid} = 0, OPBA_TogglePlayerLag(playerid, true, 20000);
+										}
+										else if(!OPBA_PlayerDelayer{playerid}) OnPlayerBreakAir(playerid, 3);
+									#else
+										OnPlayerBreakAir(playerid, 3);
+									#endif
+									
+								#else
+									SendClientMessageToAll(-1, OPBA_CheatString);
+									SetTimerEx("OPBA_DelayCall", 250, false, "i", playerid);
+								#endif
+							}
+						}
+					#endif
 				}
 			}
 		}
@@ -739,36 +738,36 @@ public OPBA_AirbrakeTeleport(playerid)
 }
 
 #if defined OnPlayerBreakAir
-public OPBA_CheckRealTP(playerid, tpcode)
-{
-	if(tpcode == 4 && OPBA_IsPEnExCar(playerid)) return OPBA_Player[playerid][RacHoldCheck] = false;
-	if(tpcode == 6 && OPBA_Player[playerid][RacPassengerTP]) return OPBA_Player[playerid][RacHoldCheck] = false;
-	#if !defined OPBA_CUSTOM_INTERIORS
-	if(!OPBA_Player[playerid][RacProtecInt] && !IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
+	public OPBA_CheckRealTP(playerid, tpcode)
 	{
-		OnPlayerBreakAir(playerid, tpcode);
+		if(tpcode == 4 && OPBA_IsPEnExCar(playerid)) return OPBA_Player[playerid][RacHoldCheck] = false;
+		if(tpcode == 6 && OPBA_Player[playerid][RacPassengerTP]) return OPBA_Player[playerid][RacHoldCheck] = false;
+		#if !defined OPBA_CUSTOM_INTERIORS
+			if(!OPBA_Player[playerid][RacProtecInt] && !IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
+			{
+				OnPlayerBreakAir(playerid, tpcode);
+			}
+		#else
+			if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
+			{
+				OnPlayerBreakAir(playerid, tpcode);
+			}
+		#endif
+		OPBA_Player[playerid][RacHoldCheck] = false;
+		return 1;
 	}
-	#else
-	if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]))
-	{
-		OnPlayerBreakAir(playerid, tpcode);
-	}
-	#endif
-	OPBA_Player[playerid][RacHoldCheck] = false;
-	return 1;
-}
 #endif
 
 #if !defined OnPlayerBreakAir
-public OPBA_DelayCall(playerid)
-{
-	#if defined OPBA_BAN_VERSION
-	BanEx(playerid, "Airbreak");
-	#else
-	Kick(playerid);
-	#endif
-	return 1;
-}
+	public OPBA_DelayCall(playerid)
+	{
+		#if defined OPBA_BAN_VERSION
+			BanEx(playerid, "Airbreak");
+		#else
+			Kick(playerid);
+		#endif
+		return 1;
+	}
 #endif
 
 public OPBA_SafeReset() 
@@ -782,7 +781,7 @@ public OPBA_SafeReset()
 		RacVeh = GetPlayerVehicleID(i);
 		if(!IsPlayerConnected(i)) continue; 
 		if(GetPlayerState(i)== PLAYER_STATE_DRIVER) 
-		OPBA_VOwner[RacVeh]     = i ; 
+		OPBA_VOwner[RacVeh]	 = i ; 
 		if(GetPlayerState(i) == PLAYER_STATE_PASSENGER)
 		OPBA_VPassenger[RacVeh] = i  ;
 	} 
@@ -903,11 +902,11 @@ public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 		OPBA_Player[playerid][RacBreakImmunity] = true;
 	}
 
-		#if defined OPBA_OnPlayerEnterVehicle
-	return OPBA_OnPlayerEnterVehicle(playerid, vehicleid, ispassenger);
-		#else
-	return 1;
-		#endif
+	#if defined OPBA_OnPlayerEnterVehicle
+		return OPBA_OnPlayerEnterVehicle(playerid, vehicleid, ispassenger);
+	#else
+		return 1;
+	#endif
 }
 
 public OnVehicleDeath(vehicleid, killerid)
@@ -921,11 +920,11 @@ public OnVehicleDeath(vehicleid, killerid)
 		}
 	}
 
-		#if defined OPBA_OnVehicleDeath
-	return OPBA_OnVehicleDeath(vehicleid, killerid);
-		#else
-	return 1;
-		#endif
+	#if defined OPBA_OnVehicleDeath
+		return OPBA_OnVehicleDeath(vehicleid, killerid);
+	#else
+		return 1;
+	#endif
 }
 
 public OnPlayerExitVehicle(playerid, vehicleid)
@@ -934,11 +933,11 @@ public OnPlayerExitVehicle(playerid, vehicleid)
 	OPBA_Player[playerid][RacProTimer] = SetTimerEx("OPBA_ResetPImuunity", OPBA_RESET_TIME, false, "i", playerid);
 	OPBA_Player[playerid][RacBreakImmunity] = true;
 
-		#if defined OPBA_OnPlayerExitVehicle
-	return OPBA_OnPlayerExitVehicle(playerid, vehicleid);
-		#else
-	return 1;
-		#endif
+	#if defined OPBA_OnPlayerExitVehicle
+		return OPBA_OnPlayerExitVehicle(playerid, vehicleid);
+	#else
+		return 1;
+	#endif
 }
 
 public OnGameModeInit()
@@ -954,10 +953,10 @@ public OnGameModeInit()
 
 public OnGameModeExit()
 {
-    #if defined _FLaggersIncluded_
+	#if defined _FLaggersIncluded_
 		if(!OPBAG_LagInit)
 			OPBA_LagInit();
-    #endif
+	#endif
 
 	KillTimer(OP_SafeTimer);
 
@@ -971,12 +970,12 @@ public OnGameModeExit()
 public OnPlayerConnect(playerid)
 {
 	#if defined _FLaggersIncluded_
-	if(OPBA_PLagTimer[playerid] != -1) 
-	{
-		KillTimer(OPBA_PLagTimer[playerid]);
-		OPBA_PLagTimer[playerid] = -1;
-	}
-	GetPlayerIp(playerid, OPBA_PLagIP[playerid], 16);
+		if(OPBA_PLagTimer[playerid] != -1) 
+		{
+			KillTimer(OPBA_PLagTimer[playerid]);
+			OPBA_PLagTimer[playerid] = -1;
+		}
+		GetPlayerIp(playerid, OPBA_PLagIP[playerid], 16);
 	#endif
 	OPBA_Player[playerid][RacPlayerInt] = -1;
 	OPBA_Player[playerid][RacDetectTimer] = SetTimerEx("OPBA_AirbrakeTeleport", 300, true, "i", playerid);
@@ -1052,24 +1051,24 @@ public OnPlayerDisconnect(playerid, reason)
 	OPBA_Player[playerid][RacSImu] 			  = false;	
 	OPBA_Player[playerid][RacFallBug] 		  = 0;
 	OPBA_Player[playerid][RacPause] 		  = 0;
-	OPBA_Player[playerid][RacCarFall]         = 0;
+	OPBA_Player[playerid][RacCarFall]		 = 0;
 	OPBA_Player[playerid][RacABTicks] 		  = 0;
 	OPBA_Player[playerid][RacPassFallAbuse]   = 0;
 	OPBA_Player[playerid][RacSurf] 			  = 0;	
 
 	#if !defined OPBA_CUSTOM_INTERIORS
-	OPBA_Player[playerid][RacProtecInt] = false;
-	for(new i; i < OPBA_MAX_INTERIORS; i++)
-	{
-		OPBA_PInteriors[playerid][i] = false;
-	}
+		OPBA_Player[playerid][RacProtecInt] = false;
+		for(new i; i < OPBA_MAX_INTERIORS; i++)
+		{
+			OPBA_PInteriors[playerid][i] = false;
+		}
 
-    #endif
-			#if defined OPBA_OnPlayerDisconnect
-	return OPBA_OnPlayerDisconnect(playerid, reason);
-		#else
-	return 1;
-		#endif
+	#endif
+	#if defined OPBA_OnPlayerDisconnect
+		return OPBA_OnPlayerDisconnect(playerid, reason);
+	#else
+		return 1;
+	#endif
 }
 
 public OnPlayerSpawn(playerid)
@@ -1078,45 +1077,45 @@ public OnPlayerSpawn(playerid)
 	SetTimerEx("OPBA_SetPPos", 2500, false, "i", playerid);
 
 	#if !defined OPBA_CUSTOM_INTERIORS
-	OPBA_Player[playerid][RacPlayerInt] = GetPlayerInterior(playerid);
-	OPBA_PInteriors[playerid][GetPlayerInterior(playerid)] = true;
+		OPBA_Player[playerid][RacPlayerInt] = GetPlayerInterior(playerid);
+		OPBA_PInteriors[playerid][GetPlayerInterior(playerid)] = true;
 	#endif
 
-		#if defined OPBA_OnPlayerSpawn
-	return OPBA_OnPlayerSpawn(playerid);
-		#else
-	return 1;
-		#endif
+	#if defined OPBA_OnPlayerSpawn
+		return OPBA_OnPlayerSpawn(playerid);
+	#else
+		return 1;
+	#endif
 }
 
 #if !defined OPBA_CUSTOM_INTERIORS
 
-public OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid)
-{
-	KillTimer(OPBA_Player[playerid][RacFixTimer]);
-	OPBA_PInteriors[playerid][oldinteriorid] = false;
-	OPBA_Player[playerid][RacFixTimer] = SetTimerEx("OPBA_FixIBug", 1500, false, "ii", playerid, newinteriorid);
+	public OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid)
+	{
+		KillTimer(OPBA_Player[playerid][RacFixTimer]);
+		OPBA_PInteriors[playerid][oldinteriorid] = false;
+		OPBA_Player[playerid][RacFixTimer] = SetTimerEx("OPBA_FixIBug", 1500, false, "ii", playerid, newinteriorid);
 
 		#if defined OPBA_OnPlayerInteriorChange
-	return OPBA_OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid);
+			return OPBA_OnPlayerInteriorChange(playerid, newinteriorid, oldinteriorid);
 		#else
-	return 1;
+			return 1;
 		#endif
-}
+	}
 
-public OPBA_FixIBug(playerid, newinteriorid) return OPBA_PInteriors[playerid][newinteriorid] = true;
-public OPBA_FixInteriors(playerid) return OPBA_Player[playerid][RacProtecInt] = false;
+	public OPBA_FixIBug(playerid, newinteriorid) return OPBA_PInteriors[playerid][newinteriorid] = true;
+	public OPBA_FixInteriors(playerid) return OPBA_Player[playerid][RacProtecInt] = false;
 #endif
 
 public OnPlayerDeath(playerid, killerid, reason)
 {
 	OPBA_Player[playerid][RacSImu] = false;
 
-		#if defined OPBA_OnPlayerDeath	
-	return OPBA_OnPlayerDeath(playerid, killerid, reason);
-		#else
-	return 1;
-		#endif
+	#if defined OPBA_OnPlayerDeath	
+		return OPBA_OnPlayerDeath(playerid, killerid, reason);
+	#else
+		return 1;
+	#endif
 }
 
 public OnPlayerUpdate(playerid)
@@ -1139,26 +1138,26 @@ public OnPlayerUpdate(playerid)
 		SetTimerEx("OPBA_FixPassenger", 1200, false, "i", playerid);
 	}
 	#if !defined OPBA_CUSTOM_INTERIORS
-	new OPBA_PInt;
-	OPBA_PInt = GetPlayerInterior(playerid);
-	if(OPBA_PInt != OPBA_Player[playerid][RacPlayerInt] && OPBA_Player[playerid][RacPlayerInt] != -1)
-	{
-		OPBA_Player[playerid][RacProtecInt] = true;
-		KillTimer(OPBA_Player[playerid][RacIntTimer]);
-		OPBA_Player[playerid][RacIntTimer] = SetTimerEx("OPBA_FixInteriors", 4500, false, "i", playerid);
-		OPBA_Player[playerid][RacPlayerInt] = OPBA_PInt;
-	}
+		new OPBA_PInt;
+		OPBA_PInt = GetPlayerInterior(playerid);
+		if(OPBA_PInt != OPBA_Player[playerid][RacPlayerInt] && OPBA_Player[playerid][RacPlayerInt] != -1)
+		{
+			OPBA_Player[playerid][RacProtecInt] = true;
+			KillTimer(OPBA_Player[playerid][RacIntTimer]);
+			OPBA_Player[playerid][RacIntTimer] = SetTimerEx("OPBA_FixInteriors", 4500, false, "i", playerid);
+			OPBA_Player[playerid][RacPlayerInt] = OPBA_PInt;
+		}
 	#endif
 	OPBA_Player[playerid][RacPauseTicks] = GetTickCount();
 
 	if(OPBA_PlayerFalling(playerid) && OPBA_Player[playerid][RacFallBug] == 0) OPBA_Player[playerid][RacFallBug] = 1;
 	else if(!OPBA_PlayerFalling(playerid) && OPBA_Player[playerid][RacFallBug] == 1) OPBA_Player[playerid][RacFallBug] = 2, SetTimerEx("OPBA_FixFallBug", 2500, false, "i", playerid);
 		
-		#if defined OPBA_OnPlayerUpdate	
-	return OPBA_OnPlayerUpdate(playerid);
-		#else
-	return 1;
-		#endif
+	#if defined OPBA_OnPlayerUpdate	
+		return OPBA_OnPlayerUpdate(playerid);
+	#else
+		return 1;
+	#endif
 }
 
 static stock OPBA_IsPEnExCar(playerid)
@@ -1195,64 +1194,63 @@ static OPBA_PlayerFalling(playerid)
 }
 
 #if defined _FLaggersIncluded_
-forward OPBA_PlayerRDelayer(playerid);
-public OPBA_PlayerRDelayer(playerid) return OPBA_PlayerDelayer{playerid} = false;
+	forward OPBA_PlayerRDelayer(playerid);
+	public OPBA_PlayerRDelayer(playerid) return OPBA_PlayerDelayer{playerid} = false;
 
-static OPBA_LagInit() 
-{
-	for(new i, j = GetPlayerPoolSize(); i <= j; i++)
+	static OPBA_LagInit() 
 	{
-		if(!IsPlayerConnected(i)) continue;
-		OnPlayerConnect(i);
+		for(new i, j = GetPlayerPoolSize(); i <= j; i++)
+		{
+			if(!IsPlayerConnected(i)) continue;
+			OnPlayerConnect(i);
+		}
+		OPBAG_LagInit = true;
+		return 1;
 	}
-	OPBAG_LagInit = true;
-	return 1;
-}
 
-static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000) 
-{
-	#if !defined BlockIpAddress
-	new 
-		Opba_Temp_string[32];
-	#endif
-	
-	if(toggle) 
+	static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000) 
 	{
-		if(OPBA_PLagTimer[playerid] != -1)
-			return 0;
+		#if !defined BlockIpAddress
+			new Opba_Temp_string[32];
+		#endif
+		
+		if(toggle) 
+		{
+			if(OPBA_PLagTimer[playerid] != -1)
+				return 0;
 
-	#if defined BlockIpAddress
-		BlockIpAddress(OPBA_PLagIP[playerid], lag_delay);
-	#else
-		format(Opba_Temp_string, sizeof(Opba_Temp_string), "banip %s", OPBA_PLagIP[playerid]);
-		SendRconCommand(Opba_Temp_string);
-	#endif
-		OPBA_PLagTimer[playerid] = SetTimerEx("L_LagPlayer", lag_delay, true, "dd", playerid, lag_delay);
-	}
-	else 
-	{
-		if(OPBA_PLagTimer[playerid] == -1)
-			return 0;
-	
-		KillTimer(OPBA_PLagTimer[playerid]);
-		OPBA_PLagTimer[playerid] = -1;
+		#if defined BlockIpAddress
+			BlockIpAddress(OPBA_PLagIP[playerid], lag_delay);
+		#else
+			format(Opba_Temp_string, sizeof(Opba_Temp_string), "banip %s", OPBA_PLagIP[playerid]);
+			SendRconCommand(Opba_Temp_string);
+		#endif
+			OPBA_PLagTimer[playerid] = SetTimerEx("L_LagPlayer", lag_delay, true, "dd", playerid, lag_delay);
+		}
+		else 
+		{
+			if(OPBA_PLagTimer[playerid] == -1)
+				return 0;
+		
+			KillTimer(OPBA_PLagTimer[playerid]);
+			OPBA_PLagTimer[playerid] = -1;
 
-	#if defined BlockIpAddress
-		UnBlockIpAddress(OPBA_PLagIP[playerid]);
-	#else
-		format(Opba_Temp_string, sizeof(Opba_Temp_string), "unbanip %s", OPBA_PLagIP[playerid]);
-		SendRconCommand(Opba_Temp_string);
-	#endif
+		#if defined BlockIpAddress
+			UnBlockIpAddress(OPBA_PLagIP[playerid]);
+		#else
+			format(Opba_Temp_string, sizeof(Opba_Temp_string), "unbanip %s", OPBA_PLagIP[playerid]);
+			SendRconCommand(Opba_Temp_string);
+		#endif
+		}
+		return 1;
 	}
-	return 1;
-}
 #endif
 
 
 #if defined _ALS_OnPlayerConnect
   #undef OnPlayerConnect
 #else
-    #define _ALS_OnPlayerConnect
+	#define _ALS_OnPlayerConnect
 #endif
 
 #define OnPlayerConnect OPBA_OnPlayerConnect
@@ -1260,7 +1258,7 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 #if defined _ALS_OnPlayerDisconnect
   #undef OnPlayerDisconnect
 #else
-    #define _ALS_OnPlayerDisconnect
+	#define _ALS_OnPlayerDisconnect
 #endif
 
 #define OnPlayerDisconnect OPBA_OnPlayerDisconnect
@@ -1268,7 +1266,7 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 #if defined _ALS_OnPlayerStateChange
   #undef OnPlayerStateChange
 #else
-    #define _ALS_OnPlayerStateChange
+	#define _ALS_OnPlayerStateChange
 #endif
 
 #define OnPlayerStateChange OPBA_OnPlayerStateChange
@@ -1276,7 +1274,7 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 #if defined _ALS_OnPlayerInteriorChange
   #undef OnPlayerInteriorChange
 #else
-    #define _ALS_OnPlayerInteriorChange
+	#define _ALS_OnPlayerInteriorChange
 #endif
 
 #define OnPlayerInteriorChange OPBA_OnPlayerInteriorChange
@@ -1284,7 +1282,7 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 #if defined _ALS_OnVehicleDeath
   #undef OnVehicleDeath
 #else
-    #define _ALS_OnVehicleDeath
+	#define _ALS_OnVehicleDeath
 #endif
 
 #define OnVehicleDeath OPBA_OnVehicleDeath
@@ -1292,7 +1290,7 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 #if defined _ALS_OnPlayerSpawn
   #undef OnPlayerSpawn
 #else
-    #define _ALS_OnPlayerSpawn
+	#define _ALS_OnPlayerSpawn
 #endif
 
 #define OnPlayerSpawn OPBA_OnPlayerSpawn
@@ -1300,7 +1298,7 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 #if defined _ALS_OnPlayerUpdate
   #undef OnPlayerUpdate
 #else
-    #define _ALS_OnPlayerUpdate
+	#define _ALS_OnPlayerUpdate
 #endif
 
 #define OnPlayerUpdate OPBA_OnPlayerUpdate
@@ -1308,7 +1306,7 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 #if defined _ALS_OnPlayerExitVehicle
   #undef OnPlayerExitVehicle
 #else
-    #define _ALS_OnPlayerExitVehicle
+	#define _ALS_OnPlayerExitVehicle
 #endif
 
 #define OnPlayerExitVehicle OPBA_OnPlayerExitVehicle
@@ -1316,7 +1314,7 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 #if defined _ALS_OnPlayerEnterVehicle
   #undef OnPlayerEnterVehicle
 #else
-    #define _ALS_OnPlayerEnterVehicle
+	#define _ALS_OnPlayerEnterVehicle
 #endif
 
 #define OnPlayerEnterVehicle OPBA_OnPlayerEnterVehicle
@@ -1324,7 +1322,7 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 #if defined _ALS_OnGameModeInit
   #undef OnGameModeInit
 #else
-    #define _ALS_OnGameModeInit
+	#define _ALS_OnGameModeInit
 #endif
 
 #define OnGameModeInit OPBA_OnGameModeInit
@@ -1332,7 +1330,7 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 #if defined _ALS_OnGameModeExit
   #undef OnGameModeExit
 #else
-    #define _ALS_OnGameModeExit
+	#define _ALS_OnGameModeExit
 #endif
 
 #define OnGameModeExit OPBA_OnGameModeExit
@@ -1340,7 +1338,7 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 #if defined _ALS_OnPlayerDeath
   #undef OnPlayerDeath
 #else
-    #define _ALS_OnPlayerDeath
+	#define _ALS_OnPlayerDeath
 #endif
 
 #define OnPlayerDeath OPBA_OnPlayerDeath
@@ -1348,7 +1346,7 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 #if defined _ALS_SetPlayerPos
   #undef SetPlayerPos
 #else
-    #define _ALS_SetPlayerPos
+	#define _ALS_SetPlayerPos
 #endif
 
 #define SetPlayerPos OPBA_SetPlayerPos
@@ -1356,7 +1354,7 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 #if defined _ALS_SetVehiclePos
   #undef SetVehiclePos
 #else
-    #define _ALS_SetVehiclePos
+	#define _ALS_SetVehiclePos
 #endif
 
 #define SetVehiclePos OPBA_SetVehiclePos
@@ -1364,7 +1362,7 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 #if defined _ALS_TogglePlayerSpectating
   #undef TogglePlayerSpectating
 #else
-    #define _ALS_TogglePlayerSpectating
+	#define _ALS_TogglePlayerSpectating
 #endif
 
 #define TogglePlayerSpectating OPBA_TogglePlayerSpectating
@@ -1372,7 +1370,7 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 #if defined _ALS_SetPlayerPosFindZ
   #undef SetPlayerPosFindZ
 #else
-    #define _ALS_SetPlayerPosFindZ
+	#define _ALS_SetPlayerPosFindZ
 #endif
 
 #define SetPlayerPosFindZ OPBA_SetPlayerPosFindZ
@@ -1380,7 +1378,7 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 #if defined _ALS_SetVehicleToRespawn
   #undef SetVehicleToRespawn
 #else
-    #define _ALS_SetVehicleToRespawn
+	#define _ALS_SetVehicleToRespawn
 #endif
 
 #define SetVehicleToRespawn OPBA_SetVehicleToRespawn
@@ -1388,7 +1386,7 @@ static stock OPBA_TogglePlayerLag(playerid, bool:toggle, lag_delay = 3000)
 #if defined _ALS_PutPlayerInVehicle
   #undef PutPlayerInVehicle
 #else
-    #define _ALS_PutPlayerInVehicle
+	#define _ALS_PutPlayerInVehicle
 #endif
 
 #define PutPlayerInVehicle OPBA_PutPlayerInVehicle
@@ -1416,7 +1414,7 @@ stock OPBA_FTogglePlayerSpectating(playerid, bool:toggle)
 #if defined _ALS_SetPlayerPos
   #undef SetPlayerPos
 #else
-    #define _ALS_SetPlayerPos
+	#define _ALS_SetPlayerPos
 #endif
 
 #define SetPlayerPos OPBA_FSetPlayerPos
@@ -1424,7 +1422,7 @@ stock OPBA_FTogglePlayerSpectating(playerid, bool:toggle)
 #if defined _ALS_SetVehicleToRespawn
   #undef SetVehicleToRespawn
 #else
-    #define _ALS_SetVehicleToRespawn
+	#define _ALS_SetVehicleToRespawn
 #endif
 
 #define SetVehicleToRespawn OPBA_FSetVehicleToRespawn
@@ -1432,7 +1430,7 @@ stock OPBA_FTogglePlayerSpectating(playerid, bool:toggle)
 #if defined _ALS_SetVehiclePos
   #undef SetVehiclePos
 #else
-    #define _ALS_SetVehiclePos
+	#define _ALS_SetVehiclePos
 #endif
 
 #define SetVehiclePos OPBA_FSetVehiclePos
@@ -1440,7 +1438,7 @@ stock OPBA_FTogglePlayerSpectating(playerid, bool:toggle)
 #if defined _ALS_SetPlayerPosFindZ
   #undef SetPlayerPosFindZ
 #else
-    #define _ALS_SetPlayerPosFindZ
+	#define _ALS_SetPlayerPosFindZ
 #endif
 
 #define SetPlayerPosFindZ OPBA_FSetPlayerPosFindZ
@@ -1448,7 +1446,7 @@ stock OPBA_FTogglePlayerSpectating(playerid, bool:toggle)
 #if defined _ALS_PutPlayerInVehicle
   #undef PutPlayerInVehicle
 #else
-    #define _ALS_PutPlayerInVehicle
+	#define _ALS_PutPlayerInVehicle
 #endif
 
 #define PutPlayerInVehicle OPBA_FPutPlayerInVehicle
@@ -1456,7 +1454,7 @@ stock OPBA_FTogglePlayerSpectating(playerid, bool:toggle)
 #if defined _ALS_TogglePlayerSpectating
   #undef TogglePlayerSpectating
 #else
-    #define _ALS_TogglePlayerSpectating
+	#define _ALS_TogglePlayerSpectating
 #endif
 
 #define TogglePlayerSpectating OPBA_FTogglePlayerSpectating
@@ -1483,42 +1481,42 @@ static stock OPBA_memset(aArray[], iValue, iSize = sizeof(aArray)) {//by Slice
 			#emit LOAD.S.pri iValue
 			#emit FILL 4096
 		
-			iSize    -= 4096;
+			iSize	-= 4096;
 			iAddress += 4096;
 		} else if (iSize >= 1024) {
 			#emit LOAD.S.alt iAddress
 			#emit LOAD.S.pri iValue
 			#emit FILL 1024
 
-			iSize    -= 1024;
+			iSize	-= 1024;
 			iAddress += 1024;
 		} else if (iSize >= 256) {
 			#emit LOAD.S.alt iAddress
 			#emit LOAD.S.pri iValue
 			#emit FILL 256
 
-			iSize    -= 256;
+			iSize	-= 256;
 			iAddress += 256;
 		} else if (iSize >= 64) {
 			#emit LOAD.S.alt iAddress
 			#emit LOAD.S.pri iValue
 			#emit FILL 64
 
-			iSize    -= 64;
+			iSize	-= 64;
 			iAddress += 64;
 		} else if (iSize >= 16) {
 			#emit LOAD.S.alt iAddress
 			#emit LOAD.S.pri iValue
 			#emit FILL 16
 
-			iSize    -= 16;
+			iSize	-= 16;
 			iAddress += 16;
 		} else {
 			#emit LOAD.S.alt iAddress
 			#emit LOAD.S.pri iValue
 			#emit FILL 4
 
-			iSize    -= 4;
+			iSize	-= 4;
 			iAddress += 4;
 		}
 	}

@@ -2,13 +2,13 @@
 -=-=-=-=
 Callbacks:
 -=-=-=-=-=
-    OnPlayerSlide(playerid, weaponid, Float:speed);
+	OnPlayerSlide(playerid, weaponid, Float:speed);
 -=-=-=-==-=*/
 
 #if !defined FILTERSCRIPT 
 
 #if defined _rSBAIncluded_
-    #endinput
+	#endinput
 #endif
 
 #define _rSBAIncluded_
@@ -17,102 +17,102 @@ Callbacks:
  
 enum SBA_DATA_INFO
 {
-    slidecheck,
+	slidecheck,
 
-    bool:possibleslide
+	bool:possibleslide
 };
 
 static
-    SBA_Player[MAX_PLAYERS][SBA_DATA_INFO];
+	SBA_Player[MAX_PLAYERS][SBA_DATA_INFO];
  
 forward RemoveSlideCheck(playerid);
 forward CheckPlayerSlide(playerid);
 
 #if defined OnPlayerConnectAS
-    forward OnPlayerConnectAS(playerid);
+	forward OnPlayerConnectAS(playerid);
 #endif
 
 #if defined OnPlayerDisconnectAS
-    forward OnPlayerDisconnectAS(playerid,reason);
+	forward OnPlayerDisconnectAS(playerid,reason);
 #endif
 
 #if defined OnPlayerKeyStateChangeAS
-    forward OnPlayerKeyStateChangeAS(playerid,newkeys,oldkeys);
+	forward OnPlayerKeyStateChangeAS(playerid,newkeys,oldkeys);
 #endif
 
 public CheckPlayerSlide(playerid)
 {
-    new SBA_Wep = GetPlayerWeapon(playerid);
-    new Float:SBA_Speed = GetPlayerOnFootSpeed(playerid);
-    if(SBA_Speed > 15 && GetPlayerSurfingVehicleID(playerid) == INVALID_VEHICLE_ID && IsPAiming(playerid) && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT && SBA_Player[playerid][possibleslide] && 22<=SBA_Wep<=38)
-    {
-        CallLocalFunction("OnPlayerSlide", "ddf", playerid, SBA_Wep, SBA_Speed);
-        }
+	new SBA_Wep = GetPlayerWeapon(playerid);
+	new Float:SBA_Speed = GetPlayerOnFootSpeed(playerid);
+	if(SBA_Speed > 15 && GetPlayerSurfingVehicleID(playerid) == INVALID_VEHICLE_ID && IsPAiming(playerid) && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT && SBA_Player[playerid][possibleslide] && 22<=SBA_Wep<=38)
+	{
+		CallLocalFunction("OnPlayerSlide", "ddf", playerid, SBA_Wep, SBA_Speed);
+	}
 
-    return 1;
+	return 1;
 }
 
 public RemoveSlideCheck(playerid)
 {
-    SBA_Player[playerid][possibleslide] =false;
+	SBA_Player[playerid][possibleslide] =false;
 
-    return 1;
+	return 1;
 }
 
 public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
-    if( (newkeys & 128) && ( newkeys & 8)  && (newkeys & 2))
-    {
-        if(!SBA_Player[playerid][possibleslide]) SetTimerEx("RemoveSlideCheck",2000,false,"i",playerid);
-        SBA_Player[playerid][possibleslide] =true;
-        }
+	if( (newkeys & 128) && ( newkeys & 8)  && (newkeys & 2))
+	{
+		if(!SBA_Player[playerid][possibleslide]) SetTimerEx("RemoveSlideCheck",2000,false,"i",playerid);
+		SBA_Player[playerid][possibleslide] =true;
+	}
 
-    #if defined OnPlayerKeyStateChangeAS
-    return OnPlayerKeyStateChangeAS(playerid, newkeys,oldkeys);
-    #else
-    return 1;
-    #endif
+	#if defined OnPlayerKeyStateChangeAS
+		return OnPlayerKeyStateChangeAS(playerid, newkeys,oldkeys);
+	#else
+		return 1;
+	#endif
 }
 
 public OnPlayerConnect(playerid)
 {
-    SBA_Player[playerid][slidecheck] = SetTimerEx("CheckPlayerSlide",1000,true,"d",playerid);
+	SBA_Player[playerid][slidecheck] = SetTimerEx("CheckPlayerSlide",1000,true,"d",playerid);
 
-    #if defined OnPlayerConnectAS
-    return OnPlayerConnectAS(playerid);
-    #else
-    return 1;
-    #endif
+	#if defined OnPlayerConnectAS
+		return OnPlayerConnectAS(playerid);
+	#else
+		return 1;
+	#endif
 }
 
 public OnPlayerDisconnect(playerid,reason)
 {
-    SBA_Player[playerid][possibleslide]=false;
-    KillTimer(SBA_Player[playerid][slidecheck]);
+	SBA_Player[playerid][possibleslide]=false;
+	KillTimer(SBA_Player[playerid][slidecheck]);
 
-    #if defined OnPlayerDisconnectAS
-    return  OnPlayerDisconnectAS(playerid,reason);
-    #else
-    return 1;
-    #endif
+	#if defined OnPlayerDisconnectAS
+		return  OnPlayerDisconnectAS(playerid,reason);
+	#else
+		return 1;
+	#endif
 }
  
 stock GetPlayerOnFootSpeed(playerid)
 {
-    new Float:ST[4];
-    GetPlayerVelocity(playerid,ST[0],ST[1],ST[2]);
-    ST[3] = floatsqroot(floatpower(floatabs(ST[0]), 2.0) + floatpower(floatabs(ST[1]), 2.0) + floatpower(floatabs(ST[2]), 2.0)) * 179.28625;
-    
-    return floatround(ST[3]);
+	new Float:ST[4];
+	GetPlayerVelocity(playerid,ST[0],ST[1],ST[2]);
+	ST[3] = floatsqroot(floatpower(floatabs(ST[0]), 2.0) + floatpower(floatabs(ST[1]), 2.0) + floatpower(floatabs(ST[2]), 2.0)) * 179.28625;
+	
+	return floatround(ST[3]);
 }
 
 stock IsPAiming(playerid)
 {
-    new playeranim = GetPlayerAnimationIndex(playerid);
-    if (((playeranim >= 1160) && (playeranim <= 1163)) || (playeranim == 1167) || (playeranim == 1365) ||
-    (playeranim == 1643) || (playeranim == 1453) || (playeranim == 220)) return 1;
+	new playeranim = GetPlayerAnimationIndex(playerid);
+	if (((playeranim >= 1160) && (playeranim <= 1163)) || (playeranim == 1167) || (playeranim == 1365) ||
+	(playeranim == 1643) || (playeranim == 1453) || (playeranim == 220)) return 1;
 
-    return 0;
+	return 0;
 }
  
 #if defined _ALS_OnPlayerKeyStateChange
@@ -138,37 +138,7 @@ stock IsPAiming(playerid)
 #define OnPlayerDisconnect OnPlayerDisconnectAS
 
 #if defined OnPlayerSlide
-forward OnPlayerSlide(playerid, weaponid, Float:speed);
-#else
-
-new playersliding[MAX_PLAYERS];
-
-forward OnPlayerSlide(playerid, weaponid, Float:speed);
-forward CheckP(playerid);
-
-public OnPlayerSlide(playerid, weaponid, Float:speed)
-{
-    new pname[26],stringh[126];
-    GetPlayerName(playerid, pname, sizeof(pname));
-
-    if(playersliding[playerid] <=2) playersliding[playerid]++,
-    format(stringh, sizeof(stringh), ".:Server Has frozen %s WARNING %d , Reason: SLIDE-BUGGING:.", pname,playersliding[playerid]);
-
-    if(playersliding[playerid]==3) format(stringh, sizeof(stringh), ".:Server Has kicked %s , Reason: SLIDE-BUGGING :.", pname);
-    SendClientMessageToAll(-1,stringh);
-    TogglePlayerControllable(playerid,0);
-    SetTimerEx("CheckP",500,false,"d",playerid);
-
-    return 1;
-}
-
-public CheckP(playerid)
-{
-    if(playersliding[playerid] ==3) playersliding[playerid] =0, Kick(playerid);
-    else TogglePlayerControllable(playerid,1);
-
-    return 1;
-}
+	forward OnPlayerSlide(playerid, weaponid, Float:speed);
 #endif
 
 #endif

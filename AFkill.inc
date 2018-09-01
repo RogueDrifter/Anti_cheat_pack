@@ -173,16 +173,16 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
 		case BULLET_HIT_TYPE_VEHICLE:
 		{
 			#if defined foreach
-			foreach(new i: Player)
-            {
-            	if(GetPlayerVehicleID(i) == hitid) FKI_Player[i][FkiDmgChk] = true;
-            }
-            #else
-            for(new i, j = GetPlayerPoolSize(); i <= j; i++)
-            {
-            	if(GetPlayerVehicleID(i) == hitid) FKI_Player[i][FkiDmgChk] = true;
-            }
-            #endif
+				foreach(new i: Player)
+				{
+					if(GetPlayerVehicleID(i) == hitid) FKI_Player[i][FkiDmgChk] = true;
+				}
+			#else
+				for(new i, j = GetPlayerPoolSize(); i <= j; i++)
+				{
+					if(GetPlayerVehicleID(i) == hitid) FKI_Player[i][FkiDmgChk] = true;
+				}
+			#endif
 		}
 	}
 	#if defined FKI_OnPlayerWeaponShot
@@ -207,12 +207,12 @@ static FKI_IsWeaponValid(Weapon)
 
 static FKI_IsAPlane(vehicleid)
 {
-    switch(GetVehicleModel(vehicleid))
-    {
-        case 592, 577, 511, 512, 593, 520, 553, 476, 519, 460, 513, 464: return 1;
-        case 548, 425, 417, 487, 488, 497, 563, 447, 469, 465, 501: return 1; 
-    }
-    return 0;
+	switch(GetVehicleModel(vehicleid))
+	{
+		case 592, 577, 511, 512, 593, 520, 553, 476, 519, 460, 513, 464: return 1;
+		case 548, 425, 417, 487, 488, 497, 563, 447, 469, 465, 501: return 1; 
+	}
+	return 0;
 }
 
 static IsKillFalse(killid)

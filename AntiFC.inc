@@ -48,20 +48,20 @@ public OnPlayerConnect(playerid)
 
 static AFC_IsPlayerBot(playerid)
 {  
-    if(IsPlayerNPC(playerid)) return 0;
-    new TempId[80], TempNumb;  
-    gpci(playerid, TempId, sizeof(TempId));  
-    for(new i = 0; i < strlen(TempId); i++)  
-    {  
-        if(TempId[i] >= '0' && TempId[i] <= '9')  TempNumb++;  
-    }  
-    return (TempNumb >= AFC_NUMBER || strlen(TempId) <= AFC_NUMBER) ? true : false;
+	if(IsPlayerNPC(playerid)) return 0;
+	new TempId[80], TempNumb;  
+	gpci(playerid, TempId, sizeof(TempId));  
+	for(new i = 0; i < strlen(TempId); i++)  
+	{  
+		if(TempId[i] >= '0' && TempId[i] <= '9')  TempNumb++;  
+	}  
+	return (TempNumb >= AFC_NUMBER || strlen(TempId) <= AFC_NUMBER) ? true : false;
 }
 
 #if defined _ALS_OnPlayerConnect
   #undef OnPlayerConnect
 #else
-    #define _ALS_OnPlayerConnect
+	#define _ALS_OnPlayerConnect
 #endif
 
 #define OnPlayerConnect AFC_OnPlayerConnect
