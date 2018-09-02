@@ -50,7 +50,7 @@ To test, simply run the package:
 sampctl package run
 ```
 
-## Contains:
+# Contains:
 
 * Anti cheats that don't require include in all scripts
 ```
@@ -94,7 +94,7 @@ rAmc //Anti money cheats- Rogue
 rAntiBuggers //Anti abusing sa-mp bugs triggered by cheats- Rogue
 ```
 
-## How to update:
+# How to update:
 
 Simply open your project and run the code:
 
