@@ -36,7 +36,9 @@ public OnPlayerConnect(playerid)
 {
 	if(AFC_IsPlayerBot(playerid))
 	{
-		CallLocalFunction("OnPlayerFakeConnect", "i", playerid);
+		#if defined OnPlayerFakeConnect
+			OnPlayerFakeConnect(playerid);
+		#endif
 	}
 
 	#if defined AFC_OnPlayerConnect
@@ -51,11 +53,11 @@ static AFC_IsPlayerBot(playerid)
 	if(IsPlayerNPC(playerid)) return 0;
 	new TempId[80], TempNumb;  
 	gpci(playerid, TempId, sizeof(TempId));  
-	for(new i = 0; i < strlen(TempId); i++)  
+	for(new i; i < strlen(TempId); i++)  
 	{  
 		if(TempId[i] >= '0' && TempId[i] <= '9')  TempNumb++;  
 	}  
-	return (TempNumb >= AFC_NUMBER || strlen(TempId) <= AFC_NUMBER) ? true : false;
+	return (TempNumb >= AFC_NUMBER || strlen(TempId) <= AFC_NUMBER);
 }
 
 #if defined _ALS_OnPlayerConnect
