@@ -131,12 +131,12 @@ public OnPlayerDisconnect(playerid, reason)
  
 public OnVehicleDamageStatusUpdate(vehicleid, playerid)
 {
-	static EacTires, EacLights;
+	new EacTires, EacLights;
 	GetVehicleDamageStatus(vehicleid, EacLights, EacTires, EacLights, EacTires );
 	if(GetPlayerState(playerid) == 2)
 	{
 		if(EacLights || EacTires) return 1;
-		static EacTime;
+		new EacTime;
 		EacTime = GetTickCount();
  
 		if(500 <= EacTime - EAC_Player[playerid][EacDTick] >= 0)
@@ -166,7 +166,7 @@ public OnVehicleDamageStatusUpdate(vehicleid, playerid)
  
 public OnPlayerUpdate(playerid)
 {
-	static Float:EacX,  Float:EacY,  Float:EacZ,
+	new Float:EacX,  Float:EacY,  Float:EacZ,
 		Float:EacvX, Float:EacvY, Float:EacvZ, EacTempSCar;
 	GetPlayerPos(playerid, EacX, EacY, EacZ);
 	if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER && EacTempSCar != GetPlayerVehicleID(playerid))
