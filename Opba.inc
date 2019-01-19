@@ -793,7 +793,7 @@ public OPBA_PreventAbuse(playerid)	return OPBA_Player[playerid][RacCarFall]		= 0
 public OPBA_RCarFall(playerid)		return OPBA_Player[playerid][RacCarFall]		= 0,	KillTimer(OPBA_Player[playerid][RacPATimer]);
 public OPBA_FixFallBug(playerid)	return OPBA_Player[playerid][RacFallBug]		= 0;
 public OPBA_ResetPImuunity(playerid)return OPBA_Player[playerid][RacBreakImmunity]	= false;
-public OPBA_SetPPos(playerid)		return OPBA_Player[playerid][RacSImu]			= true;
+public OPBA_SetPPos(playerid)		return GetPlayerPos(playerid, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]), OPBA_Player[playerid][RacSImu]			= true;
 public OPBA_FixPassenger(playerid)	return OPBA_Player[playerid][RacPBFix]			= false;
 public OPBA_PassengerRTP(playerid)	return OPBA_Player[playerid][RacPassengerTP]	= false;
 public OPBA_ResetVDeath(playerid)	return OPBA_Player[playerid][RacVDeath]			= false;
@@ -1074,7 +1074,7 @@ public OnPlayerDisconnect(playerid, reason)
 public OnPlayerSpawn(playerid)
 {
 	GetPlayerPos(playerid, OPBA_Player[playerid][RacX], OPBA_Player[playerid][RacY], OPBA_Player[playerid][RacZ]);
-	SetTimerEx("OPBA_SetPPos", 2500, false, "i", playerid);
+	SetTimerEx("OPBA_SetPPos", 4000, false, "i", playerid);
 
 	#if !defined OPBA_CUSTOM_INTERIORS
 		OPBA_Player[playerid][RacPlayerInt] = GetPlayerInterior(playerid);
