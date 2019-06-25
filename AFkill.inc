@@ -28,6 +28,8 @@ faketype 2 = spammed fake kill (must kick or ban instantly)
 
 #include <a_samp>
 
+forward FKI_SetPlayerHealth(playerid, Float:health);
+
 #if defined OnPlayerFakeKill
 	forward OnPlayerFakeKill(playerid, spoofedid, spoofedreason, faketype);
 #endif
@@ -61,6 +63,7 @@ enum FKI_PLAYER_DATA
 	bool:FkiDmgChk,
 	bool:FkiSpwnChk,
 	bool:FkiJustDied,
+	bool:HealthImmune,
 
 	FkiWTicks,
 
@@ -72,11 +75,26 @@ static
 
 forward FKI_RJDead(playerid);
 public FKI_RJDead(playerid) return FKI_Player[playerid][FkiJustDied] = false;
+forward FKI_Immune(playerid);
+public FKI_Immune(playerid) return 	FKI_Player[playerid][HealthImmune] = false;
+
+public FKI_SetPlayerHealth(playerid, Float:health)
+{
+	if(playerid > MAX_PLAYERS || playerid < 0) return 0;
+	if(health == 0.0) 
+	{
+		FKI_Player[playerid][HealthImmune] = true;
+		SetTimerEx("FKI_Immune", 3000, false, "i", playerid);
+	}
+	return SetPlayerHealth(playerid, health);
+}
 
 public OnPlayerDisconnect(playerid, reason)
 {
 	FKI_Player[playerid][FkiSpwnChk]= false;
 	FKI_Player[playerid][FkiDmgChk] = false;
+	FKI_Player[playerid][HealthImmune] = false;
+
 	FKI_Player[playerid][FkiWTicks] = 0;
 	#if defined FKI_OnPlayerDisconnect
 		return FKI_OnPlayerDisconnect(playerid, reason);
@@ -89,7 +107,7 @@ public OnPlayerDeath(playerid, killerid, reason)
 {
 	if(!FKI_Player[playerid][FkiSpwnChk] || FKI_Player[playerid][FkiJustDied])
 	{
-		CallLocalFunction("OnPlayerFakeKill", "iiii", playerid, killerid, reason, 2);
+		if(!FKI_Player[playerid][HealthImmune]) CallLocalFunction("OnPlayerFakeKill", "iiii", playerid, killerid, reason, 2);
 		return 0;
 	}
 	if(!FKI_Player[playerid][FkiDmgChk] && killerid != INVALID_PLAYER_ID  && IsPlayerConnected(killerid))
@@ -108,7 +126,7 @@ public OnPlayerDeath(playerid, killerid, reason)
 			GetPlayerPos(killerid, TPX, TPY, TPZ);
 			if(!IsPlayerInRangeOfPoint(playerid, 5.0, TPX, TPY, TPZ))
 			{
-				CallLocalFunction("OnPlayerFakeKill", "iiii", playerid, killerid, reason, 1);
+				if(!FKI_Player[playerid][HealthImmune]) CallLocalFunction("OnPlayerFakeKill", "iiii", playerid, killerid, reason, 1);
 				return 0;
 			}
 		}
@@ -118,10 +136,13 @@ public OnPlayerDeath(playerid, killerid, reason)
 			if(FKI_Player[playerid][FkiWTicks] == FKI_MAX_ERROR_WARNS) 
 			{
 				FKI_Player[playerid][FkiWTicks] = 0;
-				CallLocalFunction("OnPlayerFakeKill", "iiii", playerid, killerid, reason, 1);
+				if(!FKI_Player[playerid][HealthImmune]) CallLocalFunction("OnPlayerFakeKill", "iiii", playerid, killerid, reason, 1);
 			}
 		}
-		else CallLocalFunction("OnPlayerFakeKill", "iiii", playerid, killerid, reason, 1);
+		else 
+		{
+			if(!FKI_Player[playerid][HealthImmune])	CallLocalFunction("OnPlayerFakeKill", "iiii", playerid, killerid, reason, 1);
+		}
 	}
 	KillTimer(FKI_Player[playerid][FkiDeTimer]);
 	FKI_Player[playerid][FkiDeTimer] = SetTimerEx("FKI_RJDead", 5000, false, "i", playerid);
@@ -223,6 +244,15 @@ static IsKillFalse(killid)
 	}
 	return 0;
 }
+
+#if defined _ALS_SetPlayerHealth
+	#undef SetPlayerHealth
+#else
+	#define _ALS_SetPlayerHealth
+#endif
+
+#define SetPlayerHealth FKI_SetPlayerHealth
+
 #if defined _ALS_OnPlayerSpawn
 	#undef OnPlayerSpawn
 #else
@@ -270,5 +300,18 @@ static IsKillFalse(killid)
 #endif
 
 #define OnPlayerDisconnect FKI_OnPlayerDisconnect
+
+#else //If its a filterscript
+
+stock FKIS_SetPlayerHealth(playerid, Float:health)
+	return CallRemoteFunction("FKI_SetPlayerHealth", "if", playerid, health);
+
+#if defined _ALS_SetPlayerHealth
+	#undef SetPlayerHealth
+#else
+	#define _ALS_SetPlayerHealth
+#endif
+
+#define SetPlayerHealth FKIS_SetPlayerHealth
 
 #endif
