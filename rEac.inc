@@ -169,7 +169,7 @@ public OnPlayerUpdate(playerid)
 	new Float:EacX,  Float:EacY,  Float:EacZ,
 		Float:EacvX, Float:EacvY, Float:EacvZ, EacTempSCar;
 	GetPlayerPos(playerid, EacX, EacY, EacZ);
-	if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER && EacTempSCar != GetPlayerVehicleID(playerid))
+	if(GetPlayerState(playerid) == PLAYER_STATE_DRIVER)
 		EacTempSCar = GetPlayerVehicleID(playerid);
 
 	if(EacX >= 99999.0 || EacY >= 99999.0 || EacZ >= 99999.0 || EacX <= -99999.0 || EacY <= -99999.0 || EacZ <= -99999.0)
