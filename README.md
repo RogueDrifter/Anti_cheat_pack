@@ -5,8 +5,6 @@
 This is a pack of 14 anticheats and 3 helping systems which you can control through callbacks mentioned
 in the includes and the test.pwn file.
 
-UPDATED: August 30th - 2018
-
 `Installation`: You simply include the files in your gamemode/fs depending on the include's setup (some require include in all scripts and only edit through
 the gamemode, others can be used in one script alone).
 
