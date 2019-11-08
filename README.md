@@ -33,10 +33,12 @@ If you're including the pack as a whole you'll need to only use the callback `On
 
 If you use separate includes you can use the respective callbacks in the test.pwn file.  
 
-If you want to disable any anti cheat when using the Rogue-AC file, you can put this line before the include:
+If you want to disable any anti cheat when using the Rogue-AC file, you can put this line before the include:  
+
 ``#define DISABLE_[anti cheat file name]``  
+
 For example:
-``#define DISABLE_DISABLE_JETPACK``  
+``#define DISABLE_JETPACK``  
 and so on.  
 
 # Testing
