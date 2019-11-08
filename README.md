@@ -31,6 +31,24 @@ Use the callbacks provided to you by the includes depending on the type of it.
 
 If you're including the pack as a whole you'll need to only use the callback `OnPlayerViolate`  
 
+Details for callback:
+``forward OnPlayerViolate(playerid, severity, violationCode, const violationName[]);``  
+Whereas:  
+
+```
+playerid = cheater player id.
+
+severity = how bad cheating is, 
+types:
+#define SEVERITY_CASE_ONE 0 	//Warn then kick
+#define SEVERITY_CASE_TWO 1		//Kick
+#define SEVERITY_CASE_THREE 2	//Ban
+
+violationcode: which callback was triggered (codes can be found below in the #CONTAINS section.
+
+violationName: basically a string for the cheat name which makes it easier to write a string.
+```  
+
 If you use separate includes you can use the respective callbacks in the test.pwn file.  
 
 If you want to disable any anti cheat when using the Rogue-AC file, you can put this line before the include:  
@@ -40,6 +58,8 @@ If you want to disable any anti cheat when using the Rogue-AC file, you can put 
 For example:
 ``#define DISABLE_JETPACK``  
 and so on.  
+
+NOTE: If you don't use the callback, my include will do all the work for you.  
 
 # Testing
 
