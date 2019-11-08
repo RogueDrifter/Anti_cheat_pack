@@ -27,11 +27,17 @@ Include in your code and begin using the library:
 
 # Usage
 
-Use the callbacks provided to you by the includes depending on the type of it.
+Use the callbacks provided to you by the includes depending on the type of it.  
 
-If you're including the pack as a whole you'll need to only use the callback `OnPlayerViolate`
+If you're including the pack as a whole you'll need to only use the callback `OnPlayerViolate`  
 
-If you use separate includes you can use the respective callbacks in the test.pwn file.
+If you use separate includes you can use the respective callbacks in the test.pwn file.  
+
+If you want to disable any anti cheat when using the Rogue-AC file, you can put this line before the include:
+``#define DISABLE_[anti cheat file name]``  
+For example:
+``#define DISABLE_DISABLE_JETPACK``  
+and so on.  
 
 # Testing
 
