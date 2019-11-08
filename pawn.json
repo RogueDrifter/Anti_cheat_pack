@@ -1,6 +1,6 @@
 {
 	"user": "RogueDrifter",
-	"repo": "Anti_cheat_pack",
+	"repo": "Rogue-AC",
 	"entry": "test.pwn",
 	"output": "test.amx",
 	"dependencies": [
