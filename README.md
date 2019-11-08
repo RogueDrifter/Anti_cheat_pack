@@ -100,3 +100,4 @@ Simply open your project and run the code:
 ```bash
 sampctl package ensure
 ```
+Thread: https://www.burgershot.gg/showthread.php?tid=873
