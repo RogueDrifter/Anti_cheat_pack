@@ -1,16 +1,15 @@
-# Anti_cheat_pack
+# Rogue-AC
 
 [![sampctl](https://shields.southcla.ws/badge/sampctl-Anti_cheat_pack-2f2f2f.svg?style=for-the-badge)](https://github.com/RogueDrifter/Anti_cheat_pack)
 
 This is a pack of 14 anticheats and 3 helping systems which you can control through callbacks mentioned
 in the includes and the test.pwn file.
 
-`Installation`: You simply include the files in your gamemode/fs depending on the include's setup (some require include in all scripts and only edit through
-the gamemode, others can be used in one script alone).
+`Installation`: The Rogue-AC file needs to be included in your gamemode and in all filterscripts, function(s) is/are to be used only within the gamemode.
 
 `Testing`: All can be done through the test.pwn folder which already contains all of the includes and their callbacks nottify you through `SCM` and `print` messages
 
-`Version`: `7.0`
+`Version`: `8.0`
 
 # Installation
 
@@ -23,20 +22,16 @@ sampctl package install RogueDrifter/Anti_cheat_pack
 Include in your code and begin using the library:
 
 ```pawn
-#include <Anti_cheat_pack>
+#include <Rogue-AC>
 ```
 
 # Usage
 
 Use the callbacks provided to you by the includes depending on the type of it.
 
-The includes are 2 types as mentioned before, some edit only through gamemode and include everywhere.
+If you're including the pack as a whole you'll need to only use the callback `OnPlayerViolate`
 
-Others done through a single script whether its the GM/FS.
-
-If you're including the pack as a whole you'll need to only use the callbacks through the GM, you'll still need to include the Anti_cheat_pack everywhere.
-
-If you use separate includes you can edit through usage through the files.
+If you use separate includes you can use the respective callbacks in the test.pwn file.
 
 # Testing
 
@@ -50,46 +45,24 @@ sampctl package run
 
 # Contains:
 
-* Anti cheats that don't require include in all scripts
 ```
-AFkill  //Anti fake kill -Rogue
-
-AntiFC //Anti fake clients - Rogue
-
-rAsc //Anti speed cheats- Rogue
-
-rVM //Anti illegal car mods -Emmet_
-
-rAcs //Anti car spam - Rogue
-
-rED  //Anti dialog spoof/crash- Emmet_ (easyDialog)
-```
-* Includes that provide spam/bug protection (not worth a ban)
-```
-AntiSpam //Anti chat spam- Rogue
-
-AntiSba //Anti slide bug abuse- Rogue
-
-Flaggers //Lag spike\desnyc detector- Rogue
-```
-
-* Anti cheats that do require include in all scripts and only edit through GM
-```
-AntiJC //Anti jetpack cheats- Rogue
-
-Opba //Anti airbreak\teleport - Rogue
-
-rAgc //Anti gun cheats -Rogue
-
-rAct //Anti car trolls - Rogue
-
-rAGM //Anti godmode - Rogue
-
-rEac //Anti carswing\particlespam - Lorenc_
-
-rAmc //Anti money cheats- Rogue
-
-rAntiBuggers //Anti abusing sa-mp bugs triggered by cheats- Rogue
+#define VIOLATION_CODE_BUGATTEMPT 0
+#define VIOLATION_CODE_LAGOUT 1
+#define VIOLATION_CODE_SLIDEBUG 2
+#define VIOLATION_CODE_INVALIDMODS 3
+#define VIOLATION_CODE_PARTICLESPAM 4
+#define VIOLATION_CODE_CARSWING 5
+#define VIOLATION_CODE_MONEYHACK 6
+#define VIOLATION_CODE_CARTROLL 7
+#define VIOLATION_CODE_CARSPAM 8
+#define VIOLATION_CODE_AIRBRAKE 9
+#define VIOLATION_CODE_SPEEDING 10
+#define VIOLATION_CODE_CHATSPAM 11
+#define VIOLATION_CODE_JETPACK 12
+#define VIOLATION_CODE_FAKECONNECT 13
+#define VIOLATION_CODE_FAKEKILL 14
+#define VIOLATION_CODE_GODMODE 15
+#define VIOLATION_CODE_WEPHACKS 16
 ```
 
 # How to update:
@@ -99,16 +72,3 @@ Simply open your project and run the code:
 ```bash
 sampctl package ensure
 ```
-
-## Non sampctl users:
-Go get sampctl! 
-
-But for now:
-
-1- Download the repository.  
-2- Take all of the .inc files and put them in your pawno/include.  
-3- Open all your filterscripts, use #include <Anti_cheat_pack> right after #include a_samp.  
-4- Open your gamemode and type the same line as above^.  
-5- Keep your gamemode open and use the callbacks from the post as examples to will.  
-
-And that's about it! every time i announce a new version release just re-do those steps above.
