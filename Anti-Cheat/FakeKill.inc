@@ -13,7 +13,7 @@ playerid = the cheater who did a fake kill action
 spoofedid = the player alleged to have killed the cheater
 spoofedreason = the weapon used in the process (spoofed by the cheater)
 faketype 1 = normal fake kill (one time) - Detected when a player dies without getting hit or when killed by a vehicle from too far that isnt a plane
-faketype 2 = spammed fake kill (must kick or ban instantly) - Detected when a player dies before spawning or dies too many times in a row
+faketype 2 = spammed fake kill (must kick or ban instantly) - Detected when a player dies before spawning or dies too many times in a row or uses a spoofed invalid parameter
 -=-=-=-=-=--=-=-=
 */
 
@@ -24,7 +24,7 @@ faketype 2 = spammed fake kill (must kick or ban instantly) - Detected when a pl
 #endif
 
 #define _rAntiFakeKill_Included
-#define FKI_MAX_ERROR_WARNS 3
+#define FKI_MAX_ERROR_WARNS 2
 
 #include <a_samp>
 
@@ -76,6 +76,15 @@ static
 static bool:IsReasonValid(reason) 
 	return ( 0 <= reason <= 18 || 22 <= reason <= 46   );
 
+static bool:IsReasonDifferentlyValid(reason) //Helicopter blades and Explosion
+{
+	switch(reason)
+	{
+		case 50, 51: return true;
+	}
+	return false;
+}
+
 static bool:IsModelAPlane(vehicleid)
 {
 	switch(GetVehicleModel(vehicleid))
@@ -86,11 +95,11 @@ static bool:IsModelAPlane(vehicleid)
 	return false;
 }
 
-static bool:IsKillFalse(killid)
+static bool:IsReasonIgnoreable(reason)
 {
-	switch(killid)
+	switch(reason)
 	{
-		case 54, 255, 53, 51, 47: return true;
+		case 54, 255, 53: return true;
 	}
 	return false;
 }
@@ -120,6 +129,7 @@ public OnPlayerDisconnect(playerid, reason)
 	playerData[playerid][spawnCheck]= false;
 	playerData[playerid][damageCheck] = false;
 	playerData[playerid][healthImmune] = false;
+	playerData[playerid][justDied] = false;
 
 	playerData[playerid][warningTicks] = 0;
 	#if defined FKI_OnPlayerDisconnect
@@ -133,13 +143,18 @@ public OnPlayerDeath(playerid, killerid, reason)
 {
 	if(!playerData[playerid][spawnCheck] || playerData[playerid][justDied])
 	{
-		if(!playerData[playerid][healthImmune]) CallLocalFunction("OnPlayerFakeKill", "iiii", playerid, killerid, reason, 2);
-		return 0;
+		if(!playerData[playerid][healthImmune]) 
+			return CallLocalFunction("OnPlayerFakeKill", "iiii", playerid, killerid, reason, 2);
 	}
 	if(!playerData[playerid][damageCheck] && killerid != INVALID_PLAYER_ID  && IsPlayerConnected(killerid))
 	{
-		if(!IsKillFalse(reason)) 
+		if(IsReasonIgnoreable(reason)) 
 		{
+			if(IsPlayerConnected(killerid))
+			{
+				if(!playerData[playerid][healthImmune]) 
+					return CallLocalFunction("OnPlayerFakeKill", "iiii", playerid, killerid, reason, 2);
+			}
 			#if defined FKI_OnPlayerDeath
 				return FKI_OnPlayerDeath(playerid, killerid, reason);
 			#else
@@ -152,24 +167,29 @@ public OnPlayerDeath(playerid, killerid, reason)
 			GetPlayerPos(killerid, TPX, TPY, TPZ);
 			if(!IsPlayerInRangeOfPoint(playerid, 5.0, TPX, TPY, TPZ))
 			{
-				if(!playerData[playerid][healthImmune]) CallLocalFunction("OnPlayerFakeKill", "iiii", playerid, killerid, reason, 1);
-				return 0;
+				if(!playerData[playerid][healthImmune]) 
+					return CallLocalFunction("OnPlayerFakeKill", "iiii", playerid, killerid, reason, 1);
 			}
 		}
-		else if(!IsReasonValid(reason))
+		if(IsReasonValid(reason))
 		{
 			playerData[playerid][warningTicks]++;
 			if(playerData[playerid][warningTicks] == FKI_MAX_ERROR_WARNS) 
 			{
 				playerData[playerid][warningTicks] = 0;
-				if(!playerData[playerid][healthImmune]) CallLocalFunction("OnPlayerFakeKill", "iiii", playerid, killerid, reason, 1);
+				if(!playerData[playerid][healthImmune]) 
+					return CallLocalFunction("OnPlayerFakeKill", "iiii", playerid, killerid, reason, 1);
 			}
 		}
 		else 
 		{
-			if(!playerData[playerid][healthImmune])	CallLocalFunction("OnPlayerFakeKill", "iiii", playerid, killerid, reason, 1);
+			if(!playerData[playerid][healthImmune])	
+				return CallLocalFunction("OnPlayerFakeKill", "iiii", playerid, killerid, reason, 1);
 		}
 	}
+	if(!IsReasonValid(reason) && !IsReasonIgnoreable(reason) && !IsReasonDifferentlyValid(reason) && reason != WEAPON_VEHICLE) 
+		return CallLocalFunction("OnPlayerFakeKill", "iiii", playerid, killerid, reason, 2);
+
 	KillTimer(playerData[playerid][deathRefresher]);
 	playerData[playerid][deathRefresher] = SetTimerEx("FakeKillJustDied", 5000, false, "i", playerid);
 
