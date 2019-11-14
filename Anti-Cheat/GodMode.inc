@@ -12,6 +12,9 @@ gmtype 1 = in car (not added yet).
 3- Kill shot
 4- Npcs
 5- Player state
+
+This only detects godmode cheats that disable the damage callbacks completely. Yes, it is very limited.
+I do plan to expand this one day.
 */
 
 #include <a_samp>
