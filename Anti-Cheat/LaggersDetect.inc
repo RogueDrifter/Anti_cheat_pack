@@ -105,7 +105,7 @@ static
 	playerData[MAX_PLAYERS][FLAGGERS_PLAYER_INFO];
 
 //Inner functions:
-static GetWeaponSlot(weaponid) 
+static FL_GetWeaponSlot(weaponid) 
 { 
 	switch(weaponid) 
 	{ 
@@ -144,7 +144,7 @@ stock IsPlayerDesynced(playerid)
 public FL_GivePlayerWeapon(playerid, weaponid, ammo)
 {
 	if(playerid > MAX_PLAYERS || playerid < 0) return 0;
-	if(GetWeaponSlot(weaponid) == 0) 
+	if(FL_GetWeaponSlot(weaponid) == 0) 
 	{
 		GivePlayerWeapon(playerid, weaponid, ammo);
 		SetPlayerAmmo(playerid, 0, playerData[playerid][ammoChecks]);
@@ -157,7 +157,7 @@ public FL_GivePlayerWeapon(playerid, weaponid, ammo)
 public FL_SetPlayerAmmo(playerid, weaponid, ammo)
 {
 	if(playerid > MAX_PLAYERS || playerid < 0) return 0;
-	return (GetWeaponSlot(weaponid) == 0) ? SetPlayerAmmo(playerid, 0, playerData[playerid][ammoChecks]) : SetPlayerAmmo(playerid, weaponid, ammo);
+	return (FL_GetWeaponSlot(weaponid) == 0) ? SetPlayerAmmo(playerid, 0, playerData[playerid][ammoChecks]) : SetPlayerAmmo(playerid, weaponid, ammo);
 }
 
 public FL_ResetPlayerWeapons(playerid)
@@ -171,7 +171,7 @@ public FL_ResetPlayerWeapons(playerid)
 //Hooked callbacks:
 public OnPlayerUpdate(playerid)
 {
-	playerData[playerid][pausedTicks] = GetTickCount();
+	playerData[playerid][pausedTicks] = gettime();
 
 	#if defined FL_OnPlayerUpdate
 		return FL_OnPlayerUpdate(playerid);
@@ -250,7 +250,7 @@ public ProcessLaggersStatistics(playerid)
 {
 	new FL_PING = GetPlayerPing(playerid);
 
-	if(playerData[playerid][hasPlayerSpawned] &&  GetTickCount() < (playerData[playerid][pausedTicks]+1500))
+	if(playerData[playerid][hasPlayerSpawned] &&  gettime() < (playerData[playerid][pausedTicks]+2))
 	{
 		if(playerData[playerid][lagWarnings] < FL_MAX_WARNINGS)
 		{
