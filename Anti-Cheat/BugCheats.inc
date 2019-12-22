@@ -78,7 +78,7 @@ static
 #endif
 
 static bool:IsPlayerPaused(playerid)
-	return (GetTickCount() > (playerData[playerid][pausedTicks]+2500));
+	return (gettime() > (playerData[playerid][pausedTicks]+3));
 
 static bool:IsValidSkin(skinid)
 	return(1 <= skinid <= 73 || 75 <= skinid <= 311);
@@ -166,11 +166,11 @@ public OnPlayerRequestClass(playerid, classid)
 
 public OnPlayerUpdate(playerid)
 {
-	if(playerData[playerid][falingTicks] == -1) playerData[playerid][falingTicks] = GetTickCount();
+	if(playerData[playerid][falingTicks] == -1) playerData[playerid][falingTicks] = gettime();
 	new Float:rAB_TempX, Float:rAB_TempY, Float:rAB_TempZ;
-	if(GetTickCount() - playerData[playerid][falingTicks] >= 1000)
+	if(gettime() - playerData[playerid][falingTicks] >= 1)
 	{
-		playerData[playerid][falingTicks] = GetTickCount();
+		playerData[playerid][falingTicks] = gettime();
 		if(playerData[playerid][playerOldZ] == -999.0) GetPlayerPos(playerid, rAB_TempX, rAB_TempY, rAB_TempZ);
 		GetPlayerPos(playerid, rAB_TempX, rAB_TempY, rAB_TempZ);
 
@@ -216,7 +216,7 @@ public OnPlayerUpdate(playerid)
 			#endif
 		}
 	}
-	playerData[playerid][pausedTicks] = GetTickCount();
+	playerData[playerid][pausedTicks] = gettime();
 	GetPlayerPos(playerid, rAB_TempX, rAB_TempY, playerData[playerid][playerOldZ]);
 	#if defined RAB_OnPlayerUpdate
 		return RAB_OnPlayerUpdate(playerid);

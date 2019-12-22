@@ -47,12 +47,12 @@ enum E_SPAM_PLAYER_DATA
 static 
 	playerData[MAX_PLAYERS][E_SPAM_PLAYER_DATA];
 
-#define MAX_WAIT_TIME 500 //max waiting time in MS (half a second here) 
+#define MAX_WAIT_TIME 1 //max waiting time in MS (half a second here) 
 
 public OnPlayerText(playerid, text[]) 
 { 
-	if(playerData[playerid][secondText] == 0 && playerData[playerid][firstText] ==0 ) playerData[playerid][firstText] = GetTickCount(); 
-	else if(playerData[playerid][firstText] != 0 && playerData[playerid][secondText] == 0) playerData[playerid][secondText] = GetTickCount(); 
+	if(playerData[playerid][secondText] == 0 && playerData[playerid][firstText] ==0 ) playerData[playerid][firstText] = gettime(); 
+	else if(playerData[playerid][firstText] != 0 && playerData[playerid][secondText] == 0) playerData[playerid][secondText] = gettime(); 
 	
 	else if(playerData[playerid][firstText] != 0 && playerData[playerid][secondText] != 0 && playerData[playerid][secondText] - playerData[playerid][firstText] < MAX_WAIT_TIME) 
 	{ 

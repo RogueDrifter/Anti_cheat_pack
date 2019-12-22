@@ -377,13 +377,13 @@ public ProcessCheatDetection(playerid)
 		}
 	}
 
-	if(GetTickCount() < (playerData[playerid][playerPauseTicks]+1500) && playerData[playerid][playerPause] == 1)
+	if(gettime() < (playerData[playerid][playerPauseTicks]+2) && playerData[playerid][playerPause] == 1)
 	{
 		GetPlayerPos(playerid, playerData[playerid][posPlayerX], playerData[playerid][posPlayerY], playerData[playerid][posPlayerZ]);
 		playerData[playerid][playerPause] = 2;
 		SetTimerEx("ResetPlayerPause", 2500, false, "i", playerid);
 	}
-	else if(GetTickCount() > (playerData[playerid][playerPauseTicks]+1500) &&  playerData[playerid][playerPause] == 0)
+	else if(gettime() > (playerData[playerid][playerPauseTicks]+2) &&  playerData[playerid][playerPause] == 0)
 	{
 		playerData[playerid][playerPause] = 1;
 	}
@@ -1184,7 +1184,7 @@ public OnPlayerUpdate(playerid)
 			playerData[playerid][playerInterior] = OPBA_PInt;
 		}
 	#endif
-	playerData[playerid][playerPauseTicks] = GetTickCount();
+	playerData[playerid][playerPauseTicks] = gettime();
 
 	if(IsPlayerFalling(playerid) && playerData[playerid][playerFallBug] == 0) playerData[playerid][playerFallBug] = 1;
 	else if(!IsPlayerFalling(playerid) && playerData[playerid][playerFallBug] == 1) playerData[playerid][playerFallBug] = 2, SetTimerEx("FixPlayerFallBug", 2500, false, "i", playerid);

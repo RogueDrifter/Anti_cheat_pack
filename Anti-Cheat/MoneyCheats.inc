@@ -57,7 +57,7 @@ forward ResetImmunity(playerid);
 forward CheckActualCash(playerid);
 
 static bool:IsPlayerPaused(playerid)
-	return (GetTickCount() > (playerData[playerid][pausedTicks]+2000));
+	return (gettime() > (playerData[playerid][pausedTicks]+2));
 	
 public ResetImmunity(playerid) 
 	return playerData[playerid][cashImmunity]= false;
@@ -124,7 +124,7 @@ public OnPlayerDisconnect(playerid, reason)
 
 public OnPlayerUpdate(playerid)
 {
-	playerData[playerid][pausedTicks] = GetTickCount();
+	playerData[playerid][pausedTicks] = gettime();
 
 	#if defined Amc_OnPlayerUpdate
 		return Amc_OnPlayerUpdate(playerid);

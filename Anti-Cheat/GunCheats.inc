@@ -104,7 +104,7 @@ static bool:IsWeaponSystemized(Weapon)
 	return (Weapon == 46 || Weapon == 0 || Weapon == 40);
 
 static bool:IsPlayerPaused(playerid)
-	return (GetTickCount() > (playerData[playerid][pausedTicks]+2000));
+	return (gettime() > (playerData[playerid][pausedTicks]+2));
 
 static bool:IsWeaponRapid(Weapon)
 {
@@ -202,7 +202,8 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
 	
 	else if(playerData[playerid][firstTrigger] != 0 && playerData[playerid][secondTrigger] != 0 ) 
 	{ //After the second call of the callback
-		if(playerData[playerid][secondTrigger] - playerData[playerid][firstTrigger] < RAGC_MAX_RAPID_TIME_NORMAL && playerData[playerid][constantWeapon] == rAgcTempWeap && !IsWeaponRapid(rAgcTempWeap) && GetPlayerState(playerid) != 3)
+	       
+		if(GetTickDiff(playerData[playerid][secondTrigger], playerData[playerid][firstTrigger]) > RAGC_MAX_RAPID_TIME_NORMAL && playerData[playerid][constantWeapon] == rAgcTempWeap && !IsWeaponRapid(rAgcTempWeap) && GetPlayerState(playerid) != 3)
 		{//Anti rapid fire for slow weapons
 			CallLocalFunction("OnPlayerGunCheat", "iiii", playerid, rAgcTempWeap, rAgcTempAmmos, 4);
 			playerData[playerid][firstTrigger] = 0; 
@@ -251,7 +252,7 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
 
 public OnPlayerUpdate(playerid)
 {
-	playerData[playerid][pausedTicks] = GetTickCount();
+	playerData[playerid][pausedTicks] = gettime();
 
 	#if defined rAgc_OnPlayerUpdate
 		return rAgc_OnPlayerUpdate(playerid);

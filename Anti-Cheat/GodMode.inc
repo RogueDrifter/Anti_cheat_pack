@@ -84,12 +84,12 @@ static bool:IsWeaponAmmoable(weaponid)
 
 static bool:IsPlayerPaused(playerid)
 {
-	return (GetTickCount() > (playerData[playerid][pausedTicks]+1500));
+	return (gettime() > (playerData[playerid][pausedTicks]+2));
 }
 
 public OnPlayerUpdate(playerid)
 {
-	playerData[playerid][pausedTicks] = GetTickCount();
+	playerData[playerid][pausedTicks] = gettime();
 
 	#if defined rAGM_OnPlayerUpdate
 		return rAGM_OnPlayerUpdate(playerid);
@@ -135,7 +135,7 @@ public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 	{
 		KillTimer(playerData[playerid][delayTimerTwo]);
 		playerData[playerid][finalWarnings]		= 0;
-		playerData[playerid][damageWarnings] = GetTickCount();
+		playerData[playerid][damageWarnings] = gettime();
 	}
 	#if defined rAGM_OnPlayerTakeDamage
 		return rAGM_OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart);
@@ -189,7 +189,7 @@ public rAGM_TogglePlayerControllable(playerid, bool:toggle)
 public CheckFinalResult(hitid)
 {
 	if(!IsPlayerConnected(hitid)) return 0;
-	if(GetTickCount() > (playerData[hitid][damageWarnings]+ 2000))
+	if(gettime() > (playerData[hitid][damageWarnings]+ 2))
 	{
 		if(playerData[hitid][finalWarnings] <= RAGM_MAX_SHOT_TICKS)
 		{

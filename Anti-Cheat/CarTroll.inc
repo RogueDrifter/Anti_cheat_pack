@@ -208,7 +208,7 @@ static bool:IsPlayerNearVehicle(playerid, vehicleid, Float:range)
 }
 
 static bool:IsPlayerPaused(playerid) 
-	return (GetTickCount() > (playerData[playerid][pauseTicks]+2000));
+	return (gettime() > (playerData[playerid][pauseTicks]+2));
 
 public DelayPlayerState(playerid, delaytype)
 {
@@ -334,7 +334,7 @@ public OnPlayerUpdate(playerid)
 			}
 		}
 	}
-	playerData[playerid][pauseTicks] = GetTickCount();
+	playerData[playerid][pauseTicks] = gettime();
 
 		#if defined OnPlayerUpdateACT
 			return OnPlayerUpdateACT(playerid);
