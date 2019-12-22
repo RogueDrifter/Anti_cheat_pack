@@ -138,8 +138,8 @@ public OnVehicleDamageStatusUpdate(vehicleid, playerid)
 		if(carLights || carTires) return 1;
 		new tickTimes;
 		tickTimes = GetTickCount();
- 
-		if(500 <= tickTimes - playerData[playerid][timeTicks] >= 0)
+
+		if(GetTickDiff(tickTimes, playerData[playerid][timeTicks]) >= 0 && GetTickDiff(tickTimes, playerData[playerid][timeTicks]) <= 500 )
 		{
 			playerData[playerid][spamTicks] ++;
 			if(playerData[playerid][spamTicks] >= 10)
