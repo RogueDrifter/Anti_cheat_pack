@@ -102,9 +102,6 @@
 static s_playerWarnings[MAX_PLAYERS];
 #define MAX_WARNS_AC 3 //Max warns before kick in severe case 1
 
-#if defined OnPlayerViolate
-	forward OnPlayerViolate(playerid, severity, violationCode, const violationName[]);
-#else
 
 forward OnPlayerViolate(playerid, severity, violationCode, const violationName[]);
 public OnPlayerViolate(playerid, severity, violationCode, const violationName[])
@@ -140,7 +137,6 @@ public OnPlayerViolate(playerid, severity, violationCode, const violationName[])
 	}
 	return 1;
 }
-#endif
 
 public OnPlayerFakeKill(playerid, spoofedid, spoofedreason, faketype)
 {
