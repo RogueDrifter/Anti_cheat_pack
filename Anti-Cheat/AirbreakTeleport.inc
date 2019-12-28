@@ -777,15 +777,12 @@ public ProcessCheatDetection(playerid)
 		if(tpcode == 4 && IsPlayerEnterExitCar(playerid)) return playerData[playerid][playerHoldCheck] = false;
 		if(tpcode == 6 && playerData[playerid][playerPassengerTeleport]) return playerData[playerid][playerHoldCheck] = false;
 		#if !defined OPBA_CUSTOM_INTERIORS
-			if(!playerData[playerid][playerInteriorProtection] && !IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, playerData[playerid][posPlayerX], playerData[playerid][posPlayerY], playerData[playerid][posPlayerZ]))
+			if(!playerData[playerid][playerInteriorProtection])
 			{
 				OnPlayerBreakAir(playerid, tpcode);
 			}
 		#else
-			if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, playerData[playerid][posPlayerX], playerData[playerid][posPlayerY], playerData[playerid][posPlayerZ]))
-			{
-				OnPlayerBreakAir(playerid, tpcode);
-			}
+			OnPlayerBreakAir(playerid, tpcode);
 		#endif
 		playerData[playerid][playerHoldCheck] = false;
 		return 1;
