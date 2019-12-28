@@ -61,9 +61,7 @@ forward ResetPlayerSurf(playerid);
 forward PlayerPassengerTeleport(playerid);
 forward VehicleBroadReset();
 
-#if defined OnPlayerBreakAir
-	forward CheckActualTeleport(playerid, tpcode);
-#endif
+forward CheckActualTeleport(playerid, tpcode);
 
 #define OPBA_TP_DELAY_TIME	  1900
 #define OPBA_AB_TICKS 		  2
@@ -419,25 +417,21 @@ public ProcessCheatDetection(playerid)
 					#if !defined OPBA_CUSTOM_INTERIORS
 						if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, playerData[playerid][posPlayerX], playerData[playerid][posPlayerY], playerData[playerid][posPlayerZ]) && playerInteriors[playerid][OpbaTempInt])
 						{
-							#if defined OnPlayerBreakAir
 
-								#if defined _FLaggersIncluded_
-									if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
-									{
-										s_playerDelays{playerid} = true;
-										SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-										s_warningsIncrease{playerid}++;
-										if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
-									}
-									else if(!s_playerDelays{playerid}) playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 4);
-								#else
-									playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 4);
-								#endif
-
+							#if defined _FLaggersIncluded_
+								if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
+								{
+									s_playerDelays{playerid} = true;
+									SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+									s_warningsIncrease{playerid}++;
+									if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
+								}
+								else if(!s_playerDelays{playerid}) playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 4);
 							#else
-								SendClientMessageToAll(-1, OPBA_CheatString);
-								SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+								playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 4);
 							#endif
+
+
 						}
 						else if(!IsPlayerInRangeOfPoint(playerid, OPBA_ONFOOT_DETECTION, playerData[playerid][posPlayerX], playerData[playerid][posPlayerY], playerData[playerid][posPlayerZ]) && playerInteriors[playerid][OpbaTempInt])
 						{
@@ -450,31 +444,6 @@ public ProcessCheatDetection(playerid)
 							if(playerData[playerid][playerBreakTicks] == OPBA_AB_TICKS)
 							{
 								playerData[playerid][playerBreakTicks] = 0;
-								#if defined OnPlayerBreakAir
-
-									#if defined _FLaggersIncluded_
-										if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
-										{
-											s_playerDelays{playerid} = true;
-											SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-											s_warningsIncrease{playerid}++;
-											if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
-										}
-										else if(!s_playerDelays{playerid}) OnPlayerBreakAir(playerid, 1);
-									#else
-										OnPlayerBreakAir(playerid, 1);
-									#endif
-
-								#else
-									SendClientMessageToAll(-1, OPBA_CheatString);
-									SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
-								#endif
-							}
-						}
-					#else
-						if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, playerData[playerid][posPlayerX], playerData[playerid][posPlayerY], playerData[playerid][posPlayerZ]))
-						{
-							#if defined OnPlayerBreakAir
 
 								#if defined _FLaggersIncluded_
 									if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
@@ -484,15 +453,44 @@ public ProcessCheatDetection(playerid)
 										s_warningsIncrease{playerid}++;
 										if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
 									}
-									else if(!s_playerDelays{playerid}) playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 4);
+									else if(!s_playerDelays{playerid}) 
+									{
+										#if defined OnPlayerBreakAir
+											OnPlayerBreakAir(playerid, 1);
+										#else
+											SendClientMessageToAll(-1, OPBA_CheatString);
+											SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+										#endif
+									}
 								#else
-									playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 4);
+									#if defined OnPlayerBreakAir
+										OnPlayerBreakAir(playerid, 1);
+									#else
+										SendClientMessageToAll(-1, OPBA_CheatString);
+										SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+									#endif
 								#endif
 
+
+							}
+						}
+					#else
+						if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, playerData[playerid][posPlayerX], playerData[playerid][posPlayerY], playerData[playerid][posPlayerZ]))
+						{
+
+							#if defined _FLaggersIncluded_
+								if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
+								{
+									s_playerDelays{playerid} = true;
+									SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+									s_warningsIncrease{playerid}++;
+									if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
+								}
+								else if(!s_playerDelays{playerid}) playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 4);
 							#else
-								SendClientMessageToAll(-1, OPBA_CheatString);
-								SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+								playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 4);
 							#endif
+
 						}
 						else if(!IsPlayerInRangeOfPoint(playerid, OPBA_ONFOOT_DETECTION, playerData[playerid][posPlayerX], playerData[playerid][posPlayerY], playerData[playerid][posPlayerZ]))
 						{
@@ -505,25 +503,33 @@ public ProcessCheatDetection(playerid)
 							if(playerData[playerid][playerBreakTicks] == OPBA_AB_TICKS)
 							{
 								playerData[playerid][playerBreakTicks] = 0;
-								#if defined OnPlayerBreakAir
 								
-									#if defined _FLaggersIncluded_
-										if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
-										{
-											s_playerDelays{playerid} = true;
-											SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-											s_warningsIncrease{playerid}++;
-											if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
-										}
-										else if(!s_playerDelays{playerid}) OnPlayerBreakAir(playerid, 1);
-									#else
-										OnPlayerBreakAir(playerid, 1);
-									#endif
-									
+								#if defined _FLaggersIncluded_
+									if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
+									{
+										s_playerDelays{playerid} = true;
+										SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+										s_warningsIncrease{playerid}++;
+										if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
+									}
+									else if(!s_playerDelays{playerid})
+									{
+										#if defined OnPlayerBreakAir
+											OnPlayerBreakAir(playerid, 1);
+										#else 
+											SendClientMessageToAll(-1, OPBA_CheatString);
+											SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+										#endif
+									}
 								#else
-									SendClientMessageToAll(-1, OPBA_CheatString);
-									SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+									#if defined OnPlayerBreakAir
+										OnPlayerBreakAir(playerid, 1);
+									#else
+										SendClientMessageToAll(-1, OPBA_CheatString);
+										SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+									#endif
 								#endif
+
 							}
 						}
 					#endif
@@ -536,25 +542,20 @@ public ProcessCheatDetection(playerid)
 				#if !defined OPBA_CUSTOM_INTERIORS
 					if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, playerData[playerid][posPlayerX], playerData[playerid][posPlayerY], playerData[playerid][posPlayerZ]) && playerInteriors[playerid][OpbaTempInt])
 					{
-						#if defined OnPlayerBreakAir
 							
-							#if defined _FLaggersIncluded_
-								if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
-								{
-									s_playerDelays{playerid} = true;
-									SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-									s_warningsIncrease{playerid}++;
-									if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
-								}
-								else if(!s_playerDelays{playerid}) playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 5);
-							#else
-								playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 5);
-							#endif
-
+						#if defined _FLaggersIncluded_
+							if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
+							{
+								s_playerDelays{playerid} = true;
+								SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+								s_warningsIncrease{playerid}++;
+								if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
+							}
+							else if(!s_playerDelays{playerid}) playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 5);
 						#else
-							SendClientMessageToAll(-1, OPBA_CheatString);
-							SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+							playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 5);
 						#endif
+
 					}
 					else if(!IsPlayerInRangeOfPoint(playerid, OPBA_INVEHI_DETECTION, playerData[playerid][posPlayerX], playerData[playerid][posPlayerY], playerData[playerid][posPlayerZ]) && playerInteriors[playerid][OpbaTempInt])
 					{
@@ -567,34 +568,7 @@ public ProcessCheatDetection(playerid)
 						if(playerData[playerid][playerBreakTicks] == OPBA_AB_TICKS)
 						{
 							playerData[playerid][playerBreakTicks] = 0;
-							#if defined OnPlayerBreakAir
 								
-								#if defined _FLaggersIncluded_
-									if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
-									{
-										s_playerDelays{playerid} = true;
-										SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-										s_warningsIncrease{playerid}++;
-										if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
-									}
-									else if(!s_playerDelays{playerid}) OnPlayerBreakAir(playerid, 2);
-								#else
-									OnPlayerBreakAir(playerid, 2);
-								#endif
-
-							#else
-								SendClientMessageToAll(-1, OPBA_CheatString);
-								SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
-							#endif
-						}
-					}
-
-				#else
-
-					if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, playerData[playerid][posPlayerX], playerData[playerid][posPlayerY], playerData[playerid][posPlayerZ]))
-					{
-						#if defined OnPlayerBreakAir
-							
 							#if defined _FLaggersIncluded_
 								if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
 								{
@@ -603,15 +577,44 @@ public ProcessCheatDetection(playerid)
 									s_warningsIncrease{playerid}++;
 									if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
 								}
-								else if(!s_playerDelays{playerid}) playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 5);
+								else if(!s_playerDelays{playerid}) 
+								{
+									#if defined OnPlayerBreakAir
+										OnPlayerBreakAir(playerid, 2);
+									#else
+										SendClientMessageToAll(-1, OPBA_CheatString);
+										SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+									#endif
+								}
 							#else
-								playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 5);
+								#if defined OnPlayerBreakAir
+									OnPlayerBreakAir(playerid, 2);
+								#else
+									SendClientMessageToAll(-1, OPBA_CheatString);
+									SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+								#endif
 							#endif
+						}
+					}
+
+				#else
+
+					if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, playerData[playerid][posPlayerX], playerData[playerid][posPlayerY], playerData[playerid][posPlayerZ]))
+					{
 							
+						#if defined _FLaggersIncluded_
+							if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
+							{
+								s_playerDelays{playerid} = true;
+								SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+								s_warningsIncrease{playerid}++;
+								if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
+							}
+							else if(!s_playerDelays{playerid}) playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 5);
 						#else
-							SendClientMessageToAll(-1, OPBA_CheatString);
-							SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+							playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 5);
 						#endif
+
 					}
 					else if(!IsPlayerInRangeOfPoint(playerid, OPBA_INVEHI_DETECTION, playerData[playerid][posPlayerX], playerData[playerid][posPlayerY], playerData[playerid][posPlayerZ]))
 					{
@@ -624,25 +627,34 @@ public ProcessCheatDetection(playerid)
 						if(playerData[playerid][playerBreakTicks] == OPBA_AB_TICKS)
 						{
 							playerData[playerid][playerBreakTicks] = 0;
-							#if defined OnPlayerBreakAir
 								
-								#if defined _FLaggersIncluded_
-									if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
-									{
-										s_playerDelays{playerid} = true;
-										SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-										s_warningsIncrease{playerid}++;
-										if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
-									}
-									else if(!s_playerDelays{playerid}) OnPlayerBreakAir(playerid, 2);
-								#else
-									OnPlayerBreakAir(playerid, 2);
-								#endif
-								
+							#if defined _FLaggersIncluded_
+								if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
+								{
+									s_playerDelays{playerid} = true;
+									SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+									s_warningsIncrease{playerid}++;
+									if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
+								}
+								else if(!s_playerDelays{playerid}) 
+								{
+									#if defined OnPlayerBreakAir
+										OnPlayerBreakAir(playerid, 2);
+									#else
+										SendClientMessageToAll(-1, OPBA_CheatString);
+										SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+									#endif
+								}
 							#else
-								SendClientMessageToAll(-1, OPBA_CheatString);
-								SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+								#if defined OnPlayerBreakAir
+									OnPlayerBreakAir(playerid, 2);
+								#else
+									SendClientMessageToAll(-1, OPBA_CheatString);
+									SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+								#endif
 							#endif
+								
+
 						}
 					}
 				#endif
@@ -653,26 +665,20 @@ public ProcessCheatDetection(playerid)
 				{
 					#if !defined OPBA_CUSTOM_INTERIORS
 						if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, playerData[playerid][posPlayerX], playerData[playerid][posPlayerY], playerData[playerid][posPlayerZ]) && playerInteriors[playerid][OpbaTempInt])
-						{
-							#if defined OnPlayerBreakAir
-							
-								#if defined _FLaggersIncluded_
-									if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
-									{
-										s_playerDelays{playerid} = true;
-										SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-										s_warningsIncrease{playerid}++;
-										if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
-									}
-									else if(!s_playerDelays{playerid}) playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 6);
-								#else
-									playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 6);
-								#endif
-							
+						{							
+							#if defined _FLaggersIncluded_
+								if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
+								{
+									s_playerDelays{playerid} = true;
+									SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+									s_warningsIncrease{playerid}++;
+									if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
+								}
+								else if(!s_playerDelays{playerid}) playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 6);
 							#else
-								SendClientMessageToAll(-1, OPBA_CheatString);
-								SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+								playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 6);
 							#endif
+	
 						}
 						else if(!IsPlayerInRangeOfPoint(playerid, OPBA_MAX_PASS_RANGE, playerData[playerid][posPlayerX], playerData[playerid][posPlayerY], playerData[playerid][posPlayerZ]) && playerInteriors[playerid][OpbaTempInt])
 						{
@@ -685,31 +691,6 @@ public ProcessCheatDetection(playerid)
 							if(playerData[playerid][playerBreakTicks] == OPBA_AB_TICKS)
 							{
 								playerData[playerid][playerBreakTicks] = 0;
-								#if defined OnPlayerBreakAir
-								
-									#if defined _FLaggersIncluded_
-										if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
-										{
-											s_playerDelays{playerid} = true;
-											SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-											s_warningsIncrease{playerid}++;
-											if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
-										}
-										else if(!s_playerDelays{playerid}) OnPlayerBreakAir(playerid, 3);
-									#else
-										OnPlayerBreakAir(playerid, 3);
-									#endif
-								
-								#else
-									SendClientMessageToAll(-1, OPBA_CheatString);
-									SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
-								#endif
-							}
-						}
-					#else
-						if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, playerData[playerid][posPlayerX], playerData[playerid][posPlayerY], playerData[playerid][posPlayerZ]))
-						{
-							#if defined OnPlayerBreakAir
 								
 								#if defined _FLaggersIncluded_
 									if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
@@ -719,15 +700,42 @@ public ProcessCheatDetection(playerid)
 										s_warningsIncrease{playerid}++;
 										if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
 									}
-									else if(!s_playerDelays{playerid}) playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 6);
+									else if(!s_playerDelays{playerid}) 
+									{
+										#if defined OnPlayerBreakAir
+											OnPlayerBreakAir(playerid, 3);
+										#else
+											SendClientMessageToAll(-1, OPBA_CheatString);
+											SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+										#endif
+									}
 								#else
-									playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 6);
+									#if defined OnPlayerBreakAir
+										OnPlayerBreakAir(playerid, 3);
+									#else
+										SendClientMessageToAll(-1, OPBA_CheatString);
+										SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+									#endif
 								#endif
-								
+
+							}
+						}
+					#else
+						if(!IsPlayerInRangeOfPoint(playerid, OPBA_TELEPORT_RANGE, playerData[playerid][posPlayerX], playerData[playerid][posPlayerY], playerData[playerid][posPlayerZ]))
+						{		
+							#if defined _FLaggersIncluded_
+								if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
+								{
+									s_playerDelays{playerid} = true;
+									SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+									s_warningsIncrease{playerid}++;
+									if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
+								}
+								else if(!s_playerDelays{playerid}) playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 6);
 							#else
-								SendClientMessageToAll(-1, OPBA_CheatString);
-								SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+								playerData[playerid][playerHoldCheck] = true, SetTimerEx("CheckActualTeleport", OPBA_TP_DELAY_TIME, false, "ii", playerid, 6);
 							#endif
+
 						}
 						else if(!IsPlayerInRangeOfPoint(playerid, OPBA_MAX_PASS_RANGE, playerData[playerid][posPlayerX], playerData[playerid][posPlayerY], playerData[playerid][posPlayerZ]))
 						{
@@ -740,25 +748,33 @@ public ProcessCheatDetection(playerid)
 							if(playerData[playerid][playerBreakTicks] == OPBA_AB_TICKS)
 							{
 								playerData[playerid][playerBreakTicks] = 0;
-								#if defined OnPlayerBreakAir
-									
-									#if defined _FLaggersIncluded_
-										if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
-										{
-											s_playerDelays{playerid} = true;
-											SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
-											s_warningsIncrease{playerid}++;
-											if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
-										}
-										else if(!s_playerDelays{playerid}) OnPlayerBreakAir(playerid, 3);
-									#else
-										OnPlayerBreakAir(playerid, 3);
-									#endif
-									
+
+								#if defined _FLaggersIncluded_
+									if( (IsPlayerLagging(playerid) || s_warningsIncrease{playerid} > 0) && !s_playerDelays{playerid})
+									{
+										s_playerDelays{playerid} = true;
+										SetTimerEx("OPBA_PlayerRDelayer", 4100, false, "i", playerid);
+										s_warningsIncrease{playerid}++;
+										if(s_warningsIncrease{playerid} >= OPBA_MAX_LAG_WARNS) s_warningsIncrease{playerid} = 0, TogglePlayerLag(playerid, true, 20000);
+									}
+									else if(!s_playerDelays{playerid}) 
+									{
+										#if defined OnPlayerBreakAir
+											OnPlayerBreakAir(playerid, 3);
+										#else
+											SendClientMessageToAll(-1, OPBA_CheatString);
+											SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+										#endif
+									}
 								#else
-									SendClientMessageToAll(-1, OPBA_CheatString);
-									SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+									#if defined OnPlayerBreakAir
+										OnPlayerBreakAir(playerid, 3);
+									#else
+										SendClientMessageToAll(-1, OPBA_CheatString);
+										SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+									#endif
 								#endif
+									
 							}
 						}
 					#endif
@@ -771,23 +787,42 @@ public ProcessCheatDetection(playerid)
 	return 1;
 }
 
-#if defined OnPlayerBreakAir
-	public CheckActualTeleport(playerid, tpcode)
-	{
-		if(tpcode == 4 && IsPlayerEnterExitCar(playerid)) return playerData[playerid][playerHoldCheck] = false;
-		if(tpcode == 6 && playerData[playerid][playerPassengerTeleport]) return playerData[playerid][playerHoldCheck] = false;
-		#if !defined OPBA_CUSTOM_INTERIORS
-			if(!playerData[playerid][playerInteriorProtection])
-			{
-				OnPlayerBreakAir(playerid, tpcode);
-			}
+public CheckActualTeleport(playerid, tpcode)
+{
+	#if !defined OnPlayerBreakAir
+		new OPBA_CheaterName[MAX_PLAYER_NAME], OPBA_CheatString[60];
+		GetPlayerName(playerid, OPBA_CheaterName, sizeof(OPBA_CheaterName));
+
+		#if !defined OPBA_BAN_VERSION
+			format(OPBA_CheatString, sizeof(OPBA_CheatString), "Server has kicked %s, reason: Airbreak", OPBA_CheaterName);
 		#else
-			OnPlayerBreakAir(playerid, tpcode);
+			format(OPBA_CheatString, sizeof(OPBA_CheatString), "Server has banned %s, reason: Airbreak", OPBA_CheaterName);
 		#endif
-		playerData[playerid][playerHoldCheck] = false;
-		return 1;
-	}
-#endif
+
+	#endif
+	if(tpcode == 4 && IsPlayerEnterExitCar(playerid)) return playerData[playerid][playerHoldCheck] = false;
+	if(tpcode == 6 && playerData[playerid][playerPassengerTeleport]) return playerData[playerid][playerHoldCheck] = false;
+	#if !defined OPBA_CUSTOM_INTERIORS
+		if(!playerData[playerid][playerInteriorProtection])
+		{
+			#if defined OnPlayerBreakAir
+				OnPlayerBreakAir(playerid, tpcode);
+			#else
+				SendClientMessageToAll(-1, OPBA_CheatString);
+				SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+			#endif
+		}
+	#else
+		#if defined OnPlayerBreakAir
+			OnPlayerBreakAir(playerid, tpcode);
+		#else
+			SendClientMessageToAll(-1, OPBA_CheatString);
+			SetTimerEx("DelayDetectionCall", 250, false, "i", playerid);
+		#endif
+	#endif
+	playerData[playerid][playerHoldCheck] = false;
+	return 1;
+}
 
 #if !defined OnPlayerBreakAir
 	public DelayDetectionCall(playerid)
