@@ -106,7 +106,7 @@ static s_playerWarnings[MAX_PLAYERS];
 forward OnPlayerViolate(playerid, severity, violationCode, const violationName[]);
 public OnPlayerViolate(playerid, severity, violationCode, const violationName[])
 {
-	new acString[STRING_SIZE_LARGE], name[MAX_PLAYER_NAME];
+	new acString[128], name[MAX_PLAYER_NAME];
 	GetPlayerName(playerid, name, sizeof name);
 	
 	switch(severity)
