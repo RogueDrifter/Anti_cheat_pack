@@ -36,7 +36,15 @@ enum E_VEHICLESPAM_DATA
  
 static
 	playerData[MAX_PLAYERS][E_VEHICLESPAM_DATA];
- 
+
+static GetTickDiff_AC(newtick, oldtick)
+{
+	if (oldtick > newtick) {
+		return (cellmax - oldtick + 1) - (cellmin - newtick);
+	}
+	return newtick - oldtick;
+}
+
 #if defined EAC_OnVehicleDamageStatusUpd
 	forward EAC_OnVehicleDamageStatusUpd(vehicleid, playerid);
 #endif
@@ -139,7 +147,7 @@ public OnVehicleDamageStatusUpdate(vehicleid, playerid)
 		new tickTimes;
 		tickTimes = GetTickCount();
 
-		if(GetTickDiff(tickTimes, playerData[playerid][timeTicks]) >= 0 && GetTickDiff(tickTimes, playerData[playerid][timeTicks]) <= 500 )
+		if(GetTickDiff_AC(tickTimes, playerData[playerid][timeTicks]) >= 0 && GetTickDiff_AC(tickTimes, playerData[playerid][timeTicks]) <= 500 )
 		{
 			playerData[playerid][spamTicks] ++;
 			if(playerData[playerid][spamTicks] >= 10)
