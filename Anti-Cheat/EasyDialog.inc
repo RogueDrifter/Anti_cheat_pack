@@ -1,3 +1,14 @@
+/*
+	easyDialog.inc - Dialogs made easier!
+	With this useful include, scripters can easily create
+	dialogs and show them to players.
+	This include will prevent dialog spoofing, ID collision
+	and a lot more.
+	Created by Emmet on Friday, January 24, 2014.
+	Updated by Southclaws 2017-10-13 to add include guard
+*/
+
+
 #if defined _easyDialog_included
 	#endinput
 #endif
