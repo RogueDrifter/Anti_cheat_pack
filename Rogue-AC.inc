@@ -73,10 +73,6 @@
 
 #define _AC_SYSTEM_
 
-#if !defined AC_MESSAGE_COLOR
-	#define AC_MESSAGE_COLOR -1
-#endif
-
 #define SEVERITY_CASE_ONE 0 	//Warn then kick
 #define SEVERITY_CASE_TWO 1		//Kick
 #define SEVERITY_CASE_THREE 2	//Ban
@@ -99,11 +95,17 @@
 #define VIOLATION_CODE_GODMODE 15
 #define VIOLATION_CODE_WEPHACKS 16
 
-static s_playerWarnings[MAX_PLAYERS];
-#define MAX_WARNS_AC 3 //Max warns before kick in severe case 1
+
 
 
 #if !defined OnPlayerViolate
+
+	#if !defined AC_MESSAGE_COLOR
+		#define AC_MESSAGE_COLOR -1
+	#endif
+
+	static s_playerWarnings[MAX_PLAYERS];
+	#define MAX_WARNS_AC 3 //Max warns before kick in severe case 1
 
 	forward OnPlayerViolate(playerid, severity, violationCode, const violationName[]);
 	public OnPlayerViolate(playerid, severity, violationCode, const violationName[])
@@ -139,6 +141,30 @@ static s_playerWarnings[MAX_PLAYERS];
 		}
 		return 1;
 	}
+
+	#if defined AC_OnPlayerDisconnect
+		forward AC_OnPlayerDisconnect(playerid, reason);
+	#endif
+
+	public OnPlayerDisconnect(playerid, reason)
+	{
+		s_playerWarnings[playerid] = 0;
+
+		#if defined AC_OnPlayerDisconnect
+			return AC_OnPlayerDisconnect(playerid, reason);
+		#else
+			return 1;
+		#endif
+	}
+
+
+	#if defined _ALS_OnPlayerDisconnect
+	#undef OnPlayerDisconnect
+	#else
+		#define _ALS_OnPlayerDisconnect
+	#endif
+
+	#define OnPlayerDisconnect AC_OnPlayerDisconnect
 
 #endif 
 
@@ -310,27 +336,3 @@ static s_playerWarnings[MAX_PLAYERS];
 	}
 
 #endif
-
-#if defined AC_OnPlayerDisconnect
-	forward AC_OnPlayerDisconnect(playerid, reason);
-#endif
-
-public OnPlayerDisconnect(playerid, reason)
-{
-	s_playerWarnings[playerid] = 0;
-
-	#if defined AC_OnPlayerDisconnect
-		return AC_OnPlayerDisconnect(playerid, reason);
-	#else
-		return 1;
-	#endif
-}
-
-
-#if defined _ALS_OnPlayerDisconnect
-  #undef OnPlayerDisconnect
-#else
-	#define _ALS_OnPlayerDisconnect
-#endif
-
-#define OnPlayerDisconnect AC_OnPlayerDisconnect
