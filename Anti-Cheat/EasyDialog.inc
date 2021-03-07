@@ -1,17 +1,3 @@
-/*
-	easyDialog.inc - Dialogs made easier!
-
-	With this useful include, scripters can easily create
-	dialogs and show them to players.
-
-	This include will prevent dialog spoofing, ID collision
-	and a lot more.
-
-	Created by Emmet on Friday, January 24, 2014.
-
-	Updated by Southclaws 2017-10-13 to add include guard
-*/
-
 #if defined _easyDialog_included
 	#endinput
 #endif
@@ -38,9 +24,12 @@ static
 
 forward OnDialogPerformed(playerid, dialog[], response, success);
 
+//I don't even know why Emmet_ put this code but it's irrelevant 
+/* 
 forward @dialog_format(); @dialog_format() {
 	format("", 0, "");
 }
+*/
 
 forward Dialog_IsOpened(playerid);
 public Dialog_IsOpened(playerid)
@@ -56,7 +45,7 @@ stock Dialog_Close(playerid)
 	return ShowPlayerDialog(playerid, -1, DIALOG_STYLE_MSGBOX, " ", " ", " ", "");
 }
 
-stock Dialog_Open(playerid, function[], style, caption[], info[], button1[], button2[], {Float,_}:...)
+stock Dialog_Open(playerid, const function[], style, const caption[], const info[], const button1[], const button2[], {Float,_}:...)
 {
 	static
 		string[4096],
@@ -135,7 +124,7 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 		if ((s_Public == -1) || (CallLocalFunction("OnDialogPerformed", "dsdd", playerid, string[7], response, funcidx(string) != -1)))
 		{
-			CallLocalFunction(string, "ddds", playerid, response, listitem, (!inputtext[0]) ? ("\1") : (inputtext));
+	 		CallLocalFunction(string, "ddds", playerid, response, listitem, (!inputtext[0]) ? ("\1") : (inputtext));
 		}
 	}
 	#if defined DR_OnDialogResponse
