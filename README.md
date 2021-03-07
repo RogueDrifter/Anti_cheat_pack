@@ -1,4 +1,4 @@
-# Rogue-AC
+# Rogue-AC (STILL WORKS MARCH 2021)
 
 [![sampctl](https://shields.southcla.ws/badge/sampctl-Anti_cheat_pack-2f2f2f.svg?style=for-the-badge)](https://github.com/RogueDrifter/Anti_cheat_pack)
 
