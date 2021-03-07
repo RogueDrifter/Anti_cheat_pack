@@ -4,6 +4,8 @@
 
 //OnPlayerViolate default example:
 #define MAX_WARNS_AC 3 //Max warns before kick in severe case 1
+#define AC_MESSAGE_COLOR -1
+
 static s_playerWarnings[MAX_PLAYERS];
 forward OnPlayerViolate(playerid, severity, violationCode, const violationName[]);
 public OnPlayerViolate(playerid, severity, violationCode, const violationName[])
